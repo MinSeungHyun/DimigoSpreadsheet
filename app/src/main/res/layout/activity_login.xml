@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkBackground"
+    android:background="@color/colorPrimaryDark"
     android:padding="32dp"
     tools:context=".activities.LoginActivity">
 
@@ -84,12 +84,12 @@
         android:layout_marginTop="32dp"
         android:background="@drawable/rounded_square"
         android:text="@string/login"
-        android:textColor="@color/darkBackground"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/pwInputLayout"
-        app:spinning_bar_color="@color/darkBackground"
+        app:spinning_bar_color="@color/colorPrimaryDark"
         app:spinning_bar_padding="4dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
