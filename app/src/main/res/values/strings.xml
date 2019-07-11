@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">DimigoSpreadsheet</string>
+
+    <string name="id">아이디</string>
+    <string name="password">비밀번호</string>
+    <string name="login">로그인</string>
+    <string name="login_description">인원체크 스프레드시트의 모바일 입력기,\n디미고인 아이디로 로그인 하세요.</string>
 </resources>
