@@ -43,9 +43,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/idInputET"
             android:layout_width="match_parent"
-            android:inputType="text"
             android:layout_height="wrap_content"
-            android:hint="@string/id" />
+            android:hint="@string/id"
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -59,12 +59,12 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/pwInputET"
             android:layout_width="match_parent"
-            android:inputType="textPassword"
             android:layout_height="wrap_content"
-            android:hint="@string/password" />
+            android:hint="@string/password"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,5 +74,9 @@
         android:textColor="@color/darkBackground"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pwInputLayout" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pwInputLayout"
+        app:spinning_bar_color="@color/darkBackground"
+        app:spinning_bar_padding="4dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
