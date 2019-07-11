@@ -1,10 +1,12 @@
 package com.seunghyun.dimigospreadsheet.activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.util.Linkify
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.seunghyun.dimigospreadsheet.R
@@ -49,8 +51,14 @@ class LoginActivity : AppCompatActivity() {
 
         //로그인 버튼 클릭 애니메이션
         loginButton.setOnClickListener {
+
             errorTV.visibility = View.GONE
             loginButton.startAnimation {
+                if (currentFocus != null) {
+                    (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+                }
+                idInputET.clearFocus()
+                pwInputET.clearFocus()
                 ServerRequest.login(idInputET.text.toString(), pwInputET.text.toString(), loginCallback)
             }
         }
