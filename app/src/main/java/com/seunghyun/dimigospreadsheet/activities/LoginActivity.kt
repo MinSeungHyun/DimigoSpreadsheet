@@ -6,6 +6,7 @@ import android.text.util.Linkify
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.Result
 import com.seunghyun.dimigospreadsheet.models.ServerCallback
@@ -24,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
                 }
                 200 -> {
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                    Animatoo.animateFade(this@LoginActivity)
                     finish()
                 }
                 else -> runOnUiThread {

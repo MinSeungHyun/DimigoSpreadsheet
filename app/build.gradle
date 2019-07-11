@@ -37,6 +37,7 @@ dependencies {
 
     implementation 'com.android.support:design:28.0.0'
     implementation 'br.com.simplepass:loading-button-android:2.1.5'
+    implementation 'com.github.mohammadatif:Animatoo:master'
 }
 repositories {
     mavenCentral()
