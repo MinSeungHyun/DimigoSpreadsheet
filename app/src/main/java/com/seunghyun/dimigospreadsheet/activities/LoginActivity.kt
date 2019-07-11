@@ -26,6 +26,10 @@ class LoginActivity : AppCompatActivity() {
                     loginButton.revertAnimation()
                 }
                 200 -> {
+                    val editor = getSharedPreferences(getString(R.string.preference_app_setting), Context.MODE_PRIVATE).edit()
+                    editor.putString("id", idInputET.text.toString())
+                    editor.putString("pw", pwInputET.text.toString())
+                    editor.apply()
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     Animatoo.animateFade(this@LoginActivity)
                     finish()

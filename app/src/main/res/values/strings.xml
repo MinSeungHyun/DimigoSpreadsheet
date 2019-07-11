@@ -7,4 +7,6 @@
     <string name="login_description">인원체크 스프레드시트의 모바일 입력기,\n디미고인 아이디로 로그인 하세요.</string>
     <string name="check_id_pw">아이디나 비밀번호를 확인해주세요.</string>
     <string name="check_internet">인터넷 연결을 확인해주세요.</string>
+
+    <string name="preference_app_setting">app_setting</string>
 </resources>
