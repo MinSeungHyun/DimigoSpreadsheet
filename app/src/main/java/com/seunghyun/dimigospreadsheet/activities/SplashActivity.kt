@@ -15,10 +15,6 @@ import com.seunghyun.dimigospreadsheet.models.ServerCallback
 import com.seunghyun.dimigospreadsheet.utils.ServerRequest
 import kotlinx.android.synthetic.main.activity_splash.*
 
-private const val LOGIN_SUCCEEDED = 0
-private const val LOGIN_FAILED = 1
-private const val NEW_USER = 2
-
 class SplashActivity : AppCompatActivity() {
     private val loginCallback = object : ServerCallback {
         override fun onReceive(result: Result) {
@@ -26,12 +22,16 @@ class SplashActivity : AppCompatActivity() {
                 runOnUiThread {
                     loadingTV.setText(R.string.loading)
                 }
-                Handler(Looper.getMainLooper()).postDelayed(DelayHandler(LOGIN_SUCCEEDED, this@SplashActivity), 1000)
+                val intent = Intent(this@SplashActivity, MainActivity::class.java).apply {
+                    putExtra("token", result.content)
+                }
+                Handler(Looper.getMainLooper()).postDelayed(DelayHandler(intent, this@SplashActivity), 1000)
             } else {
                 runOnUiThread {
                     loadingTV.setText(R.string.login_failed)
                 }
-                Handler(Looper.getMainLooper()).postDelayed(DelayHandler(LOGIN_FAILED, this@SplashActivity), 1000)
+                val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+                Handler(Looper.getMainLooper()).postDelayed(DelayHandler(intent, this@SplashActivity), 1000)
             }
         }
     }
@@ -49,23 +49,14 @@ class SplashActivity : AppCompatActivity() {
             ServerRequest.login(id, pw, loginCallback)
             loadingTV.setText(R.string.progress_login)
         } else {
-            Handler().postDelayed(DelayHandler(NEW_USER, this@SplashActivity), 1000)
+            val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+            Handler().postDelayed(DelayHandler(intent, this@SplashActivity), 1000)
         }
     }
 
-    private class DelayHandler(val flag: Int, val activity: Activity) : Runnable {
+    private class DelayHandler(val intent: Intent, val activity: Activity) : Runnable {
         override fun run() {
-            when (flag) {
-                LOGIN_SUCCEEDED -> {
-                    activity.startActivity(Intent(activity, MainActivity::class.java))
-                }
-                LOGIN_FAILED -> {
-                    activity.startActivity(Intent(activity, LoginActivity::class.java))
-                }
-                NEW_USER -> {
-                    activity.startActivity(Intent(activity, LoginActivity::class.java))
-                }
-            }
+            activity.startActivity(intent)
             Animatoo.animateFade(activity)
             activity.finish()
         }

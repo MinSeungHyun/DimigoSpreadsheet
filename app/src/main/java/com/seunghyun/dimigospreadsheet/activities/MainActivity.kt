@@ -8,6 +8,7 @@ import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.sheets.v4.Sheets
 import com.seunghyun.dimigospreadsheet.R
+import com.seunghyun.dimigospreadsheet.utils.JSONParser
 
 private const val APPLICATION_NAME = "DimigoSpreadsheet"
 private const val SPREADSHEET_ID = "1l4fEOCp2EahtHnpM44Y7blWf1CUqRLSe2EFVCzXjLQo"
@@ -20,6 +21,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val token = JSONParser.parse(intent.getStringExtra("token"), "token")
 
         val service = Sheets.Builder(httpTransport, jsonFactory, getCredentials())
                 .setApplicationName(APPLICATION_NAME)
