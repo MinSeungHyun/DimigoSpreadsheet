@@ -21,6 +21,7 @@
         tools:ignore="ContentDescription" />
 
     <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -28,7 +29,10 @@
         android:indeterminateTint="@android:color/white"
         app:layout_constraintBottom_toTopOf="@id/loadingTV"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/loadingTV"
@@ -41,5 +45,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logo" />
+        app:layout_constraintTop_toBottomOf="@id/progressBar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
