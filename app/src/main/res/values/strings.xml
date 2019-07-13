@@ -10,6 +10,7 @@
     <string name="progress_login">로그인 중입니다</string>
     <string name="login_failed">로그인에 실패했습니다.</string>
     <string name="loading">로딩 중입니다</string>
+    <string name="loading_failed">로딩중 오류가 발생했습니다.</string>
 
     <string name="welcome">환영합니다.</string>
     <string name="go_to_sheet">스프레드시트로 이동</string>
