@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.text.util.Linkify
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.google.api.client.auth.oauth2.Credential
@@ -36,6 +38,20 @@ class MainActivity : AppCompatActivity() {
         val filter = Linkify.TransformFilter { _, _ -> "" }
         val pattern = Pattern.compile(getString(R.string.go_to_sheet))
         Linkify.addLinks(goToSheetButton, pattern, "http://dimigo18.tk", null, filter)
+
+        typeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (position == 3) {
+                    reasonInputLayout.visibility = View.VISIBLE
+                } else {
+                    reasonInputLayout.visibility = View.GONE
+                    reasonInputET.setText("")
+                }
+            }
+        }
     }
 
     companion object {
