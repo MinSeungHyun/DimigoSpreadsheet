@@ -57,9 +57,15 @@ class LoginActivity : AppCompatActivity() {
         val pattern = Pattern.compile("인원체크 스프레드시트")
         Linkify.addLinks(loginDescriptionTV, pattern, "http://dimigo18.tk", null, filter)
 
+        //아이디 비번 불러오기
+        val preference = getSharedPreferences(getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
+        val id = preference.getString("id", "")!!
+        val pw = preference.getString("pw", "")!!
+        idInputET.setText(id)
+        pwInputET.setText(pw)
+
         //로그인 버튼 클릭 애니메이션
         loginButton.setOnClickListener {
-
             errorTV.visibility = View.GONE
             loginButton.startAnimation {
                 if (currentFocus != null) {
