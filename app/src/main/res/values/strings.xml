@@ -21,6 +21,7 @@
     <string name="reason">사유</string>
     <string name="enter_description">%d학년 %d반 스프레드시트에 입력됩니다.</string>
     <string name="enter">입력하기</string>
+    <string name="enter_reason">사유를 입력해주세요.</string>
 
     <string-array name="types">
         <item>인강실 (1타임)</item>

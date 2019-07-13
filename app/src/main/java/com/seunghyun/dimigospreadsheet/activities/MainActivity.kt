@@ -27,13 +27,13 @@ class MainActivity : AppCompatActivity() {
                 enterButton.revertAnimation()
             }
         }
-
     }
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         val name = intent.getStringExtra("name")
         val studentId = intent.getStringExtra("studentId")
         val grade = intent.getIntExtra("grade", 0)
@@ -49,8 +49,6 @@ class MainActivity : AppCompatActivity() {
         Linkify.addLinks(goToSheetButton, pattern, "http://dimigo18.tk", null, filter)
         val service = getService(this@MainActivity)
 
-
-
         typeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
@@ -59,15 +57,21 @@ class MainActivity : AppCompatActivity() {
                 if (position == 3) {
                     reasonInputLayout.visibility = View.VISIBLE
                 } else {
-                    reasonInputLayout.visibility = View.GONE
+                    reasonInputLayout.error = ""
                     reasonInputET.setText("")
+                    reasonInputLayout.visibility = View.GONE
                 }
             }
         }
 
         enterButton.setOnClickListener {
-            enterButton.startAnimation {
-                EnterName(service, klass, typeSpinner.selectedItem.toString(), nameSpinner.selectedItem.toString(), reasonInputET.text.toString(), updateCallback).start()
+            if (typeSpinner.selectedItem.toString() == "기타" && reasonInputET.text.toString().isBlank()) {
+                reasonInputLayout.error = getString(R.string.enter_reason)
+            } else {
+                reasonInputLayout.error = ""
+                enterButton.startAnimation {
+                    EnterName(service, klass, typeSpinner.selectedItem.toString(), nameSpinner.selectedItem.toString(), reasonInputET.text.toString(), updateCallback).start()
+                }
             }
         }
     }
