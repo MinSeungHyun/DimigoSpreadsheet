@@ -3,6 +3,7 @@ package com.seunghyun.dimigospreadsheet.activities
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.util.Linkify
+import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.google.api.client.auth.oauth2.Credential
@@ -53,20 +54,28 @@ class MainActivity : AppCompatActivity() {
                 .build()
 
         val getNameCallback = object : GetSheetValueCallback {
-            override fun onReceive(values: List<List<Any>>) {
-                val names = ArrayList<String>()
-                values.forEach { names.add(it[0].toString()) }
-                val adapter = ArrayAdapter(this@MainActivity, android.R.layout.simple_spinner_dropdown_item, names)
-                runOnUiThread {
-                    nameSpinner.adapter = adapter
+            override fun onReceive(values: List<List<Any>>?) {
+                if (values != null) {
+                    val names = ArrayList<String>()
+                    values.forEach { names.add(it[0].toString()) }
+                    val adapter = ArrayAdapter(this@MainActivity, android.R.layout.simple_spinner_dropdown_item, names)
+                    runOnUiThread {
+                        nameSpinner.adapter = adapter
+                    }
+                } else {
+                    Log.d("testing", "failed")
                 }
             }
         }
 
         object : Thread() {
             override fun run() {
-                val names = getValues(service, "${klass}반 명단!A:A")
-                getNameCallback.onReceive(names)
+                try {
+                    val names = getValues(service, "${klass}반 명단!A:A")
+                    getNameCallback.onReceive(names)
+                } catch (e: Exception) {
+                    getNameCallback.onReceive(null)
+                }
             }
         }.start()
     }
@@ -90,5 +99,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 }
