@@ -38,10 +38,12 @@ class MainActivity : AppCompatActivity() {
         val studentId = intent.getStringExtra("studentId")
         val grade = intent.getIntExtra("grade", 0)
         val klass = intent.getIntExtra("class", 0)
+        val number = studentId.substring(2, 4).toInt()
         val names = intent.getStringArrayExtra("names")
 
         val arrayAdapter = ArrayAdapter(this@MainActivity, android.R.layout.simple_spinner_dropdown_item, names)
         nameSpinner.adapter = arrayAdapter
+        nameSpinner.setSelection(number - 1)
         nameTV.text = "$studentId $name"
         enterDescriptionTV.text = getString(R.string.enter_description).format(grade, klass)
         val filter = Linkify.TransformFilter { _, _ -> "" }
