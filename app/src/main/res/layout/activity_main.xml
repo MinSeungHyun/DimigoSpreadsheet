@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".activities.MainActivity">
@@ -15,7 +19,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:text="@string/welcome"
-        android:textColor="@color/transparentWhite"
+        android:textColor="@color/gray"
         android:textSize="18sp" />
 
     <TextView
@@ -24,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -33,52 +37,26 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/gradeInputLayout"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColorHint="@android:color/white">
+        android:text="@string/name"
+        android:textColor="@color/gray" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/gradeInputET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/grade"
-            android:inputType="text"
-            android:textColor="@android:color/white" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/classInputLayout"
+    <Spinner
+        android:id="@+id/nameSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textColorHint="@android:color/white">
+        android:entries="@array/types"
+        tools:layout_editor_absoluteX="16dp" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/classInputET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/class_"
-            android:inputType="text"
-            android:textColor="@android:color/white" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/nameInputLayout"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textColorHint="@android:color/white">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nameInputET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/name"
-            android:inputType="text"
-            android:textColor="@android:color/white" />
-    </com.google.android.material.textfield.TextInputLayout>
+        android:text="@string/type"
+        android:textColor="@color/gray" />
 
     <Spinner
         android:id="@+id/typeSpinner"
@@ -92,26 +70,33 @@
         android:id="@+id/reasonInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textColorHint="@android:color/white">
+        android:layout_marginTop="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/reasonInputET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/reason"
-            android:inputType="text"
-            android:textColor="@android:color/white" />
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/enterDescriptionTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="@string/enter_description"
+        android:textColor="@color/gray" />
 
     <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
         android:id="@+id/enterButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@android:color/white"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/colorPrimary"
         android:text="@string/enter"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@android:color/white"
         android:textStyle="bold"
         app:finalCornerAngle="50dp"
         app:initialCornerAngle="50dp"
@@ -125,7 +110,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         android:text="@string/go_to_sheet"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/black" />
 
     <View
         android:layout_width="0dp"

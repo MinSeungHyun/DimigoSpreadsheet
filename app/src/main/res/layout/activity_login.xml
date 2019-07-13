@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorPrimary"
     android:padding="32dp"
     tools:context=".activities.LoginActivity">
 
@@ -84,7 +84,7 @@
         android:layout_marginTop="32dp"
         android:backgroundTint="@android:color/white"
         android:text="@string/login"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         app:finalCornerAngle="50dp"
         app:initialCornerAngle="50dp"
