@@ -33,9 +33,7 @@ class LoginActivity : AppCompatActivity() {
                         putString("pw", pw)
                         apply()
                     }
-                    val intent = Intent(this@LoginActivity, MainActivity::class.java).apply {
-                        putExtra("token", result.content)
-                    }
+                    val intent = Intent(this@LoginActivity, SplashActivity::class.java)
                     startActivity(intent)
                     Animatoo.animateFade(this@LoginActivity)
                     finish()
