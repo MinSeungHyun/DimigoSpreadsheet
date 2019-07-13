@@ -22,7 +22,6 @@
     <string name="enter">입력하기</string>
 
     <string-array name="types">
-        <item>선택 안함</item>
         <item>인강실 (1타임)</item>
         <item>인강실 (2, 3타임)</item>
         <item>동아리</item>
