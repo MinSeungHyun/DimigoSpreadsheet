@@ -102,8 +102,9 @@
         android:textStyle="bold"
         app:finalCornerAngle="50dp"
         app:initialCornerAngle="50dp"
-        app:spinning_bar_color="@color/colorPrimaryDark"
-        app:spinning_bar_padding="4dp" />
+        app:spinning_bar_color="@android:color/white"
+        app:spinning_bar_padding="4dp"
+        app:spinning_bar_width="3dp" />
 
     <TextView
         android:id="@+id/goToSheetButton"
