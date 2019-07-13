@@ -11,5 +11,21 @@
     <string name="login_failed">로그인에 실패했습니다.</string>
     <string name="loading">로딩 중입니다</string>
 
+    <string name="welcome">환영합니다.</string>
+    <string name="go_to_sheet">스프레드시트로 이동</string>
+    <string name="grade">학년</string>
+    <string name="class_">반</string>
+    <string name="name">이름</string>
+    <string name="reason">사유</string>
+    <string name="enter">입력하기</string>
+
+    <string-array name="types">
+        <item>입력될 칸</item>
+        <item>인강실 (1타임)</item>
+        <item>인강실 (2, 3타임)</item>
+        <item>동아리</item>
+        <item>기타</item>
+    </string-array>
+
     <string name="preference_app_setting">app_setting</string>
 </resources>
