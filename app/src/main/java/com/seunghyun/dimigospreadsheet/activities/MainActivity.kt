@@ -3,12 +3,15 @@ package com.seunghyun.dimigospreadsheet.activities
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.text.util.Linkify
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.api.client.auth.oauth2.Credential
@@ -32,7 +35,10 @@ class MainActivity : AppCompatActivity() {
     private val updateCallback = object : UpdateSheetValueCallback {
         override fun onReceive(values: MutableCollection<Any>?) {
             runOnUiThread {
-                enterButton.revertAnimation()
+                enterButton.doneLoadingAnimation(Color.GREEN, getDrawable(R.drawable.ic_baseline_check_24px)!!.toBitmap())
+                Handler().postDelayed({
+                    enterButton.revertAnimation()
+                }, 1000)
             }
         }
     }
