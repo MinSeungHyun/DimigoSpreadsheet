@@ -32,6 +32,38 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.util.regex.Pattern
 
 class MainActivity : AppCompatActivity() {
+    private val reference = FirebaseDatabase.getInstance().reference
+    var isUpdate = true
+    val versionCode = BuildConfig.VERSION_CODE
+    private val closedListener = object : ValueEventListener { //앱이 점검중이면 점검화면 띄움
+        override fun onCancelled(error: DatabaseError) {
+        }
+
+        override fun onDataChange(snapshot: DataSnapshot) {
+            if (snapshot.value.toString().toBoolean() && !isUpdate) {
+                val intent = Intent(this@MainActivity, ClosingActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+                finish()
+            }
+        }
+    }
+    private val versionListener = object : ValueEventListener { //버전 낮으면 업데이트 화면 띄움
+        override fun onCancelled(error: DatabaseError) {
+        }
+
+        override fun onDataChange(snapshot: DataSnapshot) {
+            if (snapshot.value.toString().toInt() > versionCode) {
+                isUpdate = true
+                val intent = Intent(this@MainActivity, UpdateActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+                finish()
+            } else {
+                isUpdate = false
+            }
+        }
+    }
 
     private val updateCallback = object : UpdateSheetValueCallback {
         override fun onReceive(values: MutableCollection<Any>?) {
@@ -57,41 +89,8 @@ class MainActivity : AppCompatActivity() {
         MobileAds.initialize(this, getString(R.string.admob_app_id))
         adView.loadAd(AdRequest.Builder().build())
 
-        val reference = FirebaseDatabase.getInstance().reference
-        var isUpdate = true
-        //버전 낮으면 업데이트 화면 띄움
-        val versionCode = BuildConfig.VERSION_CODE
-        reference.child("app-version").addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(error: DatabaseError) {
-            }
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.value.toString().toInt() > versionCode) {
-                    isUpdate = true
-                    val intent = Intent(this@MainActivity, UpdateActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(intent)
-                    finish()
-                } else {
-                    isUpdate = false
-                }
-            }
-        })
-
-        //앱이 점검중이면 점검화면 띄움
-        reference.child("isClosing").addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(error: DatabaseError) {
-            }
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.value.toString().toBoolean() && !isUpdate) {
-                    val intent = Intent(this@MainActivity, ClosingActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(intent)
-                    finish()
-                }
-            }
-        })
+        reference.child("app-version").addValueEventListener(versionListener)
+        reference.child("isClosing").addValueEventListener(closedListener)
 
         val name = intent.getStringExtra("name")
         val studentId = intent.getStringExtra("studentId")
@@ -135,6 +134,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        reference.child("app-version").removeEventListener(versionListener)
+        reference.child("isClosing").removeEventListener(closedListener)
     }
 
     private class EnterName(val service: Sheets, val klass: Int, val type: String, val name_: String, val reason: String, val callback: UpdateSheetValueCallback) : Thread() {
