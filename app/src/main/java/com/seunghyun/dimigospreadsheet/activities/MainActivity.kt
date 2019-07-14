@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.util.Linkify
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -20,6 +19,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.seunghyun.dimigospreadsheet.BuildConfig
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.UpdateSheetValueCallback
 import kotlinx.android.synthetic.main.activity_main.*
@@ -40,16 +40,37 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //앱이 점검중이면 점검화면 띄움
         val reference = FirebaseDatabase.getInstance().reference
+        var isUpdate = true
+        //버전 낮으면 업데이트 화면 띄움
+        val versionCode = BuildConfig.VERSION_CODE
+        reference.child("app-version").addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.value.toString().toInt() > versionCode) {
+                    isUpdate = true
+                    val intent = Intent(this@MainActivity, UpdateActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    isUpdate = false
+                }
+            }
+        })
+
+        //앱이 점검중이면 점검화면 띄움
         reference.child("isClosing").addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                Log.d("testing", snapshot.value.toString())
-                if (snapshot.value.toString().toBoolean()) {
-                    startActivity(Intent(this@MainActivity, ClosingActivity::class.java))
+                if (snapshot.value.toString().toBoolean() && !isUpdate) {
+                    val intent = Intent(this@MainActivity, ClosingActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intent)
                     finish()
                 }
             }
