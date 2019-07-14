@@ -9,6 +9,8 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.google.api.client.auth.oauth2.Credential
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
 import com.google.api.client.http.javanet.NetHttpTransport
@@ -39,6 +41,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        MobileAds.initialize(this, getString(R.string.admob_app_id))
+        adView.loadAd(AdRequest.Builder().build())
 
         val reference = FirebaseDatabase.getInstance().reference
         var isUpdate = true

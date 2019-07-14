@@ -10,7 +10,9 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:paddingStart="16dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="16dp"
     tools:context=".activities.MainActivity">
 
     <TextView
@@ -120,4 +122,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/admob_banner_id" />
 </LinearLayout>
