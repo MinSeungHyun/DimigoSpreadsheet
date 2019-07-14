@@ -10,6 +10,7 @@ import android.text.util.Linkify
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import com.google.android.gms.ads.AdRequest
@@ -35,10 +36,15 @@ class MainActivity : AppCompatActivity() {
     private val updateCallback = object : UpdateSheetValueCallback {
         override fun onReceive(values: MutableCollection<Any>?) {
             runOnUiThread {
-                enterButton.doneLoadingAnimation(Color.GREEN, getDrawable(R.drawable.ic_baseline_check_24px)!!.toBitmap())
-                Handler().postDelayed({
+                if (values != null) {
+                    enterButton.doneLoadingAnimation(Color.GREEN, getDrawable(R.drawable.ic_baseline_check_24px)!!.toBitmap())
+                    Handler().postDelayed({
+                        enterButton.revertAnimation()
+                    }, 1000)
+                } else {
+                    Toast.makeText(applicationContext, R.string.enter_failed, Toast.LENGTH_LONG).show()
                     enterButton.revertAnimation()
-                }, 1000)
+                }
             }
         }
     }
