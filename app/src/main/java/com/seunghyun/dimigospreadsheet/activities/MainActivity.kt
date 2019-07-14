@@ -2,8 +2,10 @@ package com.seunghyun.dimigospreadsheet.activities
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.util.Linkify
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -14,6 +16,10 @@ import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.sheets.v4.Sheets
 import com.google.api.services.sheets.v4.model.ValueRange
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.UpdateSheetValueCallback
 import kotlinx.android.synthetic.main.activity_main.*
@@ -33,6 +39,21 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //앱이 점검중이면 점검화면 띄움
+        val reference = FirebaseDatabase.getInstance().reference
+        reference.child("isClosing").addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                Log.d("testing", snapshot.value.toString())
+                if (snapshot.value.toString().toBoolean()) {
+                    startActivity(Intent(this@MainActivity, ClosingActivity::class.java))
+                    finish()
+                }
+            }
+        })
 
         val name = intent.getStringExtra("name")
         val studentId = intent.getStringExtra("studentId")

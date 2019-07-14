@@ -29,6 +29,10 @@
         <activity
             android:name=".activities.MainActivity"
             android:theme="@style/MainActivityTheme" />
+
+        <activity
+            android:name=".activities.ClosingActivity"
+            android:theme="@style/SplashTheme" />
     </application>
 
 </manifest>

@@ -23,6 +23,8 @@
     <string name="enter">입력하기</string>
     <string name="enter_reason">사유를 입력해주세요.</string>
 
+    <string name="app_closed">앱이 점검중입니다.</string>
+
     <string-array name="types">
         <item>인강실 (1타임)</item>
         <item>인강실 (2, 3타임)</item>

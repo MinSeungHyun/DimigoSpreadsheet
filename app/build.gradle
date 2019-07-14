@@ -40,6 +40,7 @@ dependencies {
     implementation 'br.com.simplepass:loading-button-android:2.1.5'
     implementation 'com.github.mohammadatif:Animatoo:master'
     implementation 'com.google.firebase:firebase-core:17.0.1'
+    implementation 'com.google.firebase:firebase-database:18.0.0'
 }
 repositories {
     mavenCentral()
