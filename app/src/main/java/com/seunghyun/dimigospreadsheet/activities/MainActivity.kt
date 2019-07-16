@@ -145,29 +145,29 @@ class MainActivity : AppCompatActivity() {
 
     private class EnterName(val service: Sheets, val klass: Int, val type: String, val name_: String, val reason: String, val callback: UpdateSheetValueCallback) : Thread() {
         override fun run() {
-            var range = ""
-            when (type) {
-                "인강실 (1타임)" -> range = "${klass}반!C2:C30"
-                "인강실 (2, 3타임)" -> range = "${klass}반!D2:D30"
-                "동아리" -> range = "${klass}반!E2:E30"
-                "기타" -> range = "${klass}반!F2:F30"
-            }
-            val currentList = getValues(service, range)
-            val size = currentList?.size ?: 0
-
-            when (type) {
-                "인강실 (1타임)" -> range = "${klass}반!C${2 + size}"
-                "인강실 (2, 3타임)" -> range = "${klass}반!D${2 + size}"
-                "동아리" -> range = "${klass}반!E${2 + size}"
-                "기타" -> range = "${klass}반!F${2 + size}"
-            }
-
-            val values = if (reason.isBlank()) {
-                ValueRange().setValues(listOf(listOf(name_)))
-            } else {
-                ValueRange().setValues(listOf(listOf("$reason - $name_")))
-            }
             try {
+                var range = ""
+                when (type) {
+                    "인강실 (1타임)" -> range = "${klass}반!C2:C30"
+                    "인강실 (2, 3타임)" -> range = "${klass}반!D2:D30"
+                    "동아리" -> range = "${klass}반!E2:E30"
+                    "기타" -> range = "${klass}반!F2:F30"
+                }
+                val currentList = getValues(service, range)
+                val size = currentList?.size ?: 0
+
+                when (type) {
+                    "인강실 (1타임)" -> range = "${klass}반!C${2 + size}"
+                    "인강실 (2, 3타임)" -> range = "${klass}반!D${2 + size}"
+                    "동아리" -> range = "${klass}반!E${2 + size}"
+                    "기타" -> range = "${klass}반!F${2 + size}"
+                }
+
+                val values = if (reason.isBlank()) {
+                    ValueRange().setValues(listOf(listOf(name_)))
+                } else {
+                    ValueRange().setValues(listOf(listOf("$reason - $name_")))
+                }
                 val result = updateValues(service, range, values)
                 callback.onReceive(result)
             } catch (e: Exception) {
