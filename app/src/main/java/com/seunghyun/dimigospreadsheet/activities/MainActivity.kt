@@ -27,7 +27,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.seunghyun.dimigospreadsheet.BuildConfig
 import com.seunghyun.dimigospreadsheet.R
-import com.seunghyun.dimigospreadsheet.SpreadsheetActivity
 import com.seunghyun.dimigospreadsheet.models.UpdateSheetValueCallback
 import kotlinx.android.synthetic.main.activity_main.*
 

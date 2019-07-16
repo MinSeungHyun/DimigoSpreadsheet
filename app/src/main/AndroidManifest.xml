@@ -13,7 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".SpreadsheetActivity"></activity>
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -36,6 +35,7 @@
         <activity
             android:name=".activities.UpdateActivity"
             android:theme="@style/SplashTheme" />
+        <activity android:name=".activities.SpreadsheetActivity" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
