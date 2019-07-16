@@ -11,6 +11,9 @@ class SpreadsheetActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spreadsheet)
+        val grade = intent.getIntExtra("grade", 0)
+        val klass = intent.getIntExtra("class", 0)
+        title = "${grade}학년 ${klass}반"
     }
 
     override fun onBackPressed() {
