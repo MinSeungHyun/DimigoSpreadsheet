@@ -138,8 +138,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onDestroy() {
+        super.onDestroy()
         reference.child("app-version").removeEventListener(versionListener)
         reference.child("isClosing").removeEventListener(closedListener)
     }
