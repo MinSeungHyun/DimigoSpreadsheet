@@ -5,4 +5,11 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
+
+    <style name="SpreadSheetActivity" parent="Theme.AppCompat.DayNight">
+        <item name="colorPrimaryDark">@android:color/white</item>
+        <item name="colorPrimary">@android:color/white</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
 </resources>
