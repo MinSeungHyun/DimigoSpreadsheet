@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -134,7 +133,6 @@ class MainActivity : AppCompatActivity() {
 
         goToSheetButton.setOnClickListener {
             val intent = Intent(this@MainActivity, SpreadsheetActivity::class.java).apply {
-                Log.d("testing", "$grade, $klass")
                 putExtra("grade", grade)
                 putExtra("class", klass)
             }
