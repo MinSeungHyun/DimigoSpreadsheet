@@ -13,7 +13,7 @@
     <string name="loading_failed">로딩중 오류가 발생했습니다.</string>
 
     <string name="welcome">환영합니다.</string>
-    <string name="go_to_sheet">스프레드시트로 이동</string>
+    <string name="go_to_sheet"><u>스프레드시트 보기</u></string>
     <string name="grade">학년</string>
     <string name="class_">반</string>
     <string name="name">이름</string>

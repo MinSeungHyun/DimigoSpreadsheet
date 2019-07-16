@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+        <activity android:name=".SpreadsheetActivity"></activity>
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -38,7 +39,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/admob_app_id"/>
+            android:value="@string/admob_app_id" />
     </application>
 
 </manifest>

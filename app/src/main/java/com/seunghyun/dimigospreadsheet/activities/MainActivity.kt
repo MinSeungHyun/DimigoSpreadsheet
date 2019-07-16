@@ -6,13 +6,13 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
-import android.text.util.Linkify
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
+import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.api.client.auth.oauth2.Credential
@@ -27,9 +27,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.seunghyun.dimigospreadsheet.BuildConfig
 import com.seunghyun.dimigospreadsheet.R
+import com.seunghyun.dimigospreadsheet.SpreadsheetActivity
 import com.seunghyun.dimigospreadsheet.models.UpdateSheetValueCallback
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.regex.Pattern
 
 class MainActivity : AppCompatActivity() {
     private val reference = FirebaseDatabase.getInstance().reference
@@ -104,9 +104,6 @@ class MainActivity : AppCompatActivity() {
         nameSpinner.setSelection(number - 1)
         nameTV.text = "$studentId $name"
         enterDescriptionTV.text = getString(R.string.enter_description).format(grade, klass)
-        val filter = Linkify.TransformFilter { _, _ -> "" }
-        val pattern = Pattern.compile(getString(R.string.go_to_sheet))
-        Linkify.addLinks(goToSheetButton, pattern, "http://dimigo18.tk", null, filter)
         val service = getService(this@MainActivity)
 
         typeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -133,6 +130,11 @@ class MainActivity : AppCompatActivity() {
                     EnterName(service, klass, typeSpinner.selectedItem.toString(), nameSpinner.selectedItem.toString(), reasonInputET.text.toString(), updateCallback).start()
                 }
             }
+        }
+
+        goToSheetButton.setOnClickListener {
+            startActivity(Intent(this@MainActivity, SpreadsheetActivity::class.java))
+            Animatoo.animateSlideLeft(this@MainActivity)
         }
     }
 
