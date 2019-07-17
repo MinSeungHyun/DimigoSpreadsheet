@@ -26,10 +26,16 @@ class SpreadsheetActivity : AppCompatActivity() {
             override fun run() {
                 while (isRunning) {
                     if (isShowing) {
-                        val result = MainActivity.getValues(service, "${klass}반!1:30")
-                        Log.d("testing", result.toString())
-                        runOnUiThread {
-                            testTV.text = result.toString()
+                        try {
+                            val result = MainActivity.getValues(service, "${klass}반!1:30")
+                            Log.d("testing", result.toString())
+                            runOnUiThread {
+                                testTV.text = result.toString()
+                            }
+                        } catch (e: Exception) {
+                            runOnUiThread {
+                                testTV.setText(R.string.check_internet)
+                            }
                         }
                     }
                     sleep(1000)
