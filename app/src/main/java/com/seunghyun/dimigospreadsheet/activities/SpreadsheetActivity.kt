@@ -27,14 +27,15 @@ class SpreadsheetActivity : AppCompatActivity() {
                 while (isRunning) {
                     if (isShowing) {
                         try {
-                            val result = MainActivity.getValues(service, "${klass}반!1:30")
-                            Log.d("testing", result.toString())
+                            val counts = MainActivity.getValues(service, "${klass}반!B2:B4")
                             runOnUiThread {
-                                testTV.text = result.toString()
+                                totalTV.text = getString(R.string.total).format(counts?.get(0)?.get(0).toString().toInt())
+                                vacancyTV.text = getString(R.string.vacancy).format(counts?.get(1)?.get(0).toString().toInt())
+                                currentTV.text = getString(R.string.current).format(counts?.get(2)?.get(0).toString().toInt())
                             }
                         } catch (e: Exception) {
                             runOnUiThread {
-                                testTV.setText(R.string.check_internet)
+//                                testTV.setText(R.string.check_internet)
                             }
                         }
                     }
