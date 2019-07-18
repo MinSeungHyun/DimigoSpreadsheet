@@ -62,7 +62,11 @@ class SpreadsheetActivity : AppCompatActivity() {
                             }
                         } catch (e: Exception) {
                             runOnUiThread {
-                                //                                testTV.setText(R.string.check_internet)
+                                enterListToParent(ingang1Layout.namesLayout, ArrayList(listOf("인터넷")))
+                                enterListToParent(ingang2Layout.namesLayout, ArrayList(listOf("연결을")))
+                                enterListToParent(clubLayout.namesLayout, ArrayList(listOf("확인해")))
+                                enterListToParent(etcLayout.namesLayout, ArrayList(listOf("주세요")))
+                                enterListToParent(bathroomLayout.namesLayout, ArrayList(listOf(".")))
                             }
                         }
                     }
