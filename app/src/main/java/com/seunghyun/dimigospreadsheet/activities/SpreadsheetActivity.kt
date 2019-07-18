@@ -3,11 +3,14 @@ package com.seunghyun.dimigospreadsheet.activities
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.SheetValue
 import kotlinx.android.synthetic.main.activity_spreadsheet.*
+import kotlinx.android.synthetic.main.number_card_prototype.view.*
 
 class SpreadsheetActivity : AppCompatActivity() {
     private var isRunning = false
@@ -23,6 +26,12 @@ class SpreadsheetActivity : AppCompatActivity() {
         isRunning = true
         title = "${grade}학년 ${klass}반"
 
+        ingang1Layout.typeTV.setText(R.string.ingang1)
+        ingang2Layout.typeTV.setText(R.string.ingang2)
+        clubLayout.typeTV.setText(R.string.club)
+        etcLayout.typeTV.setText(R.string.etc)
+        bathroomLayout.typeTV.setText(R.string.bathroom)
+
         object : Thread() {
             @SuppressLint("SetTextI18n")
             override fun run() {
@@ -34,6 +43,11 @@ class SpreadsheetActivity : AppCompatActivity() {
                                 totalTV.text = getString(R.string.total) + sheetValue.getTotalCount()
                                 vacancyTV.text = getString(R.string.vacancy) + sheetValue.getVacancyCount()
                                 currentTV.text = getString(R.string.current) + sheetValue.getCurrentCount()
+                                enterListToParent(ingang1Layout.namesLayout, sheetValue.getIngang1())
+                                enterListToParent(ingang2Layout.namesLayout, sheetValue.getIngang2())
+                                enterListToParent(clubLayout.namesLayout, sheetValue.getClub())
+                                enterListToParent(etcLayout.namesLayout, sheetValue.getEtc())
+                                enterListToParent(bathroomLayout.namesLayout, sheetValue.getBathroom())
                             }
                         } catch (e: Exception) {
                             runOnUiThread {
@@ -76,5 +90,14 @@ class SpreadsheetActivity : AppCompatActivity() {
             }
         }
         return false
+    }
+
+    private fun enterListToParent(parent: LinearLayout, names: ArrayList<String>) {
+        parent.removeAllViews()
+        names.forEach {
+            val nameTV = layoutInflater.inflate(R.layout.name_item, parent, false) as TextView
+            nameTV.text = it
+            parent.addView(nameTV)
+        }
     }
 }
