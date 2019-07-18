@@ -100,7 +100,7 @@
                 <include
                     android:id="@+id/etcLayout"
                     layout="@layout/number_card_prototype"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_margin="16dp"
                     android:layout_weight="2" />
@@ -108,7 +108,7 @@
                 <include
                     android:id="@+id/bathroomLayout"
                     layout="@layout/number_card_prototype"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
