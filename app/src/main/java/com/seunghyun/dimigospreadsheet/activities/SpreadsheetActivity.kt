@@ -35,19 +35,30 @@ class SpreadsheetActivity : AppCompatActivity() {
         object : Thread() {
             @SuppressLint("SetTextI18n")
             override fun run() {
+                var oldIngang1: ArrayList<String>? = null
+                var oldIngang2: ArrayList<String>? = null
+                var oldClub: ArrayList<String>? = null
+                var oldEtc: ArrayList<String>? = null
+                var oldBathroom: ArrayList<String>? = null
                 while (isRunning) {
                     if (isShowing) {
                         try {
                             val sheetValue = SheetValue(MainActivity.getValues(service, "${klass}반!1:30"))
                             runOnUiThread {
-                                totalTV.text = getString(R.string.total) + sheetValue.getTotalCount()
-                                vacancyTV.text = getString(R.string.vacancy) + sheetValue.getVacancyCount()
-                                currentTV.text = getString(R.string.current) + sheetValue.getCurrentCount()
-                                enterListToParent(ingang1Layout.namesLayout, sheetValue.getIngang1())
-                                enterListToParent(ingang2Layout.namesLayout, sheetValue.getIngang2())
-                                enterListToParent(clubLayout.namesLayout, sheetValue.getClub())
-                                enterListToParent(etcLayout.namesLayout, sheetValue.getEtc())
-                                enterListToParent(bathroomLayout.namesLayout, sheetValue.getBathroom())
+                                totalTV.text = getString(R.string.total) + sheetValue.totalCount
+                                vacancyTV.text = getString(R.string.vacancy) + sheetValue.vacancyCount
+                                currentTV.text = getString(R.string.current) + sheetValue.currentCount
+                                if (oldIngang1 == null || !isSameValues(oldIngang1!!, sheetValue.ingang1)) enterListToParent(ingang1Layout.namesLayout, sheetValue.ingang1)
+                                if (oldIngang2 == null || !isSameValues(oldIngang2!!, sheetValue.ingang2)) enterListToParent(ingang2Layout.namesLayout, sheetValue.ingang2)
+                                if (oldClub == null || !isSameValues(oldClub!!, sheetValue.club)) enterListToParent(clubLayout.namesLayout, sheetValue.club)
+                                if (oldEtc == null || !isSameValues(oldEtc!!, sheetValue.etc)) enterListToParent(etcLayout.namesLayout, sheetValue.etc)
+                                if (oldBathroom == null || !isSameValues(oldBathroom!!, sheetValue.bathroom)) enterListToParent(bathroomLayout.namesLayout, sheetValue.bathroom)
+
+                                oldIngang1 = sheetValue.ingang1
+                                oldIngang2 = sheetValue.ingang2
+                                oldClub = sheetValue.club
+                                oldEtc = sheetValue.etc
+                                oldBathroom = sheetValue.bathroom
                             }
                         } catch (e: Exception) {
                             runOnUiThread {
@@ -99,5 +110,9 @@ class SpreadsheetActivity : AppCompatActivity() {
             nameTV.text = it
             parent.addView(nameTV)
         }
+    }
+
+    private fun isSameValues(list1: ArrayList<String>, list2: ArrayList<String>): Boolean {
+        return list1.size == list2.size && list1.containsAll(list2)
     }
 }
