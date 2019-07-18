@@ -1,7 +1,7 @@
 package com.seunghyun.dimigospreadsheet.activities
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
@@ -23,19 +23,20 @@ class SpreadsheetActivity : AppCompatActivity() {
         title = "${grade}학년 ${klass}반"
 
         object : Thread() {
+            @SuppressLint("SetTextI18n")
             override fun run() {
                 while (isRunning) {
                     if (isShowing) {
                         try {
                             val counts = MainActivity.getValues(service, "${klass}반!B2:B4")
                             runOnUiThread {
-                                totalTV.text = getString(R.string.total).format(counts?.get(0)?.get(0).toString().toInt())
-                                vacancyTV.text = getString(R.string.vacancy).format(counts?.get(1)?.get(0).toString().toInt())
-                                currentTV.text = getString(R.string.current).format(counts?.get(2)?.get(0).toString().toInt())
+                                totalTV.text = getString(R.string.total) + counts?.get(0)?.get(0).toString().toInt()
+                                vacancyTV.text = getString(R.string.vacancy) + counts?.get(1)?.get(0).toString().toInt()
+                                currentTV.text = getString(R.string.current) + counts?.get(2)?.get(0).toString().toInt()
                             }
                         } catch (e: Exception) {
                             runOnUiThread {
-//                                testTV.setText(R.string.check_internet)
+                                //                                testTV.setText(R.string.check_internet)
                             }
                         }
                     }
