@@ -32,6 +32,11 @@
     <string name="total">총원 :" "</string>
     <string name="vacancy">결원 :" "</string>
     <string name="current">현원 :" "</string>
+    <string name="ingang1">인강실 (1)</string>
+    <string name="ingang2">인강실 (2, 3)</string>
+    <string name="club">동아리</string>
+    <string name="etc">기타</string>
+    <string name="bathroom">화장실</string>
 
     <string-array name="types">
         <item>인강실 (1타임)</item>
