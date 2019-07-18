@@ -6,6 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.seunghyun.dimigospreadsheet.R
+import com.seunghyun.dimigospreadsheet.models.SheetValue
 import kotlinx.android.synthetic.main.activity_spreadsheet.*
 
 class SpreadsheetActivity : AppCompatActivity() {
@@ -28,11 +29,11 @@ class SpreadsheetActivity : AppCompatActivity() {
                 while (isRunning) {
                     if (isShowing) {
                         try {
-                            val counts = MainActivity.getValues(service, "${klass}반!B2:B4")
+                            val sheetValue = SheetValue(MainActivity.getValues(service, "${klass}반!1:30"))
                             runOnUiThread {
-                                totalTV.text = getString(R.string.total) + counts?.get(0)?.get(0).toString().toInt()
-                                vacancyTV.text = getString(R.string.vacancy) + counts?.get(1)?.get(0).toString().toInt()
-                                currentTV.text = getString(R.string.current) + counts?.get(2)?.get(0).toString().toInt()
+                                totalTV.text = getString(R.string.total) + sheetValue.getTotalCount()
+                                vacancyTV.text = getString(R.string.vacancy) + sheetValue.getVacancyCount()
+                                currentTV.text = getString(R.string.current) + sheetValue.getCurrentCount()
                             }
                         } catch (e: Exception) {
                             runOnUiThread {
