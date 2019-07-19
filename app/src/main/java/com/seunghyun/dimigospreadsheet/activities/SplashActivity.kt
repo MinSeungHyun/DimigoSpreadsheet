@@ -34,7 +34,7 @@ class SplashActivity : AppCompatActivity() {
                 val grade = studentId.subSequence(0, 1).toString().toInt()
                 val klass = studentId.subSequence(1, 2).toString().toInt()
 
-                val intent = Intent(this@SplashActivity, MainActivity::class.java).apply {
+                val intent = Intent(this@SplashActivity, SpreadsheetActivity::class.java).apply {
                     putExtra("name", name)
                     putExtra("studentId", studentId)
                     putExtra("grade", grade)

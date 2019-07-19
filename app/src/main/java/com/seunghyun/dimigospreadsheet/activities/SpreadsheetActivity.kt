@@ -16,6 +16,8 @@ import kotlinx.android.synthetic.main.number_card_prototype.view.*
 class SpreadsheetActivity : AppCompatActivity() {
     private var isRunning = false
     private var isShowing = false
+    private val name by lazy { intent.getStringExtra("name") }
+    private val studentId by lazy { intent.getStringExtra("studentId") }
     private val grade by lazy { intent.getIntExtra("grade", 0) }
     private val klass by lazy { intent.getIntExtra("class", 0) }
     private val service by lazy { MainActivity.getService(this@SpreadsheetActivity) }
