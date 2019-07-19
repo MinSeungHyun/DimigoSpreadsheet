@@ -3,6 +3,7 @@ package com.seunghyun.dimigospreadsheet.activities
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -45,6 +46,7 @@ class SpreadsheetActivity : AppCompatActivity() {
                         try {
                             val sheetValue = SheetValue(MainActivity.getValues(service, "${klass}반!1:30"))
                             runOnUiThread {
+                                checkInternetLayout.visibility = View.GONE
                                 totalTV.text = getString(R.string.total) + sheetValue.totalCount
                                 vacancyTV.text = getString(R.string.vacancy) + sheetValue.vacancyCount
                                 currentTV.text = getString(R.string.current) + sheetValue.currentCount
@@ -62,11 +64,7 @@ class SpreadsheetActivity : AppCompatActivity() {
                             }
                         } catch (e: Exception) {
                             runOnUiThread {
-                                enterListToParent(ingang1Layout.namesLayout, ArrayList(listOf("인터넷")))
-                                enterListToParent(ingang2Layout.namesLayout, ArrayList(listOf("연결을")))
-                                enterListToParent(clubLayout.namesLayout, ArrayList(listOf("확인해")))
-                                enterListToParent(etcLayout.namesLayout, ArrayList(listOf("주세요")))
-                                enterListToParent(bathroomLayout.namesLayout, ArrayList(listOf(".")))
+                                checkInternetLayout.visibility = View.VISIBLE
                             }
                         }
                     }
