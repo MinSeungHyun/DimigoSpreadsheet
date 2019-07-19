@@ -9,7 +9,7 @@ android {
         applicationId "com.seunghyun.dimigospreadsheet"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 2
+        versionCode 1
         versionName "1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -37,7 +37,6 @@ class UpdateActivity : AppCompatActivity() {
 
     private fun openStore(context: Context) {
         val uri = Uri.parse("market://details?id=" + context.packageName)
-        Log.d("testing", context.packageName)
         val myAppLinkToMarket = Intent(Intent.ACTION_VIEW, uri)
         try {
             context.startActivity(myAppLinkToMarket)
@@ -55,6 +54,8 @@ class UpdateActivity : AppCompatActivity() {
                 try {
                     updateInfo = it.result
                 } catch (e: Exception) {
+                    Log.d("testing", "error")
+                    e.printStackTrace()
                     return@addOnCompleteListener
                 }
             }
