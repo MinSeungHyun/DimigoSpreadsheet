@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -15,20 +14,22 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.seunghyun.dimigospreadsheet.R
+import com.seunghyun.dimigospreadsheet.models.CheckInAppUpdateResult
 import kotlinx.android.synthetic.main.activity_update.*
 
 class UpdateActivity : AppCompatActivity() {
+    private var result: CheckInAppUpdateResult? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         setContentView(R.layout.activity_update)
 
-        val updateInfo = getAppUpdateInfo(this@UpdateActivity)
-        val inAppUpdateAvailability = updateInfo != null && isUpdateAvailable(updateInfo)
+        getAppUpdateInfo(this@UpdateActivity)
 
         updateButton.setOnClickListener {
-            if (inAppUpdateAvailability) {
-                startUpdate(this@UpdateActivity, updateInfo!!)
+            if (result?.appUpdateAvailability == true) {
+                startUpdate(this@UpdateActivity, result?.updateInfo!!)
             } else {
                 openStore(this@UpdateActivity)
             }
@@ -45,7 +46,7 @@ class UpdateActivity : AppCompatActivity() {
         }
     }
 
-    private fun getAppUpdateInfo(context: Context): AppUpdateInfo? {
+    private fun getAppUpdateInfo(context: Context) {
         val appUpdateManager = AppUpdateManagerFactory.create(context)
         val appUpdateInfo = appUpdateManager.appUpdateInfo
         var updateInfo: AppUpdateInfo? = null
@@ -54,13 +55,17 @@ class UpdateActivity : AppCompatActivity() {
                 try {
                     updateInfo = it.result
                 } catch (e: Exception) {
-                    Log.d("testing", "error")
+                    it.exception.printStackTrace()
                     e.printStackTrace()
                     return@addOnCompleteListener
                 }
             }
+            result = if (updateInfo != null) {
+                CheckInAppUpdateResult(isUpdateAvailable(updateInfo!!), updateInfo)
+            } else {
+                CheckInAppUpdateResult(false, null)
+            }
         }
-        return updateInfo
     }
 
     private fun isUpdateAvailable(updateInfo: AppUpdateInfo): Boolean {
