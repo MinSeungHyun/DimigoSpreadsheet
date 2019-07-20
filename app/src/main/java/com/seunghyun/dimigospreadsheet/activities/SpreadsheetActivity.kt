@@ -1,6 +1,7 @@
 package com.seunghyun.dimigospreadsheet.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -10,6 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import com.google.api.services.sheets.v4.Sheets
 import com.google.api.services.sheets.v4.model.ValueRange
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.seunghyun.dimigospreadsheet.BuildConfig
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.SheetValue
 import com.seunghyun.dimigospreadsheet.models.UpdateSheetValueCallback
@@ -29,6 +35,39 @@ class SpreadsheetActivity : AppCompatActivity() {
     private val number by lazy { studentId.substring(2, 4).toInt() }
     private val names by lazy { intent.getStringArrayExtra("names") }
     private val service by lazy { SpreadsheetHelper.getService(this@SpreadsheetActivity) }
+
+    private val reference = FirebaseDatabase.getInstance().reference
+    var isNeedUpdate = true
+    val versionCode = BuildConfig.VERSION_CODE
+    private val versionListener = object : ValueEventListener { //버전 낮으면 업데이트 화면 띄움
+        override fun onCancelled(error: DatabaseError) {
+        }
+
+        override fun onDataChange(snapshot: DataSnapshot) {
+            if (snapshot.value.toString().toInt() > versionCode) {
+                isNeedUpdate = true
+                val intent = Intent(this@SpreadsheetActivity, UpdateActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+                finish()
+            } else {
+                isNeedUpdate = false
+            }
+        }
+    }
+    private val closedListener = object : ValueEventListener { //앱이 점검중이면 점검화면 띄움
+        override fun onCancelled(error: DatabaseError) {
+        }
+
+        override fun onDataChange(snapshot: DataSnapshot) {
+            if (snapshot.value.toString().toBoolean() && !isNeedUpdate) {
+                val intent = Intent(this@SpreadsheetActivity, ClosingActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+                finish()
+            }
+        }
+    }
 
     private val updateCallback = object : UpdateSheetValueCallback {
         override fun onReceive(values: MutableCollection<Any>?) {
@@ -65,11 +104,15 @@ class SpreadsheetActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         isShowing = true
+        reference.child("app-version").addValueEventListener(versionListener)
+        reference.child("isClosing").addValueEventListener(closedListener)
     }
 
     override fun onPause() {
         super.onPause()
         isShowing = false
+        reference.child("app-version").removeEventListener(versionListener)
+        reference.child("isClosing").removeEventListener(closedListener)
     }
 
     override fun onDestroy() {
