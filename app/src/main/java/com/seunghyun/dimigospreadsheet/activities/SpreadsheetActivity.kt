@@ -221,6 +221,7 @@ class SpreadsheetActivity : AppCompatActivity() {
                     "인강실 (2, 3타임)" -> range = "${klass}반!D2:D30"
                     "동아리" -> range = "${klass}반!E2:E30"
                     "기타" -> range = "${klass}반!F2:F30"
+                    "화장실" -> range = "${klass}반!A10:A30"
                 }
                 val currentList = SpreadsheetHelper.getValues(service, range)
                 val size = currentList?.size ?: 0
@@ -230,6 +231,7 @@ class SpreadsheetActivity : AppCompatActivity() {
                     "인강실 (2, 3타임)" -> range = "${klass}반!D${2 + size}"
                     "동아리" -> range = "${klass}반!E${2 + size}"
                     "기타" -> range = "${klass}반!F${2 + size}"
+                    "화장실" -> range = "${klass}반!A${10 + size}"
                 }
 
                 val values = if (reason.isBlank()) {

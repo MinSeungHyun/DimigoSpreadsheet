@@ -43,6 +43,7 @@
         <item>인강실 (2, 3타임)</item>
         <item>동아리</item>
         <item>기타</item>
+        <item>화장실</item>
     </string-array>
 
     <string name="preference_app_setting">app_setting</string>
