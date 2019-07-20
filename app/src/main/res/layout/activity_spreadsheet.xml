@@ -8,6 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
         android:animateLayoutChanges="true"
         app:layout_anchor="@id/bottomSheet"
         app:layout_anchorGravity="top">
