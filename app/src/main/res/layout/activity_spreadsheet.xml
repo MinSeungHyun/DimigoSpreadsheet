@@ -132,31 +132,7 @@
         android:id="@+id/bottomSheet"
         layout="@layout/enter_name_bottomsheet" />
 
-    <LinearLayout
+    <include
         android:id="@+id/checkInternetLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/transparentWhite"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_baseline_wifi_off_24px"
-            android:tint="@color/colorPrimary"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/check_internet"
-            android:textColor="@color/colorPrimary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+        layout="@layout/network_error_screen" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
