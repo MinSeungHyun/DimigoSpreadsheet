@@ -13,6 +13,7 @@ import com.google.api.services.sheets.v4.model.ValueRange
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.SheetValue
 import com.seunghyun.dimigospreadsheet.models.UpdateSheetValueCallback
+import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
 import kotlinx.android.synthetic.main.activity_spreadsheet.*
 import kotlinx.android.synthetic.main.enter_name_bottomsheet.view.*
 import kotlinx.android.synthetic.main.number_card_prototype.view.*
@@ -27,7 +28,7 @@ class SpreadsheetActivity : AppCompatActivity() {
     private val klass by lazy { intent.getIntExtra("class", 0) }
     private val number by lazy { studentId.substring(2, 4).toInt() }
     private val names by lazy { intent.getStringArrayExtra("names") }
-    private val service by lazy { MainActivity.getService(this@SpreadsheetActivity) }
+    private val service by lazy { SpreadsheetHelper.getService(this@SpreadsheetActivity) }
 
     private val updateCallback = object : UpdateSheetValueCallback {
         override fun onReceive(values: MutableCollection<Any>?) {
@@ -140,7 +141,7 @@ class SpreadsheetActivity : AppCompatActivity() {
         while (isRunning) {
             if (isShowing) {
                 try {
-                    val sheetValue = SheetValue(MainActivity.getValues(service, "${klass}반!1:30"))
+                    val sheetValue = SheetValue(SpreadsheetHelper.getValues(service, "${klass}반!1:30"))
                     runOnUiThread {
                         checkInternetLayout.visibility = View.GONE
                         totalTV.text = getString(R.string.total) + sheetValue.totalCount
@@ -178,7 +179,7 @@ class SpreadsheetActivity : AppCompatActivity() {
                     "동아리" -> range = "${klass}반!E2:E30"
                     "기타" -> range = "${klass}반!F2:F30"
                 }
-                val currentList = MainActivity.getValues(service, range)
+                val currentList = SpreadsheetHelper.getValues(service, range)
                 val size = currentList?.size ?: 0
 
                 when (type) {
@@ -193,7 +194,7 @@ class SpreadsheetActivity : AppCompatActivity() {
                 } else {
                     ValueRange().setValues(listOf(listOf("$reason - $name_")))
                 }
-                val result = MainActivity.updateValues(service, range, values)
+                val result = SpreadsheetHelper.updateValues(service, range, values)
                 callback.onReceive(result)
             } catch (e: Exception) {
                 callback.onReceive(null)

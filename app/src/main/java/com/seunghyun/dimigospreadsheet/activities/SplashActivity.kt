@@ -17,6 +17,7 @@ import com.seunghyun.dimigospreadsheet.models.ServerCallback
 import com.seunghyun.dimigospreadsheet.utils.JSONParser
 import com.seunghyun.dimigospreadsheet.utils.JWTDecoder
 import com.seunghyun.dimigospreadsheet.utils.ServerRequest
+import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
 import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : AppCompatActivity() {
@@ -61,8 +62,8 @@ class SplashActivity : AppCompatActivity() {
                 object : Thread() {
                     override fun run() {
                         try {
-                            val service = MainActivity.getService(applicationContext)
-                            val names = MainActivity.getValues(service, "${klass}반 명단!A:A")
+                            val service = SpreadsheetHelper.getService(applicationContext)
+                            val names = SpreadsheetHelper.getValues(service, "${klass}반 명단!A:A")
                             getNameCallback.onReceive(names)
                         } catch (e: Exception) {
                             getNameCallback.onReceive(null)
