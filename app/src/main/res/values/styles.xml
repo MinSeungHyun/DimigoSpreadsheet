@@ -30,6 +30,6 @@
     <style name="SpreadSheetActivity" parent="Theme.AppCompat.DayNight">
         <item name="colorPrimaryDark">@android:color/darker_gray</item>
         <item name="colorPrimary">@android:color/white</item>
-        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 </resources>
