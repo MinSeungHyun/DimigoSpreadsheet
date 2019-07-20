@@ -32,6 +32,8 @@ import java.lang.Thread.sleep
 
 class SpreadsheetActivity : AppCompatActivity() {
     private val spreadsheetModel by lazy {
+        SpreadsheetState.service = service
+        SpreadsheetState.klass = klass
         ViewModelProviders.of(this@SpreadsheetActivity)[SpreadsheetState::class.java]
     }
 
