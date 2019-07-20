@@ -41,9 +41,9 @@ class SpreadsheetState : ViewModel() {
                 while (mIsRunning) {
                     while (mIsShowing) {
                         val sheetValue = SheetValue(SpreadsheetHelper.getValues(service!!, "${klass!!}반!1:30"))
-                        totalCount.postValue(sheetValue.totalCount)
-                        vacancyCount.postValue(sheetValue.vacancyCount)
-                        currentCount.postValue(sheetValue.currentCount)
+                        if (totalCount.value == null || totalCount.value != sheetValue.totalCount) totalCount.postValue(sheetValue.totalCount)
+                        if (vacancyCount.value == null || vacancyCount.value != sheetValue.vacancyCount) vacancyCount.postValue(sheetValue.vacancyCount)
+                        if (currentCount.value == null || currentCount.value != sheetValue.currentCount) currentCount.postValue(sheetValue.currentCount)
                         ingang1List.postValue(sheetValue.ingang1)
                         ingang2List.postValue(sheetValue.ingang2)
                         clubList.postValue(sheetValue.club)

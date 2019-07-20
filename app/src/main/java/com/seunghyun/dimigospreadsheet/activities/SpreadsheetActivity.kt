@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -12,6 +13,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.api.services.sheets.v4.Sheets
 import com.google.api.services.sheets.v4.model.ValueRange
@@ -103,6 +105,7 @@ class SpreadsheetActivity : AppCompatActivity() {
         spreadsheetModel.isRunning.value = true
         title = "${grade}학년 ${klass}반"
 
+        initModel()
         initSheet()
         initBottomSheet()
 
@@ -133,6 +136,22 @@ class SpreadsheetActivity : AppCompatActivity() {
         super.onDestroy()
         isRunning = false
         spreadsheetModel.isRunning.value = false
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun initModel() {
+        spreadsheetModel.totalCount.observe(this, Observer {
+            totalTV.text = getString(R.string.total) + it
+            Log.d("testing", "totalCount: $it")
+        })
+        spreadsheetModel.vacancyCount.observe(this, Observer {
+            vacancyTV.text = getString(R.string.vacancy) + it
+            Log.d("testing", "vacancyCount: $it")
+        })
+        spreadsheetModel.currentCount.observe(this, Observer {
+            currentTV.text = getString(R.string.current) + it
+            Log.d("testing", "currentCount: $it")
+        })
     }
 
     private fun initSheet() {
@@ -214,9 +233,6 @@ class SpreadsheetActivity : AppCompatActivity() {
                     val sheetValue = SheetValue(SpreadsheetHelper.getValues(service, "${klass}반!1:30"))
                     networkOk()
                     runOnUiThread {
-                        totalTV.text = getString(R.string.total) + sheetValue.totalCount
-                        vacancyTV.text = getString(R.string.vacancy) + sheetValue.vacancyCount
-                        currentTV.text = getString(R.string.current) + sheetValue.currentCount
                         if (oldIngang1 == null || !isSameValues(oldIngang1!!, sheetValue.ingang1)) enterListToParent(ingang1Layout.namesLayout, sheetValue.ingang1)
                         if (oldIngang2 == null || !isSameValues(oldIngang2!!, sheetValue.ingang2)) enterListToParent(ingang2Layout.namesLayout, sheetValue.ingang2)
                         if (oldClub == null || !isSameValues(oldClub!!, sheetValue.club)) enterListToParent(clubLayout.namesLayout, sheetValue.club)
