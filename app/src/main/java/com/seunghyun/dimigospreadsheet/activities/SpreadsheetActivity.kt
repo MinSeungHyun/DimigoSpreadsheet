@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.SheetValue
 import kotlinx.android.synthetic.main.activity_spreadsheet.*
@@ -54,11 +53,6 @@ class SpreadsheetActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         isRunning = false
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        Animatoo.animateSlideRight(this@SpreadsheetActivity)
     }
 
     private fun enterListToParent(parent: LinearLayout, names: ArrayList<String>) {
