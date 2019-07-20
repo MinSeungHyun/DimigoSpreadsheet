@@ -1,14 +1,20 @@
 package com.seunghyun.dimigospreadsheet.activities
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
+import com.google.api.services.sheets.v4.Sheets
+import com.google.api.services.sheets.v4.model.ValueRange
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.SheetValue
+import com.seunghyun.dimigospreadsheet.models.UpdateSheetValueCallback
 import kotlinx.android.synthetic.main.activity_spreadsheet.*
+import kotlinx.android.synthetic.main.enter_name_bottomsheet.view.*
 import kotlinx.android.synthetic.main.number_card_prototype.view.*
 import java.lang.Thread.sleep
 
@@ -19,7 +25,25 @@ class SpreadsheetActivity : AppCompatActivity() {
     private val studentId by lazy { intent.getStringExtra("studentId") }
     private val grade by lazy { intent.getIntExtra("grade", 0) }
     private val klass by lazy { intent.getIntExtra("class", 0) }
+    private val number by lazy { studentId.substring(2, 4).toInt() }
+    private val names by lazy { intent.getStringArrayExtra("names") }
     private val service by lazy { MainActivity.getService(this@SpreadsheetActivity) }
+
+    private val updateCallback = object : UpdateSheetValueCallback {
+        override fun onReceive(values: MutableCollection<Any>?) {
+            runOnUiThread {
+                if (values != null) {
+                    bottomSheet.enterButton.doneLoadingAnimation(Color.GREEN, getDrawable(R.drawable.ic_baseline_check_24px)!!.toBitmap())
+                    Handler().postDelayed({
+                        bottomSheet.enterButton.revertAnimation()
+                    }, 1000)
+                } else {
+                    Toast.makeText(applicationContext, R.string.enter_failed, Toast.LENGTH_LONG).show()
+                    bottomSheet.enterButton.revertAnimation()
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +52,7 @@ class SpreadsheetActivity : AppCompatActivity() {
         title = "${grade}학년 ${klass}반"
 
         initSheet()
+        initBottomSheet()
 
         object : Thread() {
             override fun run() {
@@ -57,6 +82,39 @@ class SpreadsheetActivity : AppCompatActivity() {
         clubLayout.typeTV.setText(R.string.club)
         etcLayout.typeTV.setText(R.string.etc)
         bathroomLayout.typeTV.setText(R.string.bathroom)
+    }
+
+    private fun initBottomSheet() {
+        val arrayAdapter = ArrayAdapter(this@SpreadsheetActivity, android.R.layout.simple_spinner_dropdown_item, names)
+        bottomSheet.nameSpinner.adapter = arrayAdapter
+        bottomSheet.nameSpinner.setSelection(number - 1)
+        bottomSheet.enterDescriptionTV.text = getString(R.string.enter_description).format(grade, klass)
+
+        bottomSheet.typeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (position == 3) {
+                    bottomSheet.reasonInputLayout.visibility = View.VISIBLE
+                } else {
+                    bottomSheet.reasonInputLayout.error = ""
+                    bottomSheet.reasonInputET.setText("")
+                    bottomSheet.reasonInputLayout.visibility = View.GONE
+                }
+            }
+        }
+
+        bottomSheet.enterButton.setOnClickListener {
+            if (bottomSheet.typeSpinner.selectedItem.toString() == "기타" && bottomSheet.reasonInputET.text.toString().isBlank()) {
+                bottomSheet.reasonInputLayout.error = getString(R.string.enter_reason)
+            } else {
+                bottomSheet.reasonInputLayout.error = ""
+                bottomSheet.enterButton.startAnimation {
+                    EnterName(service, klass, bottomSheet.typeSpinner.selectedItem.toString(), bottomSheet.nameSpinner.selectedItem.toString(), bottomSheet.reasonInputET.text.toString(), updateCallback).start()
+                }
+            }
+        }
     }
 
     private fun enterListToParent(parent: LinearLayout, names: ArrayList<String>) {
@@ -107,6 +165,39 @@ class SpreadsheetActivity : AppCompatActivity() {
                 }
             }
             sleep(1000)
+        }
+    }
+
+    private class EnterName(val service: Sheets, val klass: Int, val type: String, val name_: String, val reason: String, val callback: UpdateSheetValueCallback) : Thread() {
+        override fun run() {
+            try {
+                var range = ""
+                when (type) {
+                    "인강실 (1타임)" -> range = "${klass}반!C2:C30"
+                    "인강실 (2, 3타임)" -> range = "${klass}반!D2:D30"
+                    "동아리" -> range = "${klass}반!E2:E30"
+                    "기타" -> range = "${klass}반!F2:F30"
+                }
+                val currentList = MainActivity.getValues(service, range)
+                val size = currentList?.size ?: 0
+
+                when (type) {
+                    "인강실 (1타임)" -> range = "${klass}반!C${2 + size}"
+                    "인강실 (2, 3타임)" -> range = "${klass}반!D${2 + size}"
+                    "동아리" -> range = "${klass}반!E${2 + size}"
+                    "기타" -> range = "${klass}반!F${2 + size}"
+                }
+
+                val values = if (reason.isBlank()) {
+                    ValueRange().setValues(listOf(listOf(name_)))
+                } else {
+                    ValueRange().setValues(listOf(listOf("$reason - $name_")))
+                }
+                val result = MainActivity.updateValues(service, range, values)
+                callback.onReceive(result)
+            } catch (e: Exception) {
+                callback.onReceive(null)
+            }
         }
     }
 }
