@@ -27,11 +27,7 @@ class SpreadsheetActivity : AppCompatActivity() {
         isRunning = true
         title = "${grade}학년 ${klass}반"
 
-        ingang1Layout.typeTV.setText(R.string.ingang1)
-        ingang2Layout.typeTV.setText(R.string.ingang2)
-        clubLayout.typeTV.setText(R.string.club)
-        etcLayout.typeTV.setText(R.string.etc)
-        bathroomLayout.typeTV.setText(R.string.bathroom)
+        initSheet()
 
         object : Thread() {
             override fun run() {
@@ -53,6 +49,14 @@ class SpreadsheetActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         isRunning = false
+    }
+
+    private fun initSheet() {
+        ingang1Layout.typeTV.setText(R.string.ingang1)
+        ingang2Layout.typeTV.setText(R.string.ingang2)
+        clubLayout.typeTV.setText(R.string.club)
+        etcLayout.typeTV.setText(R.string.etc)
+        bathroomLayout.typeTV.setText(R.string.bathroom)
     }
 
     private fun enterListToParent(parent: LinearLayout, names: ArrayList<String>) {
