@@ -216,6 +216,16 @@ class SpreadsheetActivity : AppCompatActivity() {
         }
     }
 
+    private fun enterNameToParent(parent: LinearLayout, name: String, index: Int) {
+        val textView = layoutInflater.inflate(R.layout.name_item, parent, false) as TextView
+        textView.text = name
+        parent.addView(textView, index)
+    }
+
+    private fun deleteNameFromParent(parent: LinearLayout, index: Int) {
+        parent.removeViewAt(index)
+    }
+
     private fun isSameValues(list1: ArrayList<String>, list2: ArrayList<String>): Boolean {
         return list1.size == list2.size && list1.containsAll(list2)
     }
