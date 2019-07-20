@@ -6,3 +6,4 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/MinSeungHyun/DimigoSpreadsheet.svg?color=brightgreen)
 ## 업데이트 예정
 1. APK 암호화
+2. 삭제기능
