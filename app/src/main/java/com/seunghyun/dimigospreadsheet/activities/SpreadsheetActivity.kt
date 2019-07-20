@@ -15,7 +15,7 @@ import com.seunghyun.dimigospreadsheet.models.SheetValue
 import com.seunghyun.dimigospreadsheet.models.UpdateSheetValueCallback
 import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
 import kotlinx.android.synthetic.main.activity_spreadsheet.*
-import kotlinx.android.synthetic.main.enter_name_bottomsheet.view.*
+import kotlinx.android.synthetic.main.enter_name_bottomsheet.*
 import kotlinx.android.synthetic.main.number_card_prototype.view.*
 import java.lang.Thread.sleep
 
@@ -34,13 +34,13 @@ class SpreadsheetActivity : AppCompatActivity() {
         override fun onReceive(values: MutableCollection<Any>?) {
             runOnUiThread {
                 if (values != null) {
-                    bottomSheet.enterButton.doneLoadingAnimation(Color.GREEN, getDrawable(R.drawable.ic_baseline_check_24px)!!.toBitmap())
+                    enterButton.doneLoadingAnimation(Color.GREEN, getDrawable(R.drawable.ic_baseline_check_24px)!!.toBitmap())
                     Handler().postDelayed({
-                        bottomSheet.enterButton.revertAnimation()
+                        enterButton.revertAnimation()
                     }, 1000)
                 } else {
                     Toast.makeText(applicationContext, R.string.enter_failed, Toast.LENGTH_LONG).show()
-                    bottomSheet.enterButton.revertAnimation()
+                    enterButton.revertAnimation()
                 }
             }
         }
@@ -87,32 +87,32 @@ class SpreadsheetActivity : AppCompatActivity() {
 
     private fun initBottomSheet() {
         val arrayAdapter = ArrayAdapter(this@SpreadsheetActivity, android.R.layout.simple_spinner_dropdown_item, names)
-        bottomSheet.nameSpinner.adapter = arrayAdapter
-        bottomSheet.nameSpinner.setSelection(number - 1)
-        bottomSheet.enterDescriptionTV.text = getString(R.string.enter_description).format(grade, klass)
+        nameSpinner.adapter = arrayAdapter
+        nameSpinner.setSelection(number - 1)
+        enterDescriptionTV.text = getString(R.string.enter_description).format(grade, klass)
 
-        bottomSheet.typeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        typeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (position == 3) {
-                    bottomSheet.reasonInputLayout.visibility = View.VISIBLE
+                    reasonInputLayout.visibility = View.VISIBLE
                 } else {
-                    bottomSheet.reasonInputLayout.error = ""
-                    bottomSheet.reasonInputET.setText("")
-                    bottomSheet.reasonInputLayout.visibility = View.GONE
+                    reasonInputLayout.error = ""
+                    reasonInputET.setText("")
+                    reasonInputLayout.visibility = View.GONE
                 }
             }
         }
 
-        bottomSheet.enterButton.setOnClickListener {
-            if (bottomSheet.typeSpinner.selectedItem.toString() == "기타" && bottomSheet.reasonInputET.text.toString().isBlank()) {
-                bottomSheet.reasonInputLayout.error = getString(R.string.enter_reason)
+        enterButton.setOnClickListener {
+            if (typeSpinner.selectedItem.toString() == "기타" && reasonInputET.text.toString().isBlank()) {
+                reasonInputLayout.error = getString(R.string.enter_reason)
             } else {
-                bottomSheet.reasonInputLayout.error = ""
-                bottomSheet.enterButton.startAnimation {
-                    EnterName(service, klass, bottomSheet.typeSpinner.selectedItem.toString(), bottomSheet.nameSpinner.selectedItem.toString(), bottomSheet.reasonInputET.text.toString(), updateCallback).start()
+                reasonInputLayout.error = ""
+                enterButton.startAnimation {
+                    EnterName(service, klass, typeSpinner.selectedItem.toString(), nameSpinner.selectedItem.toString(), reasonInputET.text.toString(), updateCallback).start()
                 }
             }
         }
