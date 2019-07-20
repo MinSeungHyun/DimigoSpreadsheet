@@ -6,7 +6,10 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import com.google.api.services.sheets.v4.Sheets
@@ -73,12 +76,13 @@ class SpreadsheetActivity : AppCompatActivity() {
         override fun onReceive(values: MutableCollection<Any>?) {
             runOnUiThread {
                 if (values != null) {
+                    networkOk()
                     enterButton.doneLoadingAnimation(Color.GREEN, getDrawable(R.drawable.ic_baseline_check_24px)!!.toBitmap())
                     Handler().postDelayed({
                         enterButton.revertAnimation()
                     }, 1000)
                 } else {
-                    Toast.makeText(applicationContext, R.string.enter_failed, Toast.LENGTH_LONG).show()
+                    networkError()
                     enterButton.revertAnimation()
                 }
             }
@@ -174,6 +178,18 @@ class SpreadsheetActivity : AppCompatActivity() {
         return list1.size == list2.size && list1.containsAll(list2)
     }
 
+    private fun networkError() {
+        runOnUiThread {
+            checkInternetLayout.visibility = View.VISIBLE
+        }
+    }
+
+    private fun networkOk() {
+        runOnUiThread {
+            checkInternetLayout.visibility = View.GONE
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     private fun updateSheetValues() {
         var oldIngang1: ArrayList<String>? = null
@@ -185,8 +201,8 @@ class SpreadsheetActivity : AppCompatActivity() {
             if (isShowing) {
                 try {
                     val sheetValue = SheetValue(SpreadsheetHelper.getValues(service, "${klass}반!1:30"))
+                    networkOk()
                     runOnUiThread {
-                        checkInternetLayout.visibility = View.GONE
                         totalTV.text = getString(R.string.total) + sheetValue.totalCount
                         vacancyTV.text = getString(R.string.vacancy) + sheetValue.vacancyCount
                         currentTV.text = getString(R.string.current) + sheetValue.currentCount
@@ -203,9 +219,7 @@ class SpreadsheetActivity : AppCompatActivity() {
                         oldBathroom = sheetValue.bathroom
                     }
                 } catch (e: Exception) {
-                    runOnUiThread {
-                        checkInternetLayout.visibility = View.VISIBLE
-                    }
+                    networkError()
                 }
             }
             sleep(1000)
