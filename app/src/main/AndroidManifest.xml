@@ -37,7 +37,6 @@
             android:theme="@style/SplashTheme" />
         <activity
             android:name=".activities.SpreadsheetActivity"
-            android:parentActivityName=".activities.MainActivity"
             android:theme="@style/SpreadSheetActivity" />
 
         <meta-data

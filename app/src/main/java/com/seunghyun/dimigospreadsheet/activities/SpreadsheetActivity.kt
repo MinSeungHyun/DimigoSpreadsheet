@@ -2,7 +2,6 @@ package com.seunghyun.dimigospreadsheet.activities
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -21,7 +20,6 @@ class SpreadsheetActivity : AppCompatActivity() {
     private val grade by lazy { intent.getIntExtra("grade", 0) }
     private val klass by lazy { intent.getIntExtra("class", 0) }
     private val service by lazy { MainActivity.getService(this@SpreadsheetActivity) }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,17 +92,6 @@ class SpreadsheetActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         Animatoo.animateSlideRight(this@SpreadsheetActivity)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) {
-            android.R.id.home -> {
-                finish()
-                Animatoo.animateSlideRight(this@SpreadsheetActivity)
-                return true
-            }
-        }
-        return false
     }
 
     private fun enterListToParent(parent: LinearLayout, names: ArrayList<String>) {
