@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
+import androidx.lifecycle.ViewModelProviders
 import com.google.api.services.sheets.v4.Sheets
 import com.google.api.services.sheets.v4.model.ValueRange
 import com.google.firebase.database.DataSnapshot
@@ -21,6 +22,7 @@ import com.google.firebase.database.ValueEventListener
 import com.seunghyun.dimigospreadsheet.BuildConfig
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.SheetValue
+import com.seunghyun.dimigospreadsheet.models.SpreadsheetState
 import com.seunghyun.dimigospreadsheet.models.UpdateSheetValueCallback
 import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
 import kotlinx.android.synthetic.main.activity_spreadsheet.*
@@ -29,6 +31,10 @@ import kotlinx.android.synthetic.main.number_card_prototype.view.*
 import java.lang.Thread.sleep
 
 class SpreadsheetActivity : AppCompatActivity() {
+    private val spreadsheetModel by lazy {
+        ViewModelProviders.of(this@SpreadsheetActivity)[SpreadsheetState::class.java]
+    }
+
     private var isRunning = false
     private var isShowing = false
     private val name by lazy { intent.getStringExtra("name") }
@@ -71,7 +77,6 @@ class SpreadsheetActivity : AppCompatActivity() {
             }
         }
     }
-
     private val updateCallback = object : UpdateSheetValueCallback {
         override fun onReceive(values: MutableCollection<Any>?) {
             runOnUiThread {
@@ -93,6 +98,7 @@ class SpreadsheetActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spreadsheet)
         isRunning = true
+        spreadsheetModel.isRunning.value = true
         title = "${grade}학년 ${klass}반"
 
         initSheet()
@@ -108,6 +114,7 @@ class SpreadsheetActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         isShowing = true
+        spreadsheetModel.isShowing.value = true
         reference.child("app-version").addValueEventListener(versionListener)
         reference.child("isClosing").addValueEventListener(closedListener)
     }
@@ -115,6 +122,7 @@ class SpreadsheetActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         isShowing = false
+        spreadsheetModel.isShowing.value = false
         reference.child("app-version").removeEventListener(versionListener)
         reference.child("isClosing").removeEventListener(closedListener)
     }
@@ -122,6 +130,7 @@ class SpreadsheetActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         isRunning = false
+        spreadsheetModel.isRunning.value = false
     }
 
     private fun initSheet() {
