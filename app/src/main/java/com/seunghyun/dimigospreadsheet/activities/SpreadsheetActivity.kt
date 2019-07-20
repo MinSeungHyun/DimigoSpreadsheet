@@ -23,14 +23,12 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.seunghyun.dimigospreadsheet.BuildConfig
 import com.seunghyun.dimigospreadsheet.R
-import com.seunghyun.dimigospreadsheet.models.SheetValue
 import com.seunghyun.dimigospreadsheet.models.SpreadsheetState
 import com.seunghyun.dimigospreadsheet.models.UpdateSheetValueCallback
 import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
 import kotlinx.android.synthetic.main.activity_spreadsheet.*
 import kotlinx.android.synthetic.main.enter_name_bottomsheet.*
 import kotlinx.android.synthetic.main.number_card_prototype.view.*
-import java.lang.Thread.sleep
 
 class SpreadsheetActivity : AppCompatActivity() {
     private val spreadsheetModel by lazy {
@@ -38,9 +36,12 @@ class SpreadsheetActivity : AppCompatActivity() {
         SpreadsheetState.klass = klass
         ViewModelProviders.of(this@SpreadsheetActivity)[SpreadsheetState::class.java]
     }
+    private var currentIngang1 = ArrayList<String>()
+    private var currentIngang2 = ArrayList<String>()
+    private var currentClub = ArrayList<String>()
+    private var currentEtc = ArrayList<String>()
+    private var currentBathroom = ArrayList<String>()
 
-    private var isRunning = false
-    private var isShowing = false
     private val name by lazy { intent.getStringExtra("name") }
     private val studentId by lazy { intent.getStringExtra("studentId") }
     private val grade by lazy { intent.getIntExtra("grade", 0) }
@@ -101,24 +102,16 @@ class SpreadsheetActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spreadsheet)
-        isRunning = true
         spreadsheetModel.isRunning.value = true
         title = "${grade}학년 ${klass}반"
 
         initModel()
         initSheet()
         initBottomSheet()
-
-        object : Thread() {
-            override fun run() {
-                updateSheetValues()
-            }
-        }.start()
     }
 
     override fun onResume() {
         super.onResume()
-        isShowing = true
         spreadsheetModel.isShowing.value = true
         reference.child("app-version").addValueEventListener(versionListener)
         reference.child("isClosing").addValueEventListener(closedListener)
@@ -126,7 +119,6 @@ class SpreadsheetActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        isShowing = false
         spreadsheetModel.isShowing.value = false
         reference.child("app-version").removeEventListener(versionListener)
         reference.child("isClosing").removeEventListener(closedListener)
@@ -134,7 +126,6 @@ class SpreadsheetActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        isRunning = false
         spreadsheetModel.isRunning.value = false
     }
 
@@ -151,6 +142,27 @@ class SpreadsheetActivity : AppCompatActivity() {
         spreadsheetModel.currentCount.observe(this, Observer {
             currentTV.text = getString(R.string.current) + it
             Log.d("testing", "currentCount: $it")
+        })
+
+        spreadsheetModel.ingang1List.observe(this, Observer {
+            if (!isSameValues(it, currentIngang1)) enterListToParent(ingang1Layout.namesLayout, it)
+            currentIngang1 = it
+        })
+        spreadsheetModel.ingang2List.observe(this, Observer {
+            if (!isSameValues(it, currentIngang2)) enterListToParent(ingang2Layout.namesLayout, it)
+            currentIngang2 = it
+        })
+        spreadsheetModel.clubList.observe(this, Observer {
+            if (!isSameValues(it, currentClub)) enterListToParent(clubLayout.namesLayout, it)
+            currentClub = it
+        })
+        spreadsheetModel.etcList.observe(this, Observer {
+            if (!isSameValues(it, currentEtc)) enterListToParent(etcLayout.namesLayout, it)
+            currentEtc = it
+        })
+        spreadsheetModel.bathroomList.observe(this, Observer {
+            if (!isSameValues(it, currentBathroom)) enterListToParent(bathroomLayout.namesLayout, it)
+            currentBathroom = it
         })
     }
 
@@ -217,39 +229,6 @@ class SpreadsheetActivity : AppCompatActivity() {
     private fun networkOk() {
         runOnUiThread {
             checkInternetLayout.visibility = View.GONE
-        }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun updateSheetValues() {
-        var oldIngang1: ArrayList<String>? = null
-        var oldIngang2: ArrayList<String>? = null
-        var oldClub: ArrayList<String>? = null
-        var oldEtc: ArrayList<String>? = null
-        var oldBathroom: ArrayList<String>? = null
-        while (isRunning) {
-            if (isShowing) {
-                try {
-                    val sheetValue = SheetValue(SpreadsheetHelper.getValues(service, "${klass}반!1:30"))
-                    networkOk()
-                    runOnUiThread {
-                        if (oldIngang1 == null || !isSameValues(oldIngang1!!, sheetValue.ingang1)) enterListToParent(ingang1Layout.namesLayout, sheetValue.ingang1)
-                        if (oldIngang2 == null || !isSameValues(oldIngang2!!, sheetValue.ingang2)) enterListToParent(ingang2Layout.namesLayout, sheetValue.ingang2)
-                        if (oldClub == null || !isSameValues(oldClub!!, sheetValue.club)) enterListToParent(clubLayout.namesLayout, sheetValue.club)
-                        if (oldEtc == null || !isSameValues(oldEtc!!, sheetValue.etc)) enterListToParent(etcLayout.namesLayout, sheetValue.etc)
-                        if (oldBathroom == null || !isSameValues(oldBathroom!!, sheetValue.bathroom)) enterListToParent(bathroomLayout.namesLayout, sheetValue.bathroom)
-
-                        oldIngang1 = sheetValue.ingang1
-                        oldIngang2 = sheetValue.ingang2
-                        oldClub = sheetValue.club
-                        oldEtc = sheetValue.etc
-                        oldBathroom = sheetValue.bathroom
-                    }
-                } catch (e: Exception) {
-                    networkError()
-                }
-            }
-            sleep(1000)
         }
     }
 
