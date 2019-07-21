@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.google.api.services.sheets.v4.Sheets
 import com.google.api.services.sheets.v4.model.ValueRange
 import com.google.firebase.database.DataSnapshot
@@ -27,6 +28,7 @@ import com.seunghyun.dimigospreadsheet.models.UpdateSheetValueCallback
 import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
 import kotlinx.android.synthetic.main.activity_spreadsheet.*
 import kotlinx.android.synthetic.main.enter_name_bottomsheet.*
+import kotlinx.android.synthetic.main.network_error_screen.view.*
 import kotlinx.android.synthetic.main.number_card_prototype.view.*
 
 class SpreadsheetActivity : AppCompatActivity() {
@@ -91,7 +93,7 @@ class SpreadsheetActivity : AppCompatActivity() {
                         enterButton.revertAnimation()
                     }, 1000)
                 } else {
-                    networkError()
+                    networkError(NETWORK_ERROR)
                     enterButton.revertAnimation()
                 }
             }
@@ -131,10 +133,10 @@ class SpreadsheetActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun initModel() {
         spreadsheetModel.networkError.observe(this, Observer {
-            if (it == null) {
-                networkOk()
-            } else {
-                networkError()
+            when (it) {
+                null -> networkOk()
+                is GoogleJsonResponseException -> networkError(SERVER_ERROR)
+                else -> networkError(NETWORK_ERROR)
             }
         })
 
@@ -224,8 +226,10 @@ class SpreadsheetActivity : AppCompatActivity() {
         return list1.size == list2.size && list1.containsAll(list2)
     }
 
-    private fun networkError() {
+    private fun networkError(error: Int) {
         runOnUiThread {
+            if (error == NETWORK_ERROR) checkInternetLayout.errorTV.setText(R.string.check_internet)
+            else checkInternetLayout.errorTV.setText(R.string.server_error)
             checkInternetLayout.visibility = View.VISIBLE
         }
     }
@@ -269,5 +273,10 @@ class SpreadsheetActivity : AppCompatActivity() {
                 callback.onReceive(null)
             }
         }
+    }
+
+    companion object {
+        const val NETWORK_ERROR = 0
+        const val SERVER_ERROR = 1
     }
 }
