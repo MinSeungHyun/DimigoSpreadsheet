@@ -44,10 +44,8 @@ class SpreadsheetActivity : AppCompatActivity() {
     private var currentBathroom = ArrayList<String>()
 
     private val name by lazy { intent.getStringExtra("name") }
-    private val studentId by lazy { intent.getStringExtra("studentId") }
     private val grade by lazy { intent.getIntExtra("grade", 0) }
     private val klass by lazy { intent.getIntExtra("class", 0) }
-    private val number by lazy { studentId.substring(2, 4).toInt() }
     private val names by lazy { intent.getStringArrayExtra("names") }
     private val service by lazy { SpreadsheetHelper.getService(this@SpreadsheetActivity) }
 
