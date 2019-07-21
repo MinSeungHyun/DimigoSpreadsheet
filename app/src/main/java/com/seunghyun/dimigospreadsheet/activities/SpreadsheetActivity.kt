@@ -1,5 +1,7 @@
 package com.seunghyun.dimigospreadsheet.activities
 
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
@@ -42,6 +44,7 @@ class SpreadsheetActivity : AppCompatActivity() {
     private var currentClub = ArrayList<String>()
     private var currentEtc = ArrayList<String>()
     private var currentBathroom = ArrayList<String>()
+    private val isBackShowing = HashMap<String, Boolean>()
 
     private val name by lazy { intent.getStringExtra("name") }
     private val grade by lazy { intent.getIntExtra("grade", 0) }
@@ -172,10 +175,80 @@ class SpreadsheetActivity : AppCompatActivity() {
 
     private fun initSheet() {
         ingang1Layout.typeTV.setText(R.string.ingang1)
+        ingang1Back.typeTV.setText(R.string.ingang1)
         ingang2Layout.typeTV.setText(R.string.ingang2)
+        ingang2Back.typeTV.setText(R.string.ingang2)
         clubLayout.typeTV.setText(R.string.club)
+        clubBack.typeTV.setText(R.string.club)
         etcLayout.typeTV.setText(R.string.etc)
+        etcBack.typeTV.setText(R.string.etc)
         bathroomLayout.typeTV.setText(R.string.bathroom)
+        bathroomBack.typeTV.setText(R.string.bathroom)
+
+        setFlipAnimation()
+    }
+
+    private fun setFlipAnimation() {
+        //CameraDistance setting
+        val distance = 8000
+        val scale = resources.displayMetrics.density * distance
+        ingang1Layout.cameraDistance = scale
+        ingang1Back.cameraDistance = scale
+        ingang2Layout.cameraDistance = scale
+        ingang2Back.cameraDistance = scale
+        clubLayout.cameraDistance = scale
+        clubBack.cameraDistance = scale
+        etcLayout.cameraDistance = scale
+        etcBack.cameraDistance = scale
+        bathroomLayout.cameraDistance = scale
+        bathroomBack.cameraDistance = scale
+
+        //Init listener
+        val onClickListener = View.OnClickListener {
+            val front = when (it.typeTV.text) {
+                getString(R.string.ingang1) -> ingang1Layout
+                getString(R.string.ingang2) -> ingang2Layout
+                getString(R.string.club) -> clubLayout
+                getString(R.string.etc) -> etcLayout
+                getString(R.string.bathroom) -> bathroomLayout
+                else -> null
+            }
+            val back = when (it.typeTV.text) {
+                getString(R.string.ingang1) -> ingang1Back
+                getString(R.string.ingang2) -> ingang2Back
+                getString(R.string.club) -> clubBack
+                getString(R.string.etc) -> etcBack
+                getString(R.string.bathroom) -> bathroomBack
+                else -> null
+            }
+            if (isBackShowing[it.typeTV.text] == true) {
+                if (front != null && back != null) {
+                    flipView(back, front)
+                    isBackShowing[it.typeTV.text.toString()] = false
+                }
+            } else {
+                if (front != null && back != null) {
+                    flipView(front, back)
+                    isBackShowing[it.typeTV.text.toString()] = true
+                }
+            }
+        }
+
+        //Set listener
+        ingang1Layout.setOnClickListener(onClickListener)
+        ingang2Layout.setOnClickListener(onClickListener)
+        clubLayout.setOnClickListener(onClickListener)
+        etcLayout.setOnClickListener(onClickListener)
+        bathroomLayout.setOnClickListener(onClickListener)
+    }
+
+    private fun flipView(front: View, back: View) {
+        val flipOutSet = AnimatorInflater.loadAnimator(this, R.animator.flip_out) as AnimatorSet
+        val flipInSet = AnimatorInflater.loadAnimator(this, R.animator.flip_in) as AnimatorSet
+        flipOutSet.setTarget(front)
+        flipInSet.setTarget(back)
+        flipOutSet.start()
+        flipInSet.start()
     }
 
     private fun initBottomSheet() {
