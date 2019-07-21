@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -133,15 +132,12 @@ class SpreadsheetActivity : AppCompatActivity() {
     private fun initModel() {
         spreadsheetModel.totalCount.observe(this, Observer {
             totalTV.text = getString(R.string.total) + it
-            Log.d("testing", "totalCount: $it")
         })
         spreadsheetModel.vacancyCount.observe(this, Observer {
             vacancyTV.text = getString(R.string.vacancy) + it
-            Log.d("testing", "vacancyCount: $it")
         })
         spreadsheetModel.currentCount.observe(this, Observer {
             currentTV.text = getString(R.string.current) + it
-            Log.d("testing", "currentCount: $it")
         })
 
         spreadsheetModel.ingang1List.observe(this, Observer {
