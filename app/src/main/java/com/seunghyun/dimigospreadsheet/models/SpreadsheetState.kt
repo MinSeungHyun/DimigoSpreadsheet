@@ -59,7 +59,7 @@ class SpreadsheetState : ViewModel() {
                         } catch (e: Exception) {
                             networkError.postValue(e)
                         }
-                        sleep(1000)
+                        sleep(2000)
                     }
                 }
             }
