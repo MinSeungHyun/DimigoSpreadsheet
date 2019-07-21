@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
+import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.GetSheetValueCallback
 import com.seunghyun.dimigospreadsheet.models.Result
@@ -43,8 +44,8 @@ class SplashActivity : AppCompatActivity() {
                 }
 
                 val getNameCallback = object : GetSheetValueCallback {
-                    override fun onReceive(values: List<List<Any>>?) {
-                        if (values != null) {
+                    override fun onReceive(values: List<List<Any>>) {
+                        if (values[0][0] != "error") {
                             val names = ArrayList<String>()
                             values.forEach { names.add(it[0].toString()) }
                             intent.putExtra("names", names.toTypedArray())
@@ -52,7 +53,7 @@ class SplashActivity : AppCompatActivity() {
                             Handler(Looper.getMainLooper()).postDelayed(DelayHandler(intent, this@SplashActivity), 0)
                         } else {
                             runOnUiThread {
-                                Toast.makeText(this@SplashActivity, R.string.loading_failed, Toast.LENGTH_LONG).show()
+                                Toast.makeText(this@SplashActivity, values[0][1].toString(), Toast.LENGTH_LONG).show()
                             }
                             Handler(Looper.getMainLooper()).postDelayed(DelayHandler(Intent(this@SplashActivity, LoginActivity::class.java), this@SplashActivity), 0)
                         }
@@ -63,10 +64,16 @@ class SplashActivity : AppCompatActivity() {
                     override fun run() {
                         try {
                             val service = SpreadsheetHelper.getService(applicationContext)
-                            val names = SpreadsheetHelper.getValues(service, "${klass}반 명단!A:A")
+                            var names = SpreadsheetHelper.getValues(service, "${klass}반 명단!A:A")
+                            if (names == null) names = ArrayList(listOf(ArrayList(listOf("error", getString(R.string.names_not_found))))).toList()
+                            getNameCallback.onReceive(names)
+
+                        } catch (e: GoogleJsonResponseException) {
+                            val names = ArrayList(listOf(ArrayList(listOf("error", getString(R.string.server_error))))).toList()
                             getNameCallback.onReceive(names)
                         } catch (e: Exception) {
-                            getNameCallback.onReceive(null)
+                            val names = ArrayList(listOf(ArrayList(listOf("error", getString(R.string.check_internet))))).toList()
+                            getNameCallback.onReceive(names)
                         }
                     }
                 }.start()
