@@ -27,9 +27,6 @@
             android:name=".activities.LoginActivity"
             android:theme="@style/LoginActivityTheme" />
         <activity
-            android:name=".activities.MainActivity"
-            android:theme="@style/MainActivityTheme" />
-        <activity
             android:name=".activities.ClosingActivity"
             android:theme="@style/SplashTheme" />
         <activity
