@@ -182,7 +182,7 @@ class SpreadsheetActivity : AppCompatActivity() {
     private fun initBottomSheet() {
         val arrayAdapter = ArrayAdapter(this@SpreadsheetActivity, android.R.layout.simple_spinner_dropdown_item, names)
         nameSpinner.adapter = arrayAdapter
-        nameSpinner.setSelection(number - 1)
+        if (names.size >= number) nameSpinner.setSelection(number - 1)
         enterDescriptionTV.text = getString(R.string.enter_description).format(grade, klass)
 
         typeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
