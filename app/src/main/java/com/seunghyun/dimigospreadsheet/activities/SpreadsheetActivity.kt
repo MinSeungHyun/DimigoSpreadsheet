@@ -106,8 +106,10 @@ class SpreadsheetActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spreadsheet)
+        setSupportActionBar(customToolbar)
+        title = ""
+        toolbarTitle.text = "${grade}학년 ${klass}반"
         spreadsheetModel.isRunning.value = true
-        title = "${grade}학년 ${klass}반"
 
         initSheet()
         initModel()
