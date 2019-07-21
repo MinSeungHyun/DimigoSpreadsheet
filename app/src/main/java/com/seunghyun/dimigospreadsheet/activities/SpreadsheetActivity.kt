@@ -43,7 +43,6 @@ class SpreadsheetActivity : AppCompatActivity() {
     private var currentEtc = ArrayList<String>()
     private var currentBathroom = ArrayList<String>()
 
-    private val name by lazy { intent.getStringExtra("name") }
     private val studentId by lazy { intent.getStringExtra("studentId") }
     private val grade by lazy { intent.getIntExtra("grade", 0) }
     private val klass by lazy { intent.getIntExtra("class", 0) }
