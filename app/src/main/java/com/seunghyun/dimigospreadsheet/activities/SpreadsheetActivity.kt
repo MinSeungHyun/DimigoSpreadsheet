@@ -130,6 +130,14 @@ class SpreadsheetActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun initModel() {
+        spreadsheetModel.networkError.observe(this, Observer {
+            if (it == null) {
+                networkOk()
+            } else {
+                networkError()
+            }
+        })
+
         spreadsheetModel.totalCount.observe(this, Observer {
             totalTV.text = getString(R.string.total) + it
         })
