@@ -47,7 +47,7 @@ class SplashActivity : AppCompatActivity() {
                     override fun onReceive(values: List<List<Any>>) {
                         if (values[0][0] != "error") {
                             val names = ArrayList<String>()
-                            values.forEach { names.add(it[0].toString()) }
+                            values.forEach { if (it.isNotEmpty()) names.add(it[0].toString()) }
                             intent.putExtra("names", names.toTypedArray())
 
                             Handler(Looper.getMainLooper()).postDelayed(DelayHandler(intent, this@SplashActivity), 0)
