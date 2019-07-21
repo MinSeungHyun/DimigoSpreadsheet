@@ -43,6 +43,7 @@ class SpreadsheetActivity : AppCompatActivity() {
     private var currentEtc = ArrayList<String>()
     private var currentBathroom = ArrayList<String>()
 
+    private val name by lazy { intent.getStringExtra("name") }
     private val studentId by lazy { intent.getStringExtra("studentId") }
     private val grade by lazy { intent.getIntExtra("grade", 0) }
     private val klass by lazy { intent.getIntExtra("class", 0) }
@@ -182,7 +183,7 @@ class SpreadsheetActivity : AppCompatActivity() {
     private fun initBottomSheet() {
         val arrayAdapter = ArrayAdapter(this@SpreadsheetActivity, android.R.layout.simple_spinner_dropdown_item, names)
         nameSpinner.adapter = arrayAdapter
-        if (names.size >= number) nameSpinner.setSelection(number - 1)
+        if (names.contains(name)) nameSpinner.setSelection(names.indexOf(name))
         enterDescriptionTV.text = getString(R.string.enter_description).format(grade, klass)
 
         typeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
