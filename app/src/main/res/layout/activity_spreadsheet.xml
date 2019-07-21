@@ -70,7 +70,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:animateLayoutChanges="true">
+                android:animateLayoutChanges="true"
+                android:scrollbars="none">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
