@@ -235,11 +235,11 @@ class SpreadsheetActivity : AppCompatActivity() {
         }
 
         //Set listener
-        ingang1Layout.setOnClickListener(onClickListener)
-        ingang2Layout.setOnClickListener(onClickListener)
-        clubLayout.setOnClickListener(onClickListener)
-        etcLayout.setOnClickListener(onClickListener)
-        bathroomLayout.setOnClickListener(onClickListener)
+        ingang1Layout.typeTV.setOnClickListener(onClickListener)
+        ingang2Layout.typeTV.setOnClickListener(onClickListener)
+        clubLayout.typeTV.setOnClickListener(onClickListener)
+        etcLayout.typeTV.setOnClickListener(onClickListener)
+        bathroomLayout.typeTV.setOnClickListener(onClickListener)
     }
 
     private fun flipView(front: View, back: View) {
