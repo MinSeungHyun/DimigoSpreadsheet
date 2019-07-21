@@ -69,9 +69,11 @@ class SplashActivity : AppCompatActivity() {
                             getNameCallback.onReceive(names)
 
                         } catch (e: GoogleJsonResponseException) {
+                            e.printStackTrace()
                             val names = ArrayList(listOf(ArrayList(listOf("error", getString(R.string.server_error))))).toList()
                             getNameCallback.onReceive(names)
                         } catch (e: Exception) {
+                            e.printStackTrace()
                             val names = ArrayList(listOf(ArrayList(listOf("error", getString(R.string.check_internet))))).toList()
                             getNameCallback.onReceive(names)
                         }
