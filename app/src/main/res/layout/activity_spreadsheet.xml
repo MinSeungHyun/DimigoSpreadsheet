@@ -83,7 +83,7 @@
                 android:animateLayoutChanges="true"
                 android:scrollbars="none">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:animateLayoutChanges="true">
@@ -92,54 +92,62 @@
                         android:id="@+id/ingang1Layout"
                         layout="@layout/number_card_prototype"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp" />
+                        android:layout_height="0dp"
+                        android:layout_margin="16dp"
+                        app:layout_constraintBottom_toTopOf="@id/bathroomLayout"
+                        app:layout_constraintEnd_toStartOf="@id/ingang2Layout"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_weight="3" />
 
                     <include
                         android:id="@+id/ingang2Layout"
                         layout="@layout/number_card_prototype"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
+                        android:layout_height="0dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp" />
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        app:layout_constraintBottom_toTopOf="@id/bathroomLayout"
+                        app:layout_constraintEnd_toStartOf="@id/clubLayout"
+                        app:layout_constraintStart_toEndOf="@id/ingang1Layout"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_weight="3" />
+
+                    <include
+                        android:id="@+id/bathroomLayout"
+                        layout="@layout/number_card_prototype"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/ingang2Layout"
+                        app:layout_constraintStart_toStartOf="@id/ingang1Layout"
+                        app:layout_constraintTop_toBottomOf="@id/ingang1Layout"
+                        app:layout_constraintVertical_weight="1" />
 
                     <include
                         android:id="@+id/clubLayout"
                         layout="@layout/number_card_prototype"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp" />
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        app:layout_constraintEnd_toStartOf="@id/etcLayout"
+                        app:layout_constraintStart_toEndOf="@id/ingang2Layout" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <include
+                        android:id="@+id/etcLayout"
+                        layout="@layout/number_card_prototype"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:animateLayoutChanges="true"
-                        android:orientation="vertical">
-
-                        <include
-                            android:id="@+id/etcLayout"
-                            layout="@layout/number_card_prototype"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_margin="16dp"
-                            android:layout_weight="2" />
-
-                        <include
-                            android:id="@+id/bathroomLayout"
-                            layout="@layout/number_card_prototype"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginBottom="16dp"
-                            android:layout_weight="1" />
-                    </LinearLayout>
-                </LinearLayout>
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/clubLayout" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </HorizontalScrollView>
         </LinearLayout>
 
