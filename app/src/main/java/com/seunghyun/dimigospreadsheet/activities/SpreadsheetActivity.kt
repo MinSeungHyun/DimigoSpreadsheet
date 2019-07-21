@@ -223,7 +223,11 @@ class SpreadsheetActivity : AppCompatActivity() {
     }
 
     private fun isSameValues(list1: ArrayList<String>, list2: ArrayList<String>): Boolean {
-        return list1.size == list2.size && list1.containsAll(list2)
+        if (list1.size != list2.size) return false
+        for (i in (0 until list1.size)) {
+            if (list1[i] != list2[i]) return false
+        }
+        return true
     }
 
     private fun networkError(error: Int) {
