@@ -31,7 +31,9 @@ import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
 import kotlinx.android.synthetic.main.activity_spreadsheet.*
 import kotlinx.android.synthetic.main.enter_name_bottomsheet.*
 import kotlinx.android.synthetic.main.network_error_screen.view.*
+import kotlinx.android.synthetic.main.number_card_back.view.*
 import kotlinx.android.synthetic.main.number_card_prototype.view.*
+import kotlinx.android.synthetic.main.number_card_prototype.view.typeTV
 
 class SpreadsheetActivity : AppCompatActivity() {
     private val spreadsheetModel by lazy {
@@ -107,8 +109,8 @@ class SpreadsheetActivity : AppCompatActivity() {
         spreadsheetModel.isRunning.value = true
         title = "${grade}학년 ${klass}반"
 
-        initModel()
         initSheet()
+        initModel()
         initBottomSheet()
     }
 
@@ -152,23 +154,38 @@ class SpreadsheetActivity : AppCompatActivity() {
         })
 
         spreadsheetModel.ingang1List.observe(this, Observer {
-            if (!isSameValues(it, currentIngang1)) enterListToParent(ingang1Layout.namesLayout, it)
+            if (!isSameValues(it, currentIngang1)) {
+                enterListToParent(ingang1Layout.namesLayout, it)
+                updateNumber(ingang1Back, it.size)
+            }
             currentIngang1 = it
         })
         spreadsheetModel.ingang2List.observe(this, Observer {
-            if (!isSameValues(it, currentIngang2)) enterListToParent(ingang2Layout.namesLayout, it)
+            if (!isSameValues(it, currentIngang2)) {
+                enterListToParent(ingang2Layout.namesLayout, it)
+                updateNumber(ingang2Back, it.size)
+            }
             currentIngang2 = it
         })
         spreadsheetModel.clubList.observe(this, Observer {
-            if (!isSameValues(it, currentClub)) enterListToParent(clubLayout.namesLayout, it)
+            if (!isSameValues(it, currentClub)) {
+                enterListToParent(clubLayout.namesLayout, it)
+                updateNumber(clubBack, it.size)
+            }
             currentClub = it
         })
         spreadsheetModel.etcList.observe(this, Observer {
-            if (!isSameValues(it, currentEtc)) enterListToParent(etcLayout.namesLayout, it)
+            if (!isSameValues(it, currentEtc)) {
+                enterListToParent(etcLayout.namesLayout, it)
+                updateNumber(etcBack, it.size)
+            }
             currentEtc = it
         })
         spreadsheetModel.bathroomList.observe(this, Observer {
-            if (!isSameValues(it, currentBathroom)) enterListToParent(bathroomLayout.namesLayout, it)
+            if (!isSameValues(it, currentBathroom)) {
+                enterListToParent(bathroomLayout.namesLayout, it)
+                updateNumber(bathroomBack, it.size)
+            }
             currentBathroom = it
         })
     }
@@ -184,6 +201,12 @@ class SpreadsheetActivity : AppCompatActivity() {
         etcBack.typeTV.setText(R.string.etc)
         bathroomLayout.typeTV.setText(R.string.bathroom)
         bathroomBack.typeTV.setText(R.string.bathroom)
+
+        updateNumber(ingang1Back, 0)
+        updateNumber(ingang2Back, 0)
+        updateNumber(clubBack, 0)
+        updateNumber(etcBack, 0)
+        updateNumber(bathroomBack, 0)
 
         setFlipAnimation()
     }
@@ -291,6 +314,11 @@ class SpreadsheetActivity : AppCompatActivity() {
             nameTV.text = it
             parent.addView(nameTV)
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateNumber(view: View, number: Int) {
+        view.countTV.text = "${number}명"
     }
 
     private fun isSameValues(list1: ArrayList<String>, list2: ArrayList<String>): Boolean {
