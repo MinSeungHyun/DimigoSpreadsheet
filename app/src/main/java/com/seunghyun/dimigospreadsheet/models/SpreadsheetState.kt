@@ -1,6 +1,5 @@
 package com.seunghyun.dimigospreadsheet.models
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.api.client.googleapis.json.GoogleJsonResponseException
@@ -50,7 +49,6 @@ class SpreadsheetState : ViewModel() {
                             if (totalCount.value == null || totalCount.value != sheetValue.totalCount) totalCount.postValue(sheetValue.totalCount)
                             if (vacancyCount.value == null || vacancyCount.value != sheetValue.vacancyCount) vacancyCount.postValue(sheetValue.vacancyCount)
                             if (currentCount.value == null || currentCount.value != sheetValue.currentCount) currentCount.postValue(sheetValue.currentCount)
-                            Log.d("testing", sheetValue.club.toString())
                             ingang1List.postValue(sheetValue.ingang1)
                             ingang2List.postValue(sheetValue.ingang2)
                             clubList.postValue(sheetValue.club)
