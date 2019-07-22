@@ -80,21 +80,12 @@
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/enterDescriptionTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:text="@string/enter_description"
-            android:textColor="@color/gray" />
-
         <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
             android:id="@+id/enterButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
             android:backgroundTint="@color/colorPrimary"
             android:text="@string/enter"
             android:textColor="@android:color/white"
