@@ -35,7 +35,9 @@
         <activity
             android:name=".activities.SpreadsheetActivity"
             android:theme="@style/SpreadSheetActivity" />
-        <activity android:name=".activities.TeacherSpreadsheetActivity" />
+        <activity
+            android:name=".activities.TeacherSpreadsheetActivity"
+            android:theme="@style/SpreadSheetActivity" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
