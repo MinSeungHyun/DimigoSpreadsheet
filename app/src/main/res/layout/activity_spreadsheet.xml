@@ -26,10 +26,11 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/mainContent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_alignTop="@id/customToolbar"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/adView"
         app:layout_constraintTop_toBottomOf="@id/customToolbar">
 
         <LinearLayout
@@ -231,4 +232,13 @@
     <include
         android:id="@+id/checkInternetLayout"
         layout="@layout/network_error_screen" />
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="center"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="@string/admob_banner_id"
+        ads:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

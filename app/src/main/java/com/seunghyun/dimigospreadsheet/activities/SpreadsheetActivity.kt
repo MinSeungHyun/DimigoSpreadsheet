@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.google.api.services.sheets.v4.Sheets
@@ -112,6 +114,9 @@ class SpreadsheetActivity : AppCompatActivity() {
         title = ""
         toolbarTitle.text = "${grade}학년 ${klass}반"
         spreadsheetModel.isRunning.value = true
+
+        MobileAds.initialize(this, getString(R.string.admob_app_id))
+        adView.loadAd(AdRequest.Builder().build())
 
         initSheet()
         initModel()
