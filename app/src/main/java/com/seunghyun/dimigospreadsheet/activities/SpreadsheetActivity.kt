@@ -42,11 +42,11 @@ class SpreadsheetActivity : AppCompatActivity() {
         SpreadsheetState.klass = klass
         ViewModelProviders.of(this@SpreadsheetActivity)[SpreadsheetState::class.java]
     }
-    private var currentIngang1 = ArrayList<String>()
-    private var currentIngang2 = ArrayList<String>()
-    private var currentClub = ArrayList<String>()
-    private var currentEtc = ArrayList<String>()
-    private var currentBathroom = ArrayList<String>()
+    private var currentIngang1: ArrayList<String>? = null
+    private var currentIngang2: ArrayList<String>? = null
+    private var currentClub: ArrayList<String>? = null
+    private var currentEtc: ArrayList<String>? = null
+    private var currentBathroom: ArrayList<String>? = null
     private val isBackShowing = HashMap<String, Boolean>()
 
     private val name by lazy { intent.getStringExtra("name") }
@@ -344,8 +344,8 @@ class SpreadsheetActivity : AppCompatActivity() {
         view.countTV.text = "${number}명"
     }
 
-    private fun isSameValues(list1: ArrayList<String>, list2: ArrayList<String>): Boolean {
-        if (list1.size != list2.size) return false
+    private fun isSameValues(list1: ArrayList<String>, list2: ArrayList<String>?): Boolean {
+        if (list2 == null || list1.size != list2.size) return false
         for (i in (0 until list1.size)) {
             if (list1[i] != list2[i]) return false
         }
