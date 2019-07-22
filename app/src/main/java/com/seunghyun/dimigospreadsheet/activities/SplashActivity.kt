@@ -41,7 +41,6 @@ class SplashActivity : AppCompatActivity() {
                     }
 
                     intent = Intent(this@SplashActivity, SpreadsheetActivity::class.java).apply {
-                        putExtra("userType", userType)
                         putExtra("name", name)
                         putExtra("grade", grade)
                         putExtra("class", klass)
@@ -88,10 +87,7 @@ class SplashActivity : AppCompatActivity() {
                         loadingTV.text = getString(R.string.welcome_teacher).format(name)
                     }
 
-                    intent = Intent(this@SplashActivity, TeacherSpreadsheetActivity::class.java).apply {
-                        putExtra("userType", userType)
-                        putExtra("name", name)
-                    }
+                    intent = Intent(this@SplashActivity, TeacherSpreadsheetActivity::class.java)
                     Handler(Looper.getMainLooper()).postDelayed(DelayHandler(intent, this@SplashActivity), 1000)
                 }
             } else {
