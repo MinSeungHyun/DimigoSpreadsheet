@@ -29,14 +29,12 @@
             android:src="@drawable/ic_round_arrow_back_ios_24px"
             tools:ignore="ContentDescription,HardcodedText" />
 
-        <TextView
-            android:id="@+id/titleTV"
+        <Spinner
+            android:id="@+id/titleSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:background="@null" />
 
         <ImageButton
             android:id="@+id/forwardButton"
