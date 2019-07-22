@@ -88,7 +88,7 @@ class SplashActivity : AppCompatActivity() {
                         loadingTV.text = getString(R.string.welcome_teacher).format(name)
                     }
 
-                    intent = Intent(this@SplashActivity, SpreadsheetActivity::class.java).apply {
+                    intent = Intent(this@SplashActivity, TeacherSpreadsheetActivity::class.java).apply {
                         putExtra("userType", userType)
                         putExtra("name", name)
                     }
