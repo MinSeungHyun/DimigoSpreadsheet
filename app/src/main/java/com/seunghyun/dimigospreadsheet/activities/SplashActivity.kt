@@ -27,7 +27,7 @@ class SplashActivity : AppCompatActivity() {
             if (result.code == 200) {
                 val token = JSONParser.parse(result.content!!, "token")
                 val identity = JSONParser.parse(JWTDecoder.getBody(token), "identity")
-                val userType = "T"
+                val userType = JSONParser.parseFromArray(identity, 0, "user_type")
                 val name = JSONParser.parseFromArray(identity, 0, "name")
 
                 val intent: Intent
