@@ -1,156 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/customToolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        android:background="@color/grayBackground"
-        android:orientation="vertical"
-        tools:context=".activities.SpreadsheetActivity">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/toolbarTitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:cardCornerRadius="16dp">
+            android:layout_gravity="center"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
 
-            <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/mainContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignTop="@id/customToolbar"
+        app:layout_constraintBottom_toTopOf="@id/adView"
+        app:layout_constraintTop_toBottomOf="@id/customToolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="24dp"
+            android:animateLayoutChanges="true"
+            android:background="@color/grayBackground"
+            android:orientation="vertical"
+            tools:context=".activities.SpreadsheetActivity">
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="16dp">
 
-                <TextView
-                    android:id="@+id/totalTV"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="@string/total"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/vacancyTV"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="@string/vacancy"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/totalTV"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="@string/total"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/currentTV"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="@string/current"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    <View
+                        android:layout_width="0.2dp"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/black" />
 
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:animateLayoutChanges="true">
+                    <TextView
+                        android:id="@+id/vacancyTV"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="@string/vacancy"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+                    <View
+                        android:layout_width="0.2dp"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/black" />
+
+                    <TextView
+                        android:id="@+id/currentTV"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="@string/current"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:animateLayoutChanges="true">
 
                 <include
+                    android:id="@+id/ingang1Back"
+                    layout="@layout/number_card_back"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/ingang1Layout"
+                    app:layout_constraintEnd_toEndOf="@id/ingang1Layout"
+                    app:layout_constraintStart_toStartOf="@id/ingang1Layout"
+                    app:layout_constraintTop_toTopOf="@id/ingang1Layout" />
+
+                <include
                     android:id="@+id/ingang1Layout"
                     layout="@layout/number_card_prototype"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="16dp"
+                    app:layout_constraintBottom_toTopOf="@id/bathroomLayout"
+                    app:layout_constraintEnd_toStartOf="@id/ingang2Layout"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_weight="3" />
+
+                <include
+                    android:id="@+id/bathroomBack"
+                    layout="@layout/number_card_back"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/bathroomLayout"
+                    app:layout_constraintEnd_toEndOf="@id/bathroomLayout"
+                    app:layout_constraintStart_toStartOf="@id/bathroomLayout"
+                    app:layout_constraintTop_toTopOf="@id/bathroomLayout" />
+
+                <include
+                    android:id="@+id/bathroomLayout"
+                    layout="@layout/number_card_prototype"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/ingang1Layout"
+                    app:layout_constraintStart_toStartOf="@id/ingang1Layout"
+                    app:layout_constraintTop_toBottomOf="@id/ingang1Layout"
+                    app:layout_constraintVertical_weight="1" />
+
+                <include
+                    android:id="@+id/ingang2Back"
+                    layout="@layout/number_card_back"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/ingang2Layout"
+                    app:layout_constraintEnd_toEndOf="@id/ingang2Layout"
+                    app:layout_constraintStart_toStartOf="@id/ingang2Layout"
+                    app:layout_constraintTop_toTopOf="@id/ingang2Layout" />
 
                 <include
                     android:id="@+id/ingang2Layout"
                     layout="@layout/number_card_prototype"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toTopOf="@id/etcLayout"
+                    app:layout_constraintEnd_toStartOf="@id/clubLayout"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@id/ingang1Layout"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_weight="3" />
+
+                <include
+                    android:id="@+id/etcBack"
+                    layout="@layout/number_card_back"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/etcLayout"
+                    app:layout_constraintEnd_toEndOf="@id/etcLayout"
+                    app:layout_constraintStart_toStartOf="@id/etcLayout"
+                    app:layout_constraintTop_toTopOf="@id/etcLayout" />
+
+                <include
+                    android:id="@+id/etcLayout"
+                    layout="@layout/number_card_prototype"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/clubLayout"
+                    app:layout_constraintStart_toStartOf="@id/ingang2Layout"
+                    app:layout_constraintTop_toBottomOf="@id/ingang2Layout"
+                    app:layout_constraintVertical_weight="1" />
+
+                <include
+                    android:id="@+id/clubBack"
+                    layout="@layout/number_card_back"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/clubLayout"
+                    app:layout_constraintEnd_toEndOf="@id/clubLayout"
+                    app:layout_constraintStart_toStartOf="@id/clubLayout"
+                    app:layout_constraintTop_toTopOf="@id/clubLayout" />
 
                 <include
                     android:id="@+id/clubLayout"
                     layout="@layout/number_card_prototype"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toTopOf="@id/etcLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@id/ingang2Layout"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_weight="3" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:animateLayoutChanges="true"
-                    android:orientation="vertical">
+        <include
+            android:id="@+id/bottomSheet"
+            layout="@layout/enter_name_bottomsheet" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-                    <include
-                        android:id="@+id/etcLayout"
-                        layout="@layout/number_card_prototype"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_margin="16dp"
-                        android:layout_weight="2" />
-
-                    <include
-                        android:id="@+id/bathroomLayout"
-                        layout="@layout/number_card_prototype"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:layout_weight="1" />
-                </LinearLayout>
-            </LinearLayout>
-        </HorizontalScrollView>
-    </LinearLayout>
-
-    <LinearLayout
+    <include
         android:id="@+id/checkInternetLayout"
+        layout="@layout/network_error_screen" />
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/transparentWhite"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_baseline_wifi_off_24px"
-            android:tint="@color/colorPrimary"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/check_internet"
-            android:textColor="@color/colorPrimary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-</RelativeLayout>
+        android:layout_height="wrap_content"
+        android:foregroundGravity="center"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="@string/admob_banner_id"
+        ads:layout_constraintBottom_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

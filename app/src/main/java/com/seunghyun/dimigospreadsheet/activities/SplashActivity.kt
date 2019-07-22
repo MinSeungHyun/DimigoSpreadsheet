@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
+import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.GetSheetValueCallback
 import com.seunghyun.dimigospreadsheet.models.Result
@@ -17,6 +18,7 @@ import com.seunghyun.dimigospreadsheet.models.ServerCallback
 import com.seunghyun.dimigospreadsheet.utils.JSONParser
 import com.seunghyun.dimigospreadsheet.utils.JWTDecoder
 import com.seunghyun.dimigospreadsheet.utils.ServerRequest
+import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
 import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : AppCompatActivity() {
@@ -34,24 +36,23 @@ class SplashActivity : AppCompatActivity() {
                 val grade = studentId.subSequence(0, 1).toString().toInt()
                 val klass = studentId.subSequence(1, 2).toString().toInt()
 
-                val intent = Intent(this@SplashActivity, MainActivity::class.java).apply {
+                val intent = Intent(this@SplashActivity, SpreadsheetActivity::class.java).apply {
                     putExtra("name", name)
-                    putExtra("studentId", studentId)
                     putExtra("grade", grade)
                     putExtra("class", klass)
                 }
 
                 val getNameCallback = object : GetSheetValueCallback {
-                    override fun onReceive(values: List<List<Any>>?) {
-                        if (values != null) {
+                    override fun onReceive(values: List<List<Any>>) {
+                        if (values[0][0] != "error") {
                             val names = ArrayList<String>()
-                            values.forEach { names.add(it[0].toString()) }
+                            values.forEach { if (it.isNotEmpty()) names.add(it[0].toString()) }
                             intent.putExtra("names", names.toTypedArray())
 
                             Handler(Looper.getMainLooper()).postDelayed(DelayHandler(intent, this@SplashActivity), 0)
                         } else {
                             runOnUiThread {
-                                Toast.makeText(this@SplashActivity, R.string.loading_failed, Toast.LENGTH_LONG).show()
+                                Toast.makeText(this@SplashActivity, values[0][1].toString(), Toast.LENGTH_LONG).show()
                             }
                             Handler(Looper.getMainLooper()).postDelayed(DelayHandler(Intent(this@SplashActivity, LoginActivity::class.java), this@SplashActivity), 0)
                         }
@@ -61,11 +62,19 @@ class SplashActivity : AppCompatActivity() {
                 object : Thread() {
                     override fun run() {
                         try {
-                            val service = MainActivity.getService(applicationContext)
-                            val names = MainActivity.getValues(service, "${klass}반 명단!A:A")
+                            val service = SpreadsheetHelper.getService(applicationContext)
+                            var names = SpreadsheetHelper.getValues(service, "${klass}반 명단!A:A")
+                            if (names == null) names = ArrayList(listOf(ArrayList(listOf("error", getString(R.string.names_not_found))))).toList()
+                            getNameCallback.onReceive(names)
+
+                        } catch (e: GoogleJsonResponseException) {
+                            e.printStackTrace()
+                            val names = ArrayList(listOf(ArrayList(listOf("error", getString(R.string.server_error))))).toList()
                             getNameCallback.onReceive(names)
                         } catch (e: Exception) {
-                            getNameCallback.onReceive(null)
+                            e.printStackTrace()
+                            val names = ArrayList(listOf(ArrayList(listOf("error", getString(R.string.check_internet))))).toList()
+                            getNameCallback.onReceive(names)
                         }
                     }
                 }.start()

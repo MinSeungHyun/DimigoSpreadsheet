@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
@@ -36,7 +37,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
-                android:orientation="vertical" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/enterNameButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="?attr/selectableItemBackground"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
+                    android:onClick="onEnterNameButtonClick"
+                    android:text="+"
+                    android:textSize="24sp"
+                    tools:ignore="HardcodedText" />
+            </LinearLayout>
         </ScrollView>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -9,8 +9,8 @@ android {
         applicationId "com.seunghyun.dimigospreadsheet"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 3
-        versionName "1.2"
+        versionCode 4
+        versionName "2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -43,6 +43,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:18.0.0'
     implementation 'com.google.android.play:core:1.6.1'
     implementation 'com.google.android.gms:play-services-ads:18.1.0'
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    implementation "android.arch.lifecycle:viewmodel:1.1.1"
 }
 repositories {
     mavenCentral()
