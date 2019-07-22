@@ -159,35 +159,35 @@ class SpreadsheetActivity : AppCompatActivity() {
 
         spreadsheetModel.ingang1List.observe(this, Observer {
             if (!isSameValues(it, currentIngang1)) {
-                enterListToParent(ingang1Layout.namesLayout, it, 0)
+                enterListToParent(ingang1Layout.namesLayout, it)
                 updateNumber(ingang1Back, it.size)
             }
             currentIngang1 = it
         })
         spreadsheetModel.ingang2List.observe(this, Observer {
             if (!isSameValues(it, currentIngang2)) {
-                enterListToParent(ingang2Layout.namesLayout, it, 1)
+                enterListToParent(ingang2Layout.namesLayout, it)
                 updateNumber(ingang2Back, it.size)
             }
             currentIngang2 = it
         })
         spreadsheetModel.clubList.observe(this, Observer {
             if (!isSameValues(it, currentClub)) {
-                enterListToParent(clubLayout.namesLayout, it, 2)
+                enterListToParent(clubLayout.namesLayout, it)
                 updateNumber(clubBack, it.size)
             }
             currentClub = it
         })
         spreadsheetModel.etcList.observe(this, Observer {
             if (!isSameValues(it, currentEtc)) {
-                enterListToParent(etcLayout.namesLayout, it, 3)
+                enterListToParent(etcLayout.namesLayout, it)
                 updateNumber(etcBack, it.size)
             }
             currentEtc = it
         })
         spreadsheetModel.bathroomList.observe(this, Observer {
             if (!isSameValues(it, currentBathroom)) {
-                enterListToParent(bathroomLayout.namesLayout, it, 4)
+                enterListToParent(bathroomLayout.namesLayout, it)
                 updateNumber(bathroomBack, it.size)
             }
             currentBathroom = it
@@ -205,6 +205,12 @@ class SpreadsheetActivity : AppCompatActivity() {
         etcBack.typeTV.setText(R.string.etc)
         bathroomLayout.typeTV.setText(R.string.bathroom)
         bathroomBack.typeTV.setText(R.string.bathroom)
+
+        ingang1Layout.enterNameButton.tag = 0
+        ingang2Layout.enterNameButton.tag = 1
+        clubLayout.enterNameButton.tag = 2
+        etcLayout.enterNameButton.tag = 3
+        bathroomLayout.enterNameButton.tag = 4
 
         updateNumber(ingang1Back, 0)
         updateNumber(ingang2Back, 0)
@@ -326,12 +332,8 @@ class SpreadsheetActivity : AppCompatActivity() {
         }
     }
 
-    private fun enterListToParent(parent: LinearLayout, names: ArrayList<String>, index: Int) {
-        parent.removeAllViews()
-        val enterNameButton = layoutInflater.inflate(R.layout.enter_name_button, parent, false)
-        enterNameButton.tag = index
-        parent.addView(enterNameButton)
-
+    private fun enterListToParent(parent: LinearLayout, names: ArrayList<String>) {
+        repeat(parent.childCount - 1) { parent.removeViewAt(0) }
         names.forEach {
             val nameTV = layoutInflater.inflate(R.layout.name_item, parent, false) as TextView
             nameTV.text = it
