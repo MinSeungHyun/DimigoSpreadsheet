@@ -233,7 +233,13 @@ class SpreadsheetActivity : AppCompatActivity() {
 
     private fun showBottomSheet(selectedType: Int) {
         typeSpinner.setSelection(selectedType)
-        BottomSheetBehavior.from(bottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
+        val reasonInputVisibility = if (selectedType == 3) View.VISIBLE else View.GONE
+        Thread {
+            while (reasonInputLayout.visibility != reasonInputVisibility);
+            runOnUiThread {
+                BottomSheetBehavior.from(bottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
+            }
+        }.start()
     }
 
     private fun setFlipAnimation() {
