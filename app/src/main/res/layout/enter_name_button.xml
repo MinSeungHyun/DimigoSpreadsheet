@@ -9,5 +9,6 @@
     android:onClick="onEnterNameButtonClick"
     android:paddingTop="4dp"
     android:paddingBottom="4dp"
+    android:tint="@color/gray"
     android:src="@drawable/ic_round_add_24px"
     tools:ignore="ContentDescription" />
