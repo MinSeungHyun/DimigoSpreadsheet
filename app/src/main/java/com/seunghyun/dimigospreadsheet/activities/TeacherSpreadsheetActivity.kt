@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.seunghyun.dimigospreadsheet.R
+import com.seunghyun.dimigospreadsheet.utils.ViewPagerAdapter
 import kotlinx.android.synthetic.main.activity_teacher_spreadsheet.*
 
 class TeacherSpreadsheetActivity : AppCompatActivity() {
