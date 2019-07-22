@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.google.api.services.sheets.v4.Sheets
 import com.google.api.services.sheets.v4.model.ValueRange
@@ -205,6 +206,22 @@ class SpreadsheetActivity : AppCompatActivity() {
         bathroomLayout.typeTV.setText(R.string.bathroom)
         bathroomBack.typeTV.setText(R.string.bathroom)
 
+        ingang1Layout.enterNameButton.tag = 0
+        ingang2Layout.enterNameButton.tag = 1
+        clubLayout.enterNameButton.tag = 2
+        etcLayout.enterNameButton.tag = 3
+        bathroomLayout.enterNameButton.tag = 4
+        with(View.OnClickListener {
+            showBottomSheet(it.tag.toString().toInt())
+        }) {
+            ingang1Layout.enterNameButton.setOnClickListener(this)
+            ingang2Layout.enterNameButton.setOnClickListener(this)
+            clubLayout.enterNameButton.setOnClickListener(this)
+            etcLayout.enterNameButton.setOnClickListener(this)
+            bathroomLayout.enterNameButton.setOnClickListener(this)
+        }
+
+
         updateNumber(ingang1Back, 0)
         updateNumber(ingang2Back, 0)
         updateNumber(clubBack, 0)
@@ -212,6 +229,11 @@ class SpreadsheetActivity : AppCompatActivity() {
         updateNumber(bathroomBack, 0)
 
         setFlipAnimation()
+    }
+
+    private fun showBottomSheet(selectedType: Int) {
+        typeSpinner.setSelection(selectedType)
+        BottomSheetBehavior.from(bottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
     }
 
     private fun setFlipAnimation() {
