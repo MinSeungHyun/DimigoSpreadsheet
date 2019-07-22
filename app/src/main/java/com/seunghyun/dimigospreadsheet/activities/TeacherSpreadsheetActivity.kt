@@ -2,6 +2,7 @@ package com.seunghyun.dimigospreadsheet.activities
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.seunghyun.dimigospreadsheet.R
@@ -12,10 +13,9 @@ class TeacherSpreadsheetActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_teacher_spreadsheet)
-        titleTV.text = "1학년 1반"
 
         viewPager.adapter = ViewPagerAdapter(this)
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        val pageChangeListener = object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
 
@@ -25,7 +25,20 @@ class TeacherSpreadsheetActivity : AppCompatActivity() {
             @SuppressLint("SetTextI18n")
             override fun onPageSelected(position: Int) {
                 titleTV.text = "1학년 ${position + 1}반"
+                when (position) {
+                    0 -> backButton.visibility = View.INVISIBLE
+                    5 -> forwardButton.visibility = View.INVISIBLE
+                    else -> {
+                        backButton.visibility = View.VISIBLE
+                        forwardButton.visibility = View.VISIBLE
+                    }
+                }
             }
-        })
+        }
+        viewPager.addOnPageChangeListener(pageChangeListener)
+        pageChangeListener.onPageSelected(0)
+
+        backButton.setOnClickListener { viewPager.setCurrentItem(viewPager.currentItem - 1, true) }
+        forwardButton.setOnClickListener { viewPager.setCurrentItem(viewPager.currentItem + 1, true) }
     }
 }
