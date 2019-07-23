@@ -26,7 +26,10 @@
             android:layout_marginBottom="8dp"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
             android:src="@drawable/ic_round_arrow_back_ios_24px"
+            android:tint="@color/gray"
             tools:ignore="ContentDescription,HardcodedText" />
 
         <Spinner
@@ -46,7 +49,10 @@
             android:layout_marginBottom="8dp"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
             android:src="@drawable/ic_round_arrow_forward_ios_24px"
+            android:tint="@color/gray"
             tools:ignore="ContentDescription,HardcodedText" />
     </LinearLayout>
 
