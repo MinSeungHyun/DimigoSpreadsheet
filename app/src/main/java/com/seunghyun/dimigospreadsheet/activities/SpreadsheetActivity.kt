@@ -31,6 +31,7 @@ import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.SheetViewModel
 import com.seunghyun.dimigospreadsheet.models.UpdateSheetValueCallback
 import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
+import com.seunghyun.dimigospreadsheet.utils.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_spreadsheet.*
 import kotlinx.android.synthetic.main.enter_name_bottomsheet.*
 import kotlinx.android.synthetic.main.network_error_screen.view.*
@@ -44,7 +45,7 @@ class SpreadsheetActivity : AppCompatActivity() {
     private val spreadsheetModel by lazy {
         SheetViewModel.service = service
         SheetViewModel.klass = klass
-        ViewModelProviders.of(this@SpreadsheetActivity)[SheetViewModel::class.java]
+        ViewModelProviders.of(this@SpreadsheetActivity, ViewModelFactory())[SheetViewModel::class.java]
     }
     private var currentIngang1: ArrayList<String>? = null
     private var currentIngang2: ArrayList<String>? = null
