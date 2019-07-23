@@ -6,7 +6,7 @@ import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.google.api.services.sheets.v4.Sheets
 import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
 
-class SpreadsheetState : ViewModel() {
+class SheetViewModel : ViewModel() {
     val isShowing by lazy { MutableLiveData<Boolean>() }
     val isRunning by lazy { MutableLiveData<Boolean>() }
 

@@ -28,7 +28,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.seunghyun.dimigospreadsheet.BuildConfig
 import com.seunghyun.dimigospreadsheet.R
-import com.seunghyun.dimigospreadsheet.models.SpreadsheetState
+import com.seunghyun.dimigospreadsheet.models.SheetViewModel
 import com.seunghyun.dimigospreadsheet.models.UpdateSheetValueCallback
 import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
 import kotlinx.android.synthetic.main.activity_spreadsheet.*
@@ -42,9 +42,9 @@ import kotlinx.android.synthetic.main.spreadsheet_prototype.*
 
 class SpreadsheetActivity : AppCompatActivity() {
     private val spreadsheetModel by lazy {
-        SpreadsheetState.service = service
-        SpreadsheetState.klass = klass
-        ViewModelProviders.of(this@SpreadsheetActivity)[SpreadsheetState::class.java]
+        SheetViewModel.service = service
+        SheetViewModel.klass = klass
+        ViewModelProviders.of(this@SpreadsheetActivity)[SheetViewModel::class.java]
     }
     private var currentIngang1: ArrayList<String>? = null
     private var currentIngang2: ArrayList<String>? = null
