@@ -37,6 +37,7 @@ import kotlinx.android.synthetic.main.network_error_screen.view.*
 import kotlinx.android.synthetic.main.number_card_back.view.*
 import kotlinx.android.synthetic.main.number_card_prototype.view.*
 import kotlinx.android.synthetic.main.number_card_prototype.view.typeTV
+import kotlinx.android.synthetic.main.spreadsheet_prototype.*
 
 class SpreadsheetActivity : AppCompatActivity() {
     private val spreadsheetModel by lazy {
