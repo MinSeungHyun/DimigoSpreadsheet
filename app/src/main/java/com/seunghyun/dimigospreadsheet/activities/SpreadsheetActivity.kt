@@ -219,12 +219,6 @@ class SpreadsheetActivity : AppCompatActivity() {
         initEnterNameButton(etcLayout, 3)
         initEnterNameButton(bathroomLayout, 4)
 
-        updateNumber(ingang1Back, 0)
-        updateNumber(ingang2Back, 0)
-        updateNumber(clubBack, 0)
-        updateNumber(etcBack, 0)
-        updateNumber(bathroomBack, 0)
-
         setFlipAnimation()
     }
 
