@@ -39,8 +39,14 @@ class TeacherSpreadsheetActivity : AppCompatActivity() {
             override fun onPageSelected(position: Int) {
                 titleSpinner.setSelection(position)
                 when (position) {
-                    0 -> backButton.visibility = View.INVISIBLE
-                    5 -> forwardButton.visibility = View.INVISIBLE
+                    0 -> {
+                        backButton.visibility = View.INVISIBLE
+                        forwardButton.visibility = View.VISIBLE
+                    }
+                    5 -> {
+                        forwardButton.visibility = View.INVISIBLE
+                        backButton.visibility = View.VISIBLE
+                    }
                     else -> {
                         backButton.visibility = View.VISIBLE
                         forwardButton.visibility = View.VISIBLE
