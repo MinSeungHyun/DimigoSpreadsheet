@@ -17,13 +17,17 @@ class TeacherSpreadsheetActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_teacher_spreadsheet)
 
+        init()
+    }
+
+    private fun init() {
         val classList = ArrayList<String>()
         repeat(6) { classList.add("1학년 ${it + 1}반") }
         val adapter = ArrayAdapter(this, R.layout.custom_spinner_item, classList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         titleSpinner.adapter = adapter
 
-        viewPager.adapter = ViewPagerAdapter(this)
+        viewPager.adapter = ViewPagerAdapter(supportFragmentManager)
         val pageChangeListener = object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
