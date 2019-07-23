@@ -6,7 +6,7 @@ import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.google.api.services.sheets.v4.Sheets
 import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
 
-class SheetViewModel : ViewModel() {
+class SheetViewModel(val service: Sheets, val klass: Int) : ViewModel() {
     val isShowing by lazy { MutableLiveData<Boolean>() }
     val isRunning by lazy { MutableLiveData<Boolean>() }
 
@@ -44,7 +44,7 @@ class SheetViewModel : ViewModel() {
                 while (mIsRunning) {
                     while (mIsShowing) {
                         try {
-                            val sheetValue = SheetValue(SpreadsheetHelper.getValues(service!!, "${klass!!}반!1:30"))
+                            val sheetValue = SheetValue(SpreadsheetHelper.getValues(service, "${klass}반!1:30"))
                             networkError.postValue(null)
                             if (totalCount.value == null || totalCount.value != sheetValue.totalCount) totalCount.postValue(sheetValue.totalCount)
                             if (vacancyCount.value == null || vacancyCount.value != sheetValue.vacancyCount) vacancyCount.postValue(sheetValue.vacancyCount)
@@ -64,10 +64,5 @@ class SheetViewModel : ViewModel() {
                 }
             }
         }.start()
-    }
-
-    companion object {
-        var service: Sheets? = null
-        var klass: Int? = null
     }
 }

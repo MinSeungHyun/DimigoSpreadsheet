@@ -42,11 +42,7 @@ import kotlinx.android.synthetic.main.number_card_prototype.view.typeTV
 import kotlinx.android.synthetic.main.spreadsheet_prototype.*
 
 class SpreadsheetActivity : AppCompatActivity() {
-    private val spreadsheetModel by lazy {
-        SheetViewModel.service = service
-        SheetViewModel.klass = klass
-        ViewModelProviders.of(this@SpreadsheetActivity, ViewModelFactory())[SheetViewModel::class.java]
-    }
+    private val spreadsheetModel by lazy { ViewModelProviders.of(this@SpreadsheetActivity, ViewModelFactory(service, klass))[SheetViewModel::class.java] }
     private var currentIngang1: ArrayList<String>? = null
     private var currentIngang2: ArrayList<String>? = null
     private var currentClub: ArrayList<String>? = null
