@@ -35,6 +35,7 @@ import kotlinx.android.synthetic.main.activity_spreadsheet.*
 import kotlinx.android.synthetic.main.enter_name_bottomsheet.*
 import kotlinx.android.synthetic.main.network_error_screen.view.*
 import kotlinx.android.synthetic.main.number_card_back.view.*
+import kotlinx.android.synthetic.main.number_card_prototype.*
 import kotlinx.android.synthetic.main.number_card_prototype.view.*
 import kotlinx.android.synthetic.main.number_card_prototype.view.typeTV
 import kotlinx.android.synthetic.main.spreadsheet_prototype.*
@@ -212,11 +213,11 @@ class SpreadsheetActivity : AppCompatActivity() {
         bathroomLayout.typeTV.setText(R.string.bathroom)
         bathroomBack.typeTV.setText(R.string.bathroom)
 
-        ingang1Layout.enterNameButton.tag = 0
-        ingang2Layout.enterNameButton.tag = 1
-        clubLayout.enterNameButton.tag = 2
-        etcLayout.enterNameButton.tag = 3
-        bathroomLayout.enterNameButton.tag = 4
+        initEnterNameButton(ingang1Layout, 0)
+        initEnterNameButton(ingang2Layout, 1)
+        initEnterNameButton(clubLayout, 2)
+        initEnterNameButton(etcLayout, 3)
+        initEnterNameButton(bathroomLayout, 4)
 
         updateNumber(ingang1Back, 0)
         updateNumber(ingang2Back, 0)
@@ -227,8 +228,14 @@ class SpreadsheetActivity : AppCompatActivity() {
         setFlipAnimation()
     }
 
-    fun onEnterNameButtonClick(v: View) {
-        showBottomSheet(v.tag.toString().toInt())
+    private fun initEnterNameButton(container: View, index: Int) {
+        val enterNameButtonClickListener = View.OnClickListener {
+            showBottomSheet(it.tag.toString().toInt())
+        }
+        val enterNameButton = layoutInflater.inflate(R.layout.enter_name_button, namesLayout, false)
+        enterNameButton.tag = index
+        enterNameButton.setOnClickListener(enterNameButtonClickListener)
+        container.namesLayout.addView(enterNameButton, 0)
     }
 
     private fun showBottomSheet(selectedType: Int) {
