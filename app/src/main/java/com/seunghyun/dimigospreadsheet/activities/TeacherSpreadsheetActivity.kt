@@ -2,16 +2,23 @@ package com.seunghyun.dimigospreadsheet.activities
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.seunghyun.dimigospreadsheet.R
+import com.seunghyun.dimigospreadsheet.models.NetworkErrorCallback
 import com.seunghyun.dimigospreadsheet.utils.ViewPagerAdapter
 import kotlinx.android.synthetic.main.activity_teacher_spreadsheet.*
 
 class TeacherSpreadsheetActivity : AppCompatActivity() {
+    val networkErrorCallback = object : NetworkErrorCallback {
+        override fun onError(e: Exception) {
+            Log.d("testing", e.toString())
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
