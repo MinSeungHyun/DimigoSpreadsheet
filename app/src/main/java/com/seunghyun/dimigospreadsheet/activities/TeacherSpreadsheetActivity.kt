@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_teacher_spreadsheet.*
 
 class TeacherSpreadsheetActivity : AppCompatActivity() {
     val networkErrorCallback = object : NetworkErrorCallback {
-        override fun onError(e: Exception) {
+        override fun onError(e: Exception?) {
             Log.d("testing", e.toString())
         }
     }

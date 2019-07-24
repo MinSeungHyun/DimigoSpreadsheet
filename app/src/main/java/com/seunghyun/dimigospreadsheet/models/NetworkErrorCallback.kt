@@ -1,7 +1,7 @@
 package com.seunghyun.dimigospreadsheet.models
 
 interface NetworkErrorCallback {
-    fun onError(e: Exception) {
+    fun onError(e: Exception?) {
 
     }
 }

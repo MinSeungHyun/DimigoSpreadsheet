@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.seunghyun.dimigospreadsheet.R
+import com.seunghyun.dimigospreadsheet.models.NetworkErrorCallback
 import com.seunghyun.dimigospreadsheet.models.SheetViewModel
 import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
 import com.seunghyun.dimigospreadsheet.utils.ViewModelFactory
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.number_card_back.view.*
 import kotlinx.android.synthetic.main.number_card_prototype.view.*
 import kotlinx.android.synthetic.main.spreadsheet_prototype.view.*
 
-class SpreadsheetFragment(private val klass: Int) : Fragment() {
+class SpreadsheetFragment(private val klass: Int, private val networkErrorCallback: NetworkErrorCallback) : Fragment() {
     private lateinit var parent: View
 
     private val viewModel by lazy {
@@ -58,13 +59,9 @@ class SpreadsheetFragment(private val klass: Int) : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun initModel() {
-//        viewModel.networkError.observe(this, Observer {
-//            when (it) {
-//                null -> networkOk()
-//                is GoogleJsonResponseException -> networkError(SERVER_ERROR)
-//                else -> networkError(NETWORK_ERROR)
-//            }
-//        })
+        viewModel.networkError.observe(this, Observer {
+            networkErrorCallback.onError(it)
+        })
 
         viewModel.totalCount.observe(this, Observer {
             parent.totalTV.text = getString(R.string.total) + it
