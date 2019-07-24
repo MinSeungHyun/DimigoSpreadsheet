@@ -34,7 +34,7 @@ class TeacherSpreadsheetActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         titleSpinner.adapter = adapter
 
-        viewPager.adapter = ViewPagerAdapter(supportFragmentManager)
+        viewPager.adapter = ViewPagerAdapter(supportFragmentManager, networkErrorCallback)
         val pageChangeListener = object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
