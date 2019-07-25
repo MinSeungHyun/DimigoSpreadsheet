@@ -6,15 +6,30 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.NetworkErrorCallback
+import com.seunghyun.dimigospreadsheet.models.SheetViewModel
+import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
+import com.seunghyun.dimigospreadsheet.utils.ViewModelFactory
 import com.seunghyun.dimigospreadsheet.utils.ViewPagerAdapter
 import kotlinx.android.synthetic.main.activity_teacher_spreadsheet.*
 import kotlinx.android.synthetic.main.network_error_screen.view.*
 
 class TeacherSpreadsheetActivity : AppCompatActivity() {
+    private val service by lazy { SpreadsheetHelper.getService(this) }
+    private val viewModels by lazy {
+        ArrayList(listOf(
+                ViewModelProviders.of(this, ViewModelFactory(service, 1))["1", SheetViewModel::class.java],
+                ViewModelProviders.of(this, ViewModelFactory(service, 2))["2", SheetViewModel::class.java],
+                ViewModelProviders.of(this, ViewModelFactory(service, 3))["3", SheetViewModel::class.java],
+                ViewModelProviders.of(this, ViewModelFactory(service, 4))["4", SheetViewModel::class.java],
+                ViewModelProviders.of(this, ViewModelFactory(service, 5))["5", SheetViewModel::class.java],
+                ViewModelProviders.of(this, ViewModelFactory(service, 6))["6", SheetViewModel::class.java]
+        ))
+    }
     private val networkErrorCallback = object : NetworkErrorCallback {
         override fun onError(e: Exception?) {
             when (e) {
@@ -39,7 +54,7 @@ class TeacherSpreadsheetActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         titleSpinner.adapter = adapter
 
-        viewPager.adapter = ViewPagerAdapter(supportFragmentManager, networkErrorCallback)
+        viewPager.adapter = ViewPagerAdapter(supportFragmentManager, networkErrorCallback, viewModels)
         val pageChangeListener = object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }

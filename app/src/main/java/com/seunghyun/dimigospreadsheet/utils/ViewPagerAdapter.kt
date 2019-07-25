@@ -5,10 +5,11 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.seunghyun.dimigospreadsheet.fragments.SpreadsheetFragment
 import com.seunghyun.dimigospreadsheet.models.NetworkErrorCallback
+import com.seunghyun.dimigospreadsheet.models.SheetViewModel
 
-class ViewPagerAdapter(fm: FragmentManager, private val networkErrorCallback: NetworkErrorCallback) : FragmentStatePagerAdapter(fm) {
+class ViewPagerAdapter(fm: FragmentManager, private val networkErrorCallback: NetworkErrorCallback, private val viewModels: ArrayList<SheetViewModel>) : FragmentStatePagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
-        return SpreadsheetFragment(position + 1, networkErrorCallback)
+        return SpreadsheetFragment(networkErrorCallback, viewModels[position])
     }
 
     override fun getCount(): Int {

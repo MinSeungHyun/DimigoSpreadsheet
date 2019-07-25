@@ -9,22 +9,15 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.NetworkErrorCallback
 import com.seunghyun.dimigospreadsheet.models.SheetViewModel
-import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
-import com.seunghyun.dimigospreadsheet.utils.ViewModelFactory
 import kotlinx.android.synthetic.main.number_card_back.view.*
 import kotlinx.android.synthetic.main.number_card_prototype.view.*
 import kotlinx.android.synthetic.main.spreadsheet_prototype.view.*
 
-class SpreadsheetFragment(private val klass: Int, private val networkErrorCallback: NetworkErrorCallback) : Fragment() {
+class SpreadsheetFragment(private val networkErrorCallback: NetworkErrorCallback, private val viewModel: SheetViewModel) : Fragment() {
     private lateinit var parent: View
-
-    private val viewModel by lazy {
-        ViewModelProviders.of(this, ViewModelFactory(SpreadsheetHelper.getService(requireContext()), klass))[klass.toString(), SheetViewModel::class.java]
-    }
     private var currentIngang1: ArrayList<String>? = null
     private var currentIngang2: ArrayList<String>? = null
     private var currentClub: ArrayList<String>? = null
