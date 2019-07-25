@@ -42,19 +42,17 @@ class SpreadsheetFragment(private val klass: Int, private val networkErrorCallba
         return parent
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.isShowing.value = true
-    }
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.isShowing.value = false
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         viewModel.isRunning.value = false
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        Thread {
+            while (!this@SpreadsheetFragment.isResumed);
+            viewModel.isShowing.postValue(isVisibleToUser)
+        }.start()
     }
 
     @SuppressLint("SetTextI18n")
