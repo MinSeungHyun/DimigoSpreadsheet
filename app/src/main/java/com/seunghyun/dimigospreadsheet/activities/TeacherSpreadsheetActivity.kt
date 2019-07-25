@@ -2,21 +2,26 @@ package com.seunghyun.dimigospreadsheet.activities
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
+import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.NetworkErrorCallback
 import com.seunghyun.dimigospreadsheet.utils.ViewPagerAdapter
 import kotlinx.android.synthetic.main.activity_teacher_spreadsheet.*
+import kotlinx.android.synthetic.main.network_error_screen.view.*
 
 class TeacherSpreadsheetActivity : AppCompatActivity() {
-    val networkErrorCallback = object : NetworkErrorCallback {
+    private val networkErrorCallback = object : NetworkErrorCallback {
         override fun onError(e: Exception?) {
-            Log.d("testing", e.toString())
+            when (e) {
+                null -> networkOk()
+                is GoogleJsonResponseException -> networkError(SERVER_ERROR)
+                else -> networkError(NETWORK_ERROR)
+            }
         }
     }
 
@@ -74,5 +79,24 @@ class TeacherSpreadsheetActivity : AppCompatActivity() {
         }
         backButton.setOnClickListener { viewPager.setCurrentItem(viewPager.currentItem - 1, true) }
         forwardButton.setOnClickListener { viewPager.setCurrentItem(viewPager.currentItem + 1, true) }
+    }
+
+    private fun networkError(error: Int) {
+        runOnUiThread {
+            if (error == NETWORK_ERROR) checkInternetLayout.errorTV.setText(R.string.check_internet)
+            else checkInternetLayout.errorTV.setText(R.string.server_error)
+            checkInternetLayout.visibility = View.VISIBLE
+        }
+    }
+
+    private fun networkOk() {
+        runOnUiThread {
+            checkInternetLayout.visibility = View.GONE
+        }
+    }
+
+    companion object {
+        const val NETWORK_ERROR = 0
+        const val SERVER_ERROR = 1
     }
 }
