@@ -131,9 +131,4 @@ class SpreadsheetFragment(private val klass: Int, private val networkErrorCallba
     private fun updateNumber(view: View, number: Int) {
         view.countTV.text = "${number}명"
     }
-
-    companion object {
-        const val NETWORK_ERROR = 0
-        const val SERVER_ERROR = 1
-    }
 }
