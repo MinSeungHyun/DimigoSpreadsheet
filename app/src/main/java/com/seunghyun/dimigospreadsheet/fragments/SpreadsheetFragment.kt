@@ -48,6 +48,16 @@ class SpreadsheetFragment(private val networkErrorCallback: NetworkErrorCallback
         }.start()
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (userVisibleHint) viewModel.isShowing.postValue(true)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.isShowing.postValue(false)
+    }
+
     @SuppressLint("SetTextI18n")
     private fun initModel() {
         viewModel.networkError.observe(this, Observer {
