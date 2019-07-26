@@ -42,10 +42,7 @@ class SpreadsheetFragment(private val networkErrorCallback: NetworkErrorCallback
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        Thread {
-            while (!this@SpreadsheetFragment.isResumed);
-            viewModel.isShowing.postValue(isVisibleToUser)
-        }.start()
+        viewModel.isShowing.postValue(isVisibleToUser)
     }
 
     override fun onResume() {
