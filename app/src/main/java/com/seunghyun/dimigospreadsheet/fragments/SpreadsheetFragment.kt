@@ -1,5 +1,7 @@
 package com.seunghyun.dimigospreadsheet.fragments
 
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,6 +21,8 @@ import kotlinx.android.synthetic.main.spreadsheet_prototype.view.*
 
 class SpreadsheetFragment(private val networkErrorCallback: NetworkErrorCallback, private val viewModel: SheetViewModel) : Fragment() {
     private lateinit var parent: View
+    private val isBackShowing = HashMap<String, Boolean>()
+
     private var currentIngang1: ArrayList<String>? = null
     private var currentIngang2: ArrayList<String>? = null
     private var currentClub: ArrayList<String>? = null
@@ -121,6 +125,71 @@ class SpreadsheetFragment(private val networkErrorCallback: NetworkErrorCallback
         parent.etcBack.typeTV.setText(R.string.etc)
         parent.bathroomLayout.typeTV.setText(R.string.bathroom)
         parent.bathroomBack.typeTV.setText(R.string.bathroom)
+
+        setFlipAnimation()
+    }
+
+    private fun setFlipAnimation() {
+        //CameraDistance setting
+        val distance = 8000
+        val scale = resources.displayMetrics.density * distance
+        parent.ingang1Layout.cameraDistance = scale
+        parent.ingang1Back.cameraDistance = scale
+        parent.ingang2Layout.cameraDistance = scale
+        parent.ingang2Back.cameraDistance = scale
+        parent.clubLayout.cameraDistance = scale
+        parent.clubBack.cameraDistance = scale
+        parent.etcLayout.cameraDistance = scale
+        parent.etcBack.cameraDistance = scale
+        parent.bathroomLayout.cameraDistance = scale
+        parent.bathroomBack.cameraDistance = scale
+
+        //Init listener
+        val onClickListener = View.OnClickListener {
+            val front = when (it.typeTV.text) {
+                getString(R.string.ingang1) -> parent.ingang1Layout
+                getString(R.string.ingang2) -> parent.ingang2Layout
+                getString(R.string.club) -> parent.clubLayout
+                getString(R.string.etc) -> parent.etcLayout
+                getString(R.string.bathroom) -> parent.bathroomLayout
+                else -> null
+            }
+            val back = when (it.typeTV.text) {
+                getString(R.string.ingang1) -> parent.ingang1Back
+                getString(R.string.ingang2) -> parent.ingang2Back
+                getString(R.string.club) -> parent.clubBack
+                getString(R.string.etc) -> parent.etcBack
+                getString(R.string.bathroom) -> parent.bathroomBack
+                else -> null
+            }
+            if (isBackShowing[it.typeTV.text] == true) {
+                if (front != null && back != null) {
+                    flipView(back, front)
+                    isBackShowing[it.typeTV.text.toString()] = false
+                }
+            } else {
+                if (front != null && back != null) {
+                    flipView(front, back)
+                    isBackShowing[it.typeTV.text.toString()] = true
+                }
+            }
+        }
+
+        //Set listener
+        parent.ingang1Layout.typeTV.setOnClickListener(onClickListener)
+        parent.ingang2Layout.typeTV.setOnClickListener(onClickListener)
+        parent.clubLayout.typeTV.setOnClickListener(onClickListener)
+        parent.etcLayout.typeTV.setOnClickListener(onClickListener)
+        parent.bathroomLayout.typeTV.setOnClickListener(onClickListener)
+    }
+
+    private fun flipView(front: View, back: View) {
+        val flipOutSet = AnimatorInflater.loadAnimator(requireContext(), R.animator.flip_out) as AnimatorSet
+        val flipInSet = AnimatorInflater.loadAnimator(requireContext(), R.animator.flip_in) as AnimatorSet
+        flipOutSet.setTarget(front)
+        flipInSet.setTarget(back)
+        flipOutSet.start()
+        flipInSet.start()
     }
 
     private fun isSameValues(list1: ArrayList<String>, list2: ArrayList<String>?): Boolean {
