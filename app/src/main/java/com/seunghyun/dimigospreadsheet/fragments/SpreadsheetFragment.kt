@@ -13,6 +13,7 @@ import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.NetworkErrorCallback
 import com.seunghyun.dimigospreadsheet.models.SheetViewModel
 import kotlinx.android.synthetic.main.number_card_back.view.*
+import kotlinx.android.synthetic.main.number_card_back.view.typeTV
 import kotlinx.android.synthetic.main.number_card_prototype.view.*
 import kotlinx.android.synthetic.main.spreadsheet_prototype.view.*
 
@@ -32,6 +33,7 @@ class SpreadsheetFragment(private val networkErrorCallback: NetworkErrorCallback
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         parent = inflater.inflate(R.layout.spreadsheet_prototype, container, false)
         initModel()
+        initSheet()
         return parent
     }
 
@@ -106,6 +108,19 @@ class SpreadsheetFragment(private val networkErrorCallback: NetworkErrorCallback
             }
             currentBathroom = it
         })
+    }
+
+    private fun initSheet() {
+        parent.ingang1Layout.typeTV.setText(R.string.ingang1)
+        parent.ingang1Back.typeTV.setText(R.string.ingang1)
+        parent.ingang2Layout.typeTV.setText(R.string.ingang2)
+        parent.ingang2Back.typeTV.setText(R.string.ingang2)
+        parent.clubLayout.typeTV.setText(R.string.club)
+        parent.clubBack.typeTV.setText(R.string.club)
+        parent.etcLayout.typeTV.setText(R.string.etc)
+        parent.etcBack.typeTV.setText(R.string.etc)
+        parent.bathroomLayout.typeTV.setText(R.string.bathroom)
+        parent.bathroomBack.typeTV.setText(R.string.bathroom)
     }
 
     private fun isSameValues(list1: ArrayList<String>, list2: ArrayList<String>?): Boolean {
