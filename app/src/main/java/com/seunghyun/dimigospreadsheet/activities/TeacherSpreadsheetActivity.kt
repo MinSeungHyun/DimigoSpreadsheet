@@ -1,6 +1,7 @@
 package com.seunghyun.dimigospreadsheet.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -9,6 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.google.api.client.googleapis.json.GoogleJsonResponseException
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.seunghyun.dimigospreadsheet.BuildConfig
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.NetworkErrorCallback
 import com.seunghyun.dimigospreadsheet.models.SheetViewModel
@@ -40,11 +46,56 @@ class TeacherSpreadsheetActivity : AppCompatActivity() {
         }
     }
 
+    private val reference = FirebaseDatabase.getInstance().reference
+    var isNeedUpdate = true
+    val versionCode = BuildConfig.VERSION_CODE
+    private val versionListener = object : ValueEventListener { //버전 낮으면 업데이트 화면 띄움
+        override fun onCancelled(error: DatabaseError) {
+        }
+
+        override fun onDataChange(snapshot: DataSnapshot) {
+            if (snapshot.value.toString().toInt() > versionCode) {
+                isNeedUpdate = true
+                val intent = Intent(this@TeacherSpreadsheetActivity, UpdateActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+                finish()
+            } else {
+                isNeedUpdate = false
+            }
+        }
+    }
+    private val closedListener = object : ValueEventListener { //앱이 점검중이면 점검화면 띄움
+        override fun onCancelled(error: DatabaseError) {
+        }
+
+        override fun onDataChange(snapshot: DataSnapshot) {
+            if (snapshot.value.toString().toBoolean() && !isNeedUpdate) {
+                val intent = Intent(this@TeacherSpreadsheetActivity, ClosingActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+                finish()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_teacher_spreadsheet)
 
         init()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        reference.child("app-version").addValueEventListener(versionListener)
+        reference.child("isClosing").addValueEventListener(closedListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        reference.child("app-version").removeEventListener(versionListener)
+        reference.child("isClosing").removeEventListener(closedListener)
     }
 
     private fun init() {
