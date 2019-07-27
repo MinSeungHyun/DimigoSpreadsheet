@@ -10,7 +10,7 @@
     <string name="server_error">서버 사용량이 너무 많습니다.\n잠시 기다려주세요.</string>
     <string name="progress_login">로그인 중입니다</string>
     <string name="login_failed">로그인에 실패했습니다.</string>
-    <string name="welcome">%s님 환영합니다.</string>
+    <string name="welcome">%s님, 환영합니다.</string>
     <string name="welcome_teacher">%s 선생님, 환영합니다.</string>
     <string name="loading_failed">로딩중 오류가 발생했습니다.</string>
     <string name="names_not_found">스프레드시트에서 학급의 명단을 찾을 수 없습니다.</string>
