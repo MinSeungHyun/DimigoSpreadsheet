@@ -35,10 +35,9 @@ class SpreadsheetHelper {
         }
 
         fun updateValues(service: Sheets, range: String, values: ValueRange): MutableCollection<Any> {
-            service.spreadsheets().values().update(SPREADSHEET_ID, range, values).apply {
-                valueInputOption = "RAW"
-                return execute().values
-            }
+            return service.spreadsheets().values().update(SPREADSHEET_ID, range, values)
+                    .setValueInputOption("RAW")
+                    .execute().values
         }
     }
 }
