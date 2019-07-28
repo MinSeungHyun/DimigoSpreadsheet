@@ -1,5 +1,5 @@
 package com.seunghyun.dimigospreadsheet.models
 
 interface UpdateSheetValueCallback {
-    fun onReceive(values: MutableCollection<Any>?)
+    fun onReceive(values: MutableCollection<Any>?, error: Int? = null)
 }

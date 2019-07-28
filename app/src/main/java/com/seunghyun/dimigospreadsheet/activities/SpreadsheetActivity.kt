@@ -87,16 +87,16 @@ class SpreadsheetActivity : AppCompatActivity() {
         }
     }
     private val enterNameCallback = object : UpdateSheetValueCallback {
-        override fun onReceive(values: MutableCollection<Any>?) {
+        override fun onReceive(values: MutableCollection<Any>?, error: Int?) {
             runOnUiThread {
-                if (values != null) {
+                if (error == null) {
                     networkOk()
                     enterButton.doneLoadingAnimation(Color.GREEN, getDrawable(R.drawable.ic_baseline_check_24px)!!.toBitmap())
                     Handler().postDelayed({
                         enterButton.revertAnimation()
                     }, 1000)
                 } else {
-                    networkError(NETWORK_ERROR)
+                    networkError(error)
                     enterButton.revertAnimation()
                 }
             }
@@ -440,7 +440,7 @@ class SpreadsheetActivity : AppCompatActivity() {
                 val result = SpreadsheetHelper.updateValues(service, range, values)
                 callback.onReceive(result)
             } catch (e: Exception) {
-                callback.onReceive(null)
+                callback.onReceive(null, NETWORK_ERROR)
             }
         }
     }
