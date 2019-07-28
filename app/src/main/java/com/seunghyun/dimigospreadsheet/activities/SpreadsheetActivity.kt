@@ -96,8 +96,13 @@ class SpreadsheetActivity : AppCompatActivity() {
                         enterButton.revertAnimation()
                     }, 1000)
                 } else {
-                    networkError(error)
-                    enterButton.revertAnimation()
+                    if (error == SAME_NAME_ERROR) {
+                        Toast.makeText(this@SpreadsheetActivity, R.string.name_exist, Toast.LENGTH_LONG).show()
+                        enterButton.revertAnimation()
+                    } else {
+                        networkError(error)
+                        enterButton.revertAnimation()
+                    }
                 }
             }
         }
@@ -350,10 +355,16 @@ class SpreadsheetActivity : AppCompatActivity() {
             } else {
                 reasonInputLayout.error = ""
                 enterButton.startAnimation {
-                    EnterName(service, klass, typeSpinner.selectedItem.toString(), nameSpinner.selectedItem.toString(), reasonInputET.text.toString(), enterNameCallback).start()
+                    val name = nameSpinner.selectedItem.toString()
+                    if (!isNameExist(name)) EnterName(service, klass, typeSpinner.selectedItem.toString(), name, reasonInputET.text.toString(), enterNameCallback).start()
+                    else enterNameCallback.onReceive(null, SAME_NAME_ERROR)
                 }
             }
         }
+    }
+
+    private fun isNameExist(name: String): Boolean {
+        TODO()
     }
 
     private fun enterListToParent(parent: LinearLayout, names: ArrayList<String>) {
@@ -448,5 +459,6 @@ class SpreadsheetActivity : AppCompatActivity() {
     companion object {
         const val NETWORK_ERROR = 0
         const val SERVER_ERROR = 1
+        const val SAME_NAME_ERROR = 2
     }
 }
