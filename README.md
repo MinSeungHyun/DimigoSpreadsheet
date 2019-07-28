@@ -6,7 +6,5 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/MinSeungHyun/DimigoSpreadsheet.svg?color=brightgreen)
 ## 업데이트 예정
 1. APK 암호화
-2. 삭제기능
-3. 가로로 돌렸을 때 또는 태블릿에서 나오는 뷰 설정
-4. 기타 하위 리스트
-5. 중복 방지기능
+2. 가로로 돌렸을 때 또는 태블릿에서 나오는 뷰 설정
+3. 기타 하위 리스트
