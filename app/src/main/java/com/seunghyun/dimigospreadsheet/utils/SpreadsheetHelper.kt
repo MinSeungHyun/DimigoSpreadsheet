@@ -57,7 +57,7 @@ class SpreadsheetHelper {
             val sheet = rangeWithSheet.split("!")[0]
             val range = rangeWithSheet.split("!")[1]
             val column = range.substring(0, 1)
-            val row = range.substring(1, 2).toInt() + index
+            val row = range.substring(1, range.indexOf(":")).toInt() + index
             clearRange(service, "$sheet!$column$row")
         }
     }
