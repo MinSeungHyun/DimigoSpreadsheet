@@ -420,24 +420,17 @@ class SpreadsheetActivity : AppCompatActivity() {
     private class EnterName(val service: Sheets, val klass: Int, val type: String, val name_: String, val reason: String, val callback: UpdateSheetValueCallback) : Thread() {
         override fun run() {
             try {
-                var range = ""
-                when (type) {
-                    "인강실 (1타임)" -> range = "${klass}반!C2:C30"
-                    "인강실 (2, 3타임)" -> range = "${klass}반!D2:D30"
-                    "동아리" -> range = "${klass}반!E2:E30"
-                    "기타" -> range = "${klass}반!F2:F30"
-                    "화장실" -> range = "${klass}반!A10:A30"
+                var range = when (type) {
+                    "인강실 (1타임)" -> "${klass}반!C2:C30"
+                    "인강실 (2, 3타임)" -> "${klass}반!D2:D30"
+                    "동아리" -> "${klass}반!E2:E30"
+                    "기타" -> "${klass}반!F2:F30"
+                    "화장실" -> "${klass}반!A10:A30"
+                    else -> ""
                 }
                 val currentList = SpreadsheetHelper.getValues(service, range)
                 val size = currentList?.size ?: 0
-
-                when (type) {
-                    "인강실 (1타임)" -> range = "${klass}반!C${2 + size}"
-                    "인강실 (2, 3타임)" -> range = "${klass}반!D${2 + size}"
-                    "동아리" -> range = "${klass}반!E${2 + size}"
-                    "기타" -> range = "${klass}반!F${2 + size}"
-                    "화장실" -> range = "${klass}반!A${10 + size}"
-                }
+                range = range.substring(0, 4) + (2 + size)
 
                 val values = if (reason.isBlank()) {
                     ValueRange().setValues(listOf(listOf(name_)))
