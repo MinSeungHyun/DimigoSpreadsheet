@@ -441,7 +441,8 @@ class SpreadsheetActivity : AppCompatActivity() {
                 }
                 val currentList = SpreadsheetHelper.getValues(service, range)
                 val size = currentList?.size ?: 0
-                range = range.substring(0, 4) + (2 + size)
+                val margin = if (type == "화장실") 10 else 2
+                range = range.substring(0, 4) + (margin + size)
 
                 val values = if (reason.isBlank()) {
                     ValueRange().setValues(listOf(listOf(name_)))
