@@ -8,10 +8,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
@@ -112,7 +109,11 @@ class SpreadsheetActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
                 .setNegativeButton(R.string.cancel) { _, _ -> }
                 .setPositiveButton(R.string.delete) { _, _ ->
-                    deleteTVName(name, parent)
+                    try {
+                        deleteTVName(name, parent)
+                    } catch (e: Exception) {
+                        Toast.makeText(this@SpreadsheetActivity, R.string.delete_failed, Toast.LENGTH_LONG).show()
+                    }
                 }
                 .setTitle(getString(R.string.delete_title, name))
                 .show()
@@ -401,9 +402,12 @@ class SpreadsheetActivity : AppCompatActivity() {
             getString(R.string.bathroom) -> "${klass}반!A10:A30"
             else -> ""
         }
-        if (range.isBlank()) return
+        if (range.isBlank()) throw Exception()
         Thread {
             SpreadsheetHelper.deleteValueInRange(service, range, name).toString()
+            runOnUiThread {
+                Toast.makeText(this@SpreadsheetActivity, R.string.delete_succeeded, Toast.LENGTH_LONG).show()
+            }
         }.start()
     }
 

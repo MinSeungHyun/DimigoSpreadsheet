@@ -52,7 +52,7 @@ class SpreadsheetHelper {
             val values = getValues(service, rangeWithSheet)
             values?.forEach { if (it.isNotEmpty()) nameList.add(it[0].toString()) }
             val index = nameList.indexOf(value)
-            if (index == -1) return
+            if (index == -1) throw Exception()
             val sheet = rangeWithSheet.split("!")[0]
             val range = rangeWithSheet.split("!")[1]
             val column = range.substring(0, 1)
