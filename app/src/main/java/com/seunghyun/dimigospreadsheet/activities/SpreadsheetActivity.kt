@@ -356,15 +356,23 @@ class SpreadsheetActivity : AppCompatActivity() {
                 reasonInputLayout.error = ""
                 enterButton.startAnimation {
                     val name = nameSpinner.selectedItem.toString()
-                    if (!isNameExist(name)) EnterName(service, klass, typeSpinner.selectedItem.toString(), name, reasonInputET.text.toString(), enterNameCallback).start()
+                    val type = typeSpinner.selectedItem.toString()
+                    if (!isNameExist(name, type)) EnterName(service, klass, type, name, reasonInputET.text.toString(), enterNameCallback).start()
                     else enterNameCallback.onReceive(null, SAME_NAME_ERROR)
                 }
             }
         }
     }
 
-    private fun isNameExist(name: String): Boolean {
-        TODO()
+    private fun isNameExist(name: String, typeToEnter: String): Boolean {
+        if (typeToEnter == "화장실") return false
+        if (typeToEnter != "인강실 (2, 3타임)" && currentIngang1?.contains(name) == true) return true
+        if (typeToEnter != "인강실 (1타임)" && currentIngang2?.contains(name) == true) return true
+        if (currentClub?.contains(name) == true) return true
+        currentEtc?.forEach {
+            if (it.contains(name)) return true
+        }
+        return false
     }
 
     private fun enterListToParent(parent: LinearLayout, names: ArrayList<String>) {
