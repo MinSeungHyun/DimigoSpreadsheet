@@ -12,6 +12,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.Observer
@@ -103,6 +104,18 @@ class SpreadsheetActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private val onNameClickListener = View.OnClickListener {
+        val name = (it as TextView).text.toString()
+        val parent = it.parent as LinearLayout
+        AlertDialog.Builder(this)
+                .setNegativeButton(R.string.cancel) { _, _ -> }
+                .setPositiveButton(R.string.delete) { _, _ ->
+                    deleteTVName(name, parent)
+                }
+                .setTitle(getString(R.string.delete_title, name))
+                .show()
     }
 
     @SuppressLint("SetTextI18n")
@@ -209,6 +222,12 @@ class SpreadsheetActivity : AppCompatActivity() {
         etcBack.typeTV.setText(R.string.etc)
         bathroomLayout.typeTV.setText(R.string.bathroom)
         bathroomBack.typeTV.setText(R.string.bathroom)
+
+        ingang1Layout.namesLayout.tag = getString(R.string.ingang1)
+        ingang2Layout.namesLayout.tag = getString(R.string.ingang2)
+        clubLayout.namesLayout.tag = getString(R.string.club)
+        etcLayout.namesLayout.tag = getString(R.string.etc)
+        bathroomLayout.namesLayout.tag = getString(R.string.bathroom)
 
         initEnterNameButton(ingang1Layout, 0)
         initEnterNameButton(ingang2Layout, 1)
@@ -341,6 +360,7 @@ class SpreadsheetActivity : AppCompatActivity() {
         names.forEach {
             val nameTV = layoutInflater.inflate(R.layout.name_item, parent, false) as TextView
             nameTV.text = it
+            nameTV.setOnClickListener(onNameClickListener)
             parent.addView(nameTV, 0)
         }
     }
@@ -370,6 +390,21 @@ class SpreadsheetActivity : AppCompatActivity() {
         runOnUiThread {
             checkInternetLayout.visibility = View.GONE
         }
+    }
+
+    private fun deleteTVName(name: String, parent: LinearLayout) {
+        val range = when (parent.tag) {
+            getString(R.string.ingang1) -> "${klass}반!C2:C30"
+            getString(R.string.ingang2) -> "${klass}반!D2:D30"
+            getString(R.string.club) -> "${klass}반!E2:E30"
+            getString(R.string.etc) -> "${klass}반!F2:F30"
+            getString(R.string.bathroom) -> "${klass}반!A10:A30"
+            else -> ""
+        }
+        if (range.isBlank()) return
+        Thread {
+            SpreadsheetHelper.deleteValueInRange(service, range, name).toString()
+        }.start()
     }
 
     private class EnterName(val service: Sheets, val klass: Int, val type: String, val name_: String, val reason: String, val callback: UpdateSheetValueCallback) : Thread() {

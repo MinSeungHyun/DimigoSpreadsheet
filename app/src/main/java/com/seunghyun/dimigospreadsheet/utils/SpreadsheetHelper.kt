@@ -6,6 +6,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.sheets.v4.Sheets
+import com.google.api.services.sheets.v4.model.ClearValuesRequest
 import com.google.api.services.sheets.v4.model.ValueRange
 
 class SpreadsheetHelper {
@@ -38,6 +39,25 @@ class SpreadsheetHelper {
             return service.spreadsheets().values().update(SPREADSHEET_ID, range, values)
                     .setValueInputOption("RAW")
                     .execute().values
+        }
+
+        private fun clearRange(service: Sheets, range: String): MutableCollection<Any> {
+            return service.spreadsheets().values()
+                    .clear(SPREADSHEET_ID, range, ClearValuesRequest())
+                    .execute().values
+        }
+
+        fun deleteValueInRange(service: Sheets, rangeWithSheet: String, value: String) {
+            val nameList = ArrayList<String>()
+            val values = getValues(service, rangeWithSheet)
+            values?.forEach { if (it.isNotEmpty()) nameList.add(it[0].toString()) }
+            val index = nameList.indexOf(value)
+            if (index == -1) return
+            val sheet = rangeWithSheet.split("!")[0]
+            val range = rangeWithSheet.split("!")[1]
+            val column = range.substring(0, 1)
+            val row = range.substring(1, 2).toInt() + index
+            clearRange(service, "$sheet!$column$row")
         }
     }
 }
