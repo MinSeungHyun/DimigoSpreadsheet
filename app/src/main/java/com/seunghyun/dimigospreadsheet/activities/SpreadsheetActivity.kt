@@ -404,9 +404,15 @@ class SpreadsheetActivity : AppCompatActivity() {
         }
         if (range.isBlank()) throw Exception()
         Thread {
-            SpreadsheetHelper.deleteValueInRange(service, range, name).toString()
-            runOnUiThread {
-                Toast.makeText(this@SpreadsheetActivity, R.string.delete_succeeded, Toast.LENGTH_LONG).show()
+            try {
+                SpreadsheetHelper.deleteValueInRange(service, range, name).toString()
+                runOnUiThread {
+                    Toast.makeText(this@SpreadsheetActivity, R.string.delete_succeeded, Toast.LENGTH_LONG).show()
+                }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    Toast.makeText(this@SpreadsheetActivity, R.string.delete_failed, Toast.LENGTH_LONG).show()
+                }
             }
         }.start()
     }
