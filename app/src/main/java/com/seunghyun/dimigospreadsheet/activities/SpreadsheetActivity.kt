@@ -86,7 +86,7 @@ class SpreadsheetActivity : AppCompatActivity() {
             }
         }
     }
-    private val updateCallback = object : UpdateSheetValueCallback {
+    private val enterNameCallback = object : UpdateSheetValueCallback {
         override fun onReceive(values: MutableCollection<Any>?) {
             runOnUiThread {
                 if (values != null) {
@@ -350,7 +350,7 @@ class SpreadsheetActivity : AppCompatActivity() {
             } else {
                 reasonInputLayout.error = ""
                 enterButton.startAnimation {
-                    EnterName(service, klass, typeSpinner.selectedItem.toString(), nameSpinner.selectedItem.toString(), reasonInputET.text.toString(), updateCallback).start()
+                    EnterName(service, klass, typeSpinner.selectedItem.toString(), nameSpinner.selectedItem.toString(), reasonInputET.text.toString(), enterNameCallback).start()
                 }
             }
         }
