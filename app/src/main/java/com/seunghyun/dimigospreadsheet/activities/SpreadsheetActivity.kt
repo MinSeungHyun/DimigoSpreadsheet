@@ -365,7 +365,8 @@ class SpreadsheetActivity : AppCompatActivity() {
     }
 
     private fun isNameExist(name: String, typeToEnter: String): Boolean {
-        if (typeToEnter == "화장실") return false
+        if (typeToEnter == "화장실" && currentBathroom?.contains(name) == false) return false
+        else if (typeToEnter == "화장실" && currentBathroom?.contains(name) == true) return true
         if (typeToEnter != "인강실 (2, 3타임)" && currentIngang1?.contains(name) == true) return true
         if (typeToEnter != "인강실 (1타임)" && currentIngang2?.contains(name) == true) return true
         if (currentClub?.contains(name) == true) return true
