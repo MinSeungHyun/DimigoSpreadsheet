@@ -7,63 +7,13 @@
     android:background="@color/grayBackground"
     android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
+    <include
+        layout="@layout/counts_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:cardCornerRadius="16dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/totalTV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:text="@string/total"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="0.2dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/black" />
-
-            <TextView
-                android:id="@+id/vacancyTV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:text="@string/vacancy"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="0.2dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/black" />
-
-            <TextView
-                android:id="@+id/currentTV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:text="@string/current"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        android:layout_marginEnd="16dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
