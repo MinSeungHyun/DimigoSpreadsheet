@@ -16,6 +16,8 @@ class SheetViewModel(val service: Sheets, val klass: Int) : ViewModel() {
     val vacancyCount by lazy { MutableLiveData<String>() }
     val currentCount by lazy { MutableLiveData<String>() }
 
+    val currentTime by lazy { MutableLiveData<String>() }
+
     val ingang1List by lazy { MutableLiveData<ArrayList<String>>() }
     val ingang2List by lazy { MutableLiveData<ArrayList<String>>() }
     val clubList by lazy { MutableLiveData<ArrayList<String>>() }
@@ -49,6 +51,7 @@ class SheetViewModel(val service: Sheets, val klass: Int) : ViewModel() {
                             if (totalCount.value == null || totalCount.value != sheetValue.totalCount) totalCount.postValue(sheetValue.totalCount)
                             if (vacancyCount.value == null || vacancyCount.value != sheetValue.vacancyCount) vacancyCount.postValue(sheetValue.vacancyCount)
                             if (currentCount.value == null || currentCount.value != sheetValue.currentCount) currentCount.postValue(sheetValue.currentCount)
+                            if (currentTime.value == null || currentTime.value != sheetValue.currentTime) currentTime.postValue(sheetValue.currentTime)
                             ingang1List.postValue(sheetValue.ingang1)
                             ingang2List.postValue(sheetValue.ingang2)
                             clubList.postValue(sheetValue.club)

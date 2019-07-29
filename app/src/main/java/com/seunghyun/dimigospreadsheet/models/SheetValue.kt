@@ -5,6 +5,14 @@ class SheetValue(private val sheetValues: List<List<Any>>?) {
     val vacancyCount by lazy { getCount(2) }
     val currentCount by lazy { getCount(3) }
 
+    val currentTime by lazy {
+        try {
+            sheetValues?.get(4)?.get(0).toString()
+        } catch (e: Exception) {
+            ""
+        }
+    }
+
     val ingang1 by lazy { getColumnValues(2, 1) }
     val ingang2 by lazy { getColumnValues(3, 1) }
     val club by lazy { getColumnValues(4, 1) }
