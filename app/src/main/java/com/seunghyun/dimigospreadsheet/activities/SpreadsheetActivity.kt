@@ -339,6 +339,12 @@ class SpreadsheetActivity : AppCompatActivity() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectionItem = typeSpinner.selectedItem.toString()
+                if (selectionItem.substring(0, 1).isBlank()) {
+                    reasonInputET.setText(selectionItem.trim().drop(2))
+                    typeSpinner.setSelection(3)
+                    return
+                }
                 if (position == 3) {
                     reasonInputLayout.visibility = View.VISIBLE
                 } else {
