@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.NetworkErrorCallback
 import com.seunghyun.dimigospreadsheet.models.SheetViewModel
+import kotlinx.android.synthetic.main.counts_card.view.*
 import kotlinx.android.synthetic.main.number_card_back.view.*
 import kotlinx.android.synthetic.main.number_card_back.view.typeTV
 import kotlinx.android.synthetic.main.number_card_prototype.view.*

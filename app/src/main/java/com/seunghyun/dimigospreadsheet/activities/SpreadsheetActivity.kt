@@ -31,6 +31,7 @@ import com.seunghyun.dimigospreadsheet.models.UpdateSheetValueCallback
 import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
 import com.seunghyun.dimigospreadsheet.utils.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_spreadsheet.*
+import kotlinx.android.synthetic.main.counts_card.*
 import kotlinx.android.synthetic.main.enter_name_bottomsheet.*
 import kotlinx.android.synthetic.main.network_error_screen.view.*
 import kotlinx.android.synthetic.main.number_card_back.view.*
