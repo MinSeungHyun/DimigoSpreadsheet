@@ -38,6 +38,7 @@
     <string name="update">업데이트하기</string>
     <string name="store_not_found">스토어에서 앱을 찾을 수 없습니다.</string>
 
+    <string name="current_time">지금은 %s입니다.</string>
     <string name="total">총원 :" "</string>
     <string name="vacancy">결원 :" "</string>
     <string name="current">현원 :" "</string>

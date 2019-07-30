@@ -273,6 +273,10 @@ class SpreadsheetActivity : AppCompatActivity() {
         //CameraDistance setting
         val distance = 8000
         val scale = resources.displayMetrics.density * distance
+
+        countsLayout.tag = "countsLayout"
+        countsLayout.cameraDistance = scale
+        countsLayoutBack.cameraDistance = scale
         ingang1Layout.cameraDistance = scale
         ingang1Back.cameraDistance = scale
         ingang2Layout.cameraDistance = scale
@@ -288,46 +292,55 @@ class SpreadsheetActivity : AppCompatActivity() {
         val onClickListener = View.OnClickListener {
             val front: View?
             val back: View?
-            when (it.typeTV.text) {
-                getString(R.string.ingang1) -> {
-                    front = ingang1Layout
-                    back = ingang1Back
+            val index: String
+            if (it.tag == "countsLayout") {
+                front = countsLayout
+                back = countsLayoutBack
+                index = it.tag.toString()
+            } else {
+                when (it.typeTV.text) {
+                    getString(R.string.ingang1) -> {
+                        front = ingang1Layout
+                        back = ingang1Back
+                    }
+                    getString(R.string.ingang2) -> {
+                        front = ingang2Layout
+                        back = ingang2Back
+                    }
+                    getString(R.string.club) -> {
+                        front = clubLayout
+                        back = clubBack
+                    }
+                    getString(R.string.etc) -> {
+                        front = etcLayout
+                        back = etcBack
+                    }
+                    getString(R.string.bathroom) -> {
+                        front = bathroomLayout
+                        back = bathroomBack
+                    }
+                    else -> {
+                        front = null
+                        back = null
+                    }
                 }
-                getString(R.string.ingang2) -> {
-                    front = ingang2Layout
-                    back = ingang2Back
-                }
-                getString(R.string.club) -> {
-                    front = clubLayout
-                    back = clubBack
-                }
-                getString(R.string.etc) -> {
-                    front = etcLayout
-                    back = etcBack
-                }
-                getString(R.string.bathroom) -> {
-                    front = bathroomLayout
-                    back = bathroomBack
-                }
-                else -> {
-                    front = null
-                    back = null
-                }
+                index = it.typeTV.text.toString()
             }
-            if (isBackShowing[it.typeTV.text] == true) {
+            if (isBackShowing[index] == true) {
                 if (front != null && back != null) {
                     flipView(back, front)
-                    isBackShowing[it.typeTV.text.toString()] = false
+                    isBackShowing[index] = false
                 }
             } else {
                 if (front != null && back != null) {
                     flipView(front, back)
-                    isBackShowing[it.typeTV.text.toString()] = true
+                    isBackShowing[index] = true
                 }
             }
         }
 
         //Set listener
+        countsLayout.setOnClickListener(onClickListener)
         ingang1Layout.typeTV.setOnClickListener(onClickListener)
         ingang2Layout.typeTV.setOnClickListener(onClickListener)
         clubLayout.typeTV.setOnClickListener(onClickListener)

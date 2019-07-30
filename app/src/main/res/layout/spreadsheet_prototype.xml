@@ -7,6 +7,16 @@
     android:background="@color/grayBackground">
 
     <include
+        android:id="@+id/countsLayoutBack"
+        layout="@layout/counts_card_back"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/countsLayout"
+        app:layout_constraintEnd_toEndOf="@id/countsLayout"
+        app:layout_constraintStart_toStartOf="@id/countsLayout"
+        app:layout_constraintTop_toTopOf="@id/countsLayout" />
+
+    <include
         android:id="@+id/countsLayout"
         layout="@layout/counts_card"
         android:layout_width="match_parent"
