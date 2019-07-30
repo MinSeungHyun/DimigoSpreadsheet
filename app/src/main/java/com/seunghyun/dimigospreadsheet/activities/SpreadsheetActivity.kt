@@ -7,11 +7,15 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.*
 import androidx.annotation.AnimatorRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -33,6 +37,7 @@ import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
 import com.seunghyun.dimigospreadsheet.utils.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_spreadsheet.*
 import kotlinx.android.synthetic.main.counts_card.*
+import kotlinx.android.synthetic.main.counts_card_back.*
 import kotlinx.android.synthetic.main.enter_name_bottomsheet.*
 import kotlinx.android.synthetic.main.network_error_screen.view.*
 import kotlinx.android.synthetic.main.number_card_back.view.*
@@ -172,6 +177,15 @@ class SpreadsheetActivity : AppCompatActivity() {
             }
         })
 
+        spreadsheetModel.currentTime.observe(this, Observer {
+            val content = getString(R.string.current_time, it)
+            val start = content.indexOf(it)
+            val end = start + it.length
+            val spannableString = SpannableString(content).apply {
+                setSpan(ForegroundColorSpan(ContextCompat.getColor(this@SpreadsheetActivity, R.color.colorPrimary)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            currentTimeTV.text = spannableString
+        })
         spreadsheetModel.totalCount.observe(this, Observer {
             totalTV.text = getString(R.string.total) + it
         })
