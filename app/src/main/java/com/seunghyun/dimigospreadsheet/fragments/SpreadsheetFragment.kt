@@ -4,17 +4,23 @@ import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.AnimatorRes
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.NetworkErrorCallback
 import com.seunghyun.dimigospreadsheet.models.SheetViewModel
 import kotlinx.android.synthetic.main.counts_card.view.*
+import kotlinx.android.synthetic.main.counts_card_back.*
 import kotlinx.android.synthetic.main.number_card_back.view.*
 import kotlinx.android.synthetic.main.number_card_back.view.typeTV
 import kotlinx.android.synthetic.main.number_card_prototype.view.*
@@ -68,6 +74,15 @@ class SpreadsheetFragment(private val networkErrorCallback: NetworkErrorCallback
             networkErrorCallback.onError(it)
         })
 
+        viewModel.currentTime.observe(this, Observer {
+            val content = getString(R.string.current_time, it)
+            val start = content.indexOf(it)
+            val end = start + it.length
+            val spannableString = SpannableString(content).apply {
+                setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.colorPrimary)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            currentTimeTV.text = spannableString
+        })
         viewModel.totalCount.observe(this, Observer {
             parent.totalTV.text = getString(R.string.total) + it
         })
@@ -134,6 +149,10 @@ class SpreadsheetFragment(private val networkErrorCallback: NetworkErrorCallback
         //CameraDistance setting
         val distance = 8000
         val scale = resources.displayMetrics.density * distance
+
+        parent.countsLayout.tag = "countsLayout"
+        parent.countsLayout.cameraDistance = scale
+        parent.countsLayoutBack.cameraDistance = scale
         parent.ingang1Layout.cameraDistance = scale
         parent.ingang1Back.cameraDistance = scale
         parent.ingang2Layout.cameraDistance = scale
@@ -147,32 +166,26 @@ class SpreadsheetFragment(private val networkErrorCallback: NetworkErrorCallback
 
         //Init listener
         val onClickListener = View.OnClickListener {
-            val front = when (it.typeTV.text) {
-                getString(R.string.ingang1) -> parent.ingang1Layout
-                getString(R.string.ingang2) -> parent.ingang2Layout
-                getString(R.string.club) -> parent.clubLayout
-                getString(R.string.etc) -> parent.etcLayout
-                getString(R.string.bathroom) -> parent.bathroomLayout
-                else -> null
+            val (front, back) = when {
+                it.tag == "countsLayout" -> listOf(parent.countsLayout, parent.countsLayoutBack)
+                it.typeTV.text == getString(R.string.ingang1) -> listOf(parent.ingang1Layout, parent.ingang1Back)
+                it.typeTV.text == getString(R.string.ingang2) -> listOf(parent.ingang2Layout, parent.ingang2Back)
+                it.typeTV.text == getString(R.string.club) -> listOf(parent.clubLayout, parent.clubBack)
+                it.typeTV.text == getString(R.string.etc) -> listOf(parent.etcLayout, parent.etcBack)
+                it.typeTV.text == getString(R.string.bathroom) -> listOf(parent.bathroomLayout, parent.bathroomBack)
+                else -> listOf(null, null)
             }
-            val back = when (it.typeTV.text) {
-                getString(R.string.ingang1) -> parent.ingang1Back
-                getString(R.string.ingang2) -> parent.ingang2Back
-                getString(R.string.club) -> parent.clubBack
-                getString(R.string.etc) -> parent.etcBack
-                getString(R.string.bathroom) -> parent.bathroomBack
-                else -> null
-            }
-            if (isBackShowing[it.typeTV.text] == true) {
-                if (front != null && back != null) {
-                    flipView(back, front)
-                    isBackShowing[it.typeTV.text.toString()] = false
-                }
+            val index: String = if (it.tag == "countsLayout") it.tag.toString() else it.typeTV.text.toString()
+
+            if (front == null || back == null) return@OnClickListener
+            if (isBackShowing[index] == true) {
+                if (it.tag == "countsLayout") flipView(back, front, true)
+                else flipView(back, front)
+                isBackShowing[index] = false
             } else {
-                if (front != null && back != null) {
-                    flipView(front, back)
-                    isBackShowing[it.typeTV.text.toString()] = true
-                }
+                if (it.tag == "countsLayout") flipView(front, back, true)
+                else flipView(front, back)
+                isBackShowing[index] = true
             }
         }
 
@@ -182,15 +195,21 @@ class SpreadsheetFragment(private val networkErrorCallback: NetworkErrorCallback
         parent.clubLayout.typeTV.setOnClickListener(onClickListener)
         parent.etcLayout.typeTV.setOnClickListener(onClickListener)
         parent.bathroomLayout.typeTV.setOnClickListener(onClickListener)
+        parent.countsLayout.setOnClickListener(onClickListener)
     }
 
-    private fun flipView(front: View, back: View) {
-        val flipOutSet = AnimatorInflater.loadAnimator(requireContext(), R.animator.flip_out) as AnimatorSet
-        val flipInSet = AnimatorInflater.loadAnimator(requireContext(), R.animator.flip_in) as AnimatorSet
+    private fun flipView(front: View, back: View, flipVertically: Boolean = false) {
+        val (flipOutSet, flipInSet) =
+                if (!flipVertically) listOf(loadAnimatorSet(R.animator.flip_out), loadAnimatorSet(R.animator.flip_in))
+                else listOf(loadAnimatorSet(R.animator.flip_out_vertical), loadAnimatorSet(R.animator.flip_in_vertical))
         flipOutSet.setTarget(front)
         flipInSet.setTarget(back)
         flipOutSet.start()
         flipInSet.start()
+    }
+
+    private fun loadAnimatorSet(@AnimatorRes id: Int): AnimatorSet {
+        return AnimatorInflater.loadAnimator(requireContext(), id) as AnimatorSet
     }
 
     private fun isSameValues(list1: ArrayList<String>, list2: ArrayList<String>?): Boolean {
