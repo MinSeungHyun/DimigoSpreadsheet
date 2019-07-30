@@ -290,52 +290,24 @@ class SpreadsheetActivity : AppCompatActivity() {
 
         //Init listener
         val onClickListener = View.OnClickListener {
-            val front: View?
-            val back: View?
-            val index: String
-            if (it.tag == "countsLayout") {
-                front = countsLayout
-                back = countsLayoutBack
-                index = it.tag.toString()
-            } else {
-                when (it.typeTV.text) {
-                    getString(R.string.ingang1) -> {
-                        front = ingang1Layout
-                        back = ingang1Back
-                    }
-                    getString(R.string.ingang2) -> {
-                        front = ingang2Layout
-                        back = ingang2Back
-                    }
-                    getString(R.string.club) -> {
-                        front = clubLayout
-                        back = clubBack
-                    }
-                    getString(R.string.etc) -> {
-                        front = etcLayout
-                        back = etcBack
-                    }
-                    getString(R.string.bathroom) -> {
-                        front = bathroomLayout
-                        back = bathroomBack
-                    }
-                    else -> {
-                        front = null
-                        back = null
-                    }
-                }
-                index = it.typeTV.text.toString()
+            val (front, back) = when {
+                it.tag == "countsLayout" -> listOf(countsLayout, countsLayoutBack)
+                it.typeTV.text == getString(R.string.ingang1) -> listOf(ingang1Layout, ingang1Back)
+                it.typeTV.text == getString(R.string.ingang2) -> listOf(ingang2Layout, ingang2Back)
+                it.typeTV.text == getString(R.string.club) -> listOf(clubLayout, clubBack)
+                it.typeTV.text == getString(R.string.etc) -> listOf(etcLayout, etcBack)
+                it.typeTV.text == getString(R.string.bathroom) -> listOf(bathroomLayout, bathroomBack)
+                else -> listOf(null, null)
             }
+            val index: String = if (it.tag == "countsLayout") it.tag.toString() else it.typeTV.text.toString()
+
+            if (front == null || back == null) return@OnClickListener
             if (isBackShowing[index] == true) {
-                if (front != null && back != null) {
-                    flipView(back, front)
-                    isBackShowing[index] = false
-                }
+                flipView(back, front)
+                isBackShowing[index] = false
             } else {
-                if (front != null && back != null) {
-                    flipView(front, back)
-                    isBackShowing[index] = true
-                }
+                flipView(front, back)
+                isBackShowing[index] = true
             }
         }
 
