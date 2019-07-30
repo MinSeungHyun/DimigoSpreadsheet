@@ -286,21 +286,33 @@ class SpreadsheetActivity : AppCompatActivity() {
 
         //Init listener
         val onClickListener = View.OnClickListener {
-            val front = when (it.typeTV.text) {
-                getString(R.string.ingang1) -> ingang1Layout
-                getString(R.string.ingang2) -> ingang2Layout
-                getString(R.string.club) -> clubLayout
-                getString(R.string.etc) -> etcLayout
-                getString(R.string.bathroom) -> bathroomLayout
-                else -> null
-            }
-            val back = when (it.typeTV.text) {
-                getString(R.string.ingang1) -> ingang1Back
-                getString(R.string.ingang2) -> ingang2Back
-                getString(R.string.club) -> clubBack
-                getString(R.string.etc) -> etcBack
-                getString(R.string.bathroom) -> bathroomBack
-                else -> null
+            val front: View?
+            val back: View?
+            when (it.typeTV.text) {
+                getString(R.string.ingang1) -> {
+                    front = ingang1Layout
+                    back = ingang1Back
+                }
+                getString(R.string.ingang2) -> {
+                    front = ingang2Layout
+                    back = ingang2Back
+                }
+                getString(R.string.club) -> {
+                    front = clubLayout
+                    back = clubBack
+                }
+                getString(R.string.etc) -> {
+                    front = etcLayout
+                    back = etcBack
+                }
+                getString(R.string.bathroom) -> {
+                    front = bathroomLayout
+                    back = bathroomBack
+                }
+                else -> {
+                    front = null
+                    back = null
+                }
             }
             if (isBackShowing[it.typeTV.text] == true) {
                 if (front != null && back != null) {
