@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.widget.*
+import androidx.annotation.AnimatorRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
@@ -303,10 +304,12 @@ class SpreadsheetActivity : AppCompatActivity() {
 
             if (front == null || back == null) return@OnClickListener
             if (isBackShowing[index] == true) {
-                flipView(back, front)
+                if (it.tag == "countsLayout") flipView(back, front, true)
+                else flipView(back, front)
                 isBackShowing[index] = false
             } else {
-                flipView(front, back)
+                if (it.tag == "countsLayout") flipView(front, back, true)
+                else flipView(front, back)
                 isBackShowing[index] = true
             }
         }
@@ -320,13 +323,18 @@ class SpreadsheetActivity : AppCompatActivity() {
         bathroomLayout.typeTV.setOnClickListener(onClickListener)
     }
 
-    private fun flipView(front: View, back: View) {
-        val flipOutSet = AnimatorInflater.loadAnimator(this, R.animator.flip_out) as AnimatorSet
-        val flipInSet = AnimatorInflater.loadAnimator(this, R.animator.flip_in) as AnimatorSet
+    private fun flipView(front: View, back: View, flipVertically: Boolean = false) {
+        val (flipOutSet, flipInSet) =
+                if (!flipVertically) listOf(loadAnimatorSet(R.animator.flip_out), loadAnimatorSet(R.animator.flip_in))
+                else listOf(loadAnimatorSet(R.animator.flip_out_vertical), loadAnimatorSet(R.animator.flip_in_vertical))
         flipOutSet.setTarget(front)
         flipInSet.setTarget(back)
         flipOutSet.start()
         flipInSet.start()
+    }
+
+    private fun loadAnimatorSet(@AnimatorRes id: Int): AnimatorSet {
+        return AnimatorInflater.loadAnimator(this, id) as AnimatorSet
     }
 
     private fun initBottomSheet() {
