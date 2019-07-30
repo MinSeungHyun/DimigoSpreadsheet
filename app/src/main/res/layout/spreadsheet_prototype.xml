@@ -50,28 +50,6 @@
         app:layout_constraintVertical_weight="3" />
 
     <include
-        android:id="@+id/bathroomBack"
-        layout="@layout/number_card_back"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/bathroomLayout"
-        app:layout_constraintEnd_toEndOf="@id/bathroomLayout"
-        app:layout_constraintStart_toStartOf="@id/bathroomLayout"
-        app:layout_constraintTop_toTopOf="@id/bathroomLayout" />
-
-    <include
-        android:id="@+id/bathroomLayout"
-        layout="@layout/number_card_prototype"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/ingang1Layout"
-        app:layout_constraintStart_toStartOf="@id/ingang1Layout"
-        app:layout_constraintTop_toBottomOf="@id/ingang1Layout"
-        app:layout_constraintVertical_weight="1" />
-
-    <include
         android:id="@+id/ingang2Back"
         layout="@layout/number_card_back"
         android:layout_width="0dp"
@@ -97,28 +75,6 @@
         app:layout_constraintVertical_weight="3" />
 
     <include
-        android:id="@+id/etcBack"
-        layout="@layout/number_card_back"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/etcLayout"
-        app:layout_constraintEnd_toEndOf="@id/etcLayout"
-        app:layout_constraintStart_toStartOf="@id/etcLayout"
-        app:layout_constraintTop_toTopOf="@id/etcLayout" />
-
-    <include
-        android:id="@+id/etcLayout"
-        layout="@layout/number_card_prototype"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/clubLayout"
-        app:layout_constraintStart_toStartOf="@id/ingang2Layout"
-        app:layout_constraintTop_toBottomOf="@id/ingang2Layout"
-        app:layout_constraintVertical_weight="1" />
-
-    <include
         android:id="@+id/clubBack"
         layout="@layout/number_card_back"
         android:layout_width="0dp"
@@ -142,4 +98,48 @@
         app:layout_constraintStart_toEndOf="@id/ingang2Layout"
         app:layout_constraintTop_toBottomOf="@id/countsLayout"
         app:layout_constraintVertical_weight="3" />
+
+    <include
+        android:id="@+id/bathroomBack"
+        layout="@layout/number_card_back"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/bathroomLayout"
+        app:layout_constraintEnd_toEndOf="@id/bathroomLayout"
+        app:layout_constraintStart_toStartOf="@id/bathroomLayout"
+        app:layout_constraintTop_toTopOf="@id/bathroomLayout" />
+
+    <include
+        android:id="@+id/bathroomLayout"
+        layout="@layout/number_card_prototype"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/ingang1Layout"
+        app:layout_constraintStart_toStartOf="@id/ingang1Layout"
+        app:layout_constraintTop_toBottomOf="@id/ingang1Layout"
+        app:layout_constraintVertical_weight="1" />
+
+    <include
+        android:id="@+id/etcBack"
+        layout="@layout/number_card_back"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/etcLayout"
+        app:layout_constraintEnd_toEndOf="@id/etcLayout"
+        app:layout_constraintStart_toStartOf="@id/etcLayout"
+        app:layout_constraintTop_toTopOf="@id/etcLayout" />
+
+    <include
+        android:id="@+id/etcLayout"
+        layout="@layout/number_card_prototype"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/clubLayout"
+        app:layout_constraintStart_toStartOf="@id/ingang2Layout"
+        app:layout_constraintTop_toBottomOf="@id/ingang2Layout"
+        app:layout_constraintVertical_weight="1" />
 </androidx.constraintlayout.widget.ConstraintLayout>
