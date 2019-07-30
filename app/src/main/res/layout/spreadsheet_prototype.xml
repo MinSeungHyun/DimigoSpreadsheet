@@ -42,7 +42,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="16dp"
-        app:layout_constraintBottom_toTopOf="@id/bathroomLayout"
+        app:layout_constraintBottom_toTopOf="@id/guideLine"
         app:layout_constraintEnd_toStartOf="@id/ingang2Layout"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +67,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/etcLayout"
+        app:layout_constraintBottom_toTopOf="@id/guideLine"
         app:layout_constraintEnd_toStartOf="@id/clubLayout"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@id/ingang1Layout"
@@ -92,12 +92,19 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/etcLayout"
+        app:layout_constraintBottom_toTopOf="@id/guideLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@id/ingang2Layout"
         app:layout_constraintTop_toBottomOf="@id/countsLayout"
         app:layout_constraintVertical_weight="3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75" />
 
     <include
         android:id="@+id/bathroomBack"
@@ -118,7 +125,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/ingang1Layout"
         app:layout_constraintStart_toStartOf="@id/ingang1Layout"
-        app:layout_constraintTop_toBottomOf="@id/ingang1Layout"
+        app:layout_constraintTop_toBottomOf="@id/guideLine"
         app:layout_constraintVertical_weight="1" />
 
     <include
@@ -140,6 +147,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/clubLayout"
         app:layout_constraintStart_toStartOf="@id/ingang2Layout"
-        app:layout_constraintTop_toBottomOf="@id/ingang2Layout"
+        app:layout_constraintTop_toBottomOf="@id/guideLine"
         app:layout_constraintVertical_weight="1" />
 </androidx.constraintlayout.widget.ConstraintLayout>
