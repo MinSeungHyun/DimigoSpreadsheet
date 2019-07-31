@@ -10,11 +10,13 @@ import android.os.Handler
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import androidx.annotation.AnimatorRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.Observer
@@ -261,6 +263,26 @@ class SpreadsheetActivity : AppCompatActivity() {
         initEnterNameButton(bathroomLayout, 4)
 
         setFlipAnimation()
+
+        dragHandle.setOnTouchListener { _, event ->
+            val guideParams = guideLine.layoutParams as ConstraintLayout.LayoutParams
+            val handleParams = dragHandle.layoutParams as ConstraintLayout.LayoutParams
+            val height = spreadsheet.height
+            val y = event.y + height * handleParams.verticalBias - dragHandle.height / 2
+            val percent = y / height
+
+            when (event.action) {
+                MotionEvent.ACTION_MOVE -> {
+                    guideParams.guidePercent = percent
+                    guideLine.layoutParams = guideParams
+                }
+                MotionEvent.ACTION_UP -> {
+                    handleParams.verticalBias = percent
+                    dragHandle.layoutParams = handleParams
+                }
+            }
+            return@setOnTouchListener false
+        }
     }
 
     private fun initEnterNameButton(container: View, index: Int) {

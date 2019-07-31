@@ -109,6 +109,16 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.75" />
 
+    <View
+        android:id="@+id/dragHandle"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.75" />
+
     <include
         android:id="@+id/bathroomBack"
         layout="@layout/number_card_back"
