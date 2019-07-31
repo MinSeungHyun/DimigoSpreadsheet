@@ -8,11 +8,13 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.AnimatorRes
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -143,6 +145,36 @@ class SpreadsheetFragment(private val networkErrorCallback: NetworkErrorCallback
         parent.bathroomBack.typeTV.setText(R.string.bathroom)
 
         setFlipAnimation()
+
+        parent.dragHandle.setOnTouchListener { _, event ->
+            val height = parent.height.toFloat()
+            val minPercent = parent.countsLayout.bottom / height
+            val maxPercent = 1f
+
+            val guideParams = parent.guideLine.layoutParams as ConstraintLayout.LayoutParams
+            val handleParams = parent.dragHandle.layoutParams as ConstraintLayout.LayoutParams
+            val y = event.y + height * handleParams.verticalBias - parent.dragHandle.height / 2
+            var percent = y / height
+            if (percent < minPercent) percent = minPercent
+            else if (percent > maxPercent) percent = maxPercent
+
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    parent.handleImage.visibility = View.VISIBLE
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    guideParams.guidePercent = percent
+                    parent.guideLine.layoutParams = guideParams
+                }
+                MotionEvent.ACTION_UP -> {
+                    handleParams.verticalBias = percent
+                    parent.dragHandle.layoutParams = handleParams
+
+                    parent.handleImage.visibility = View.INVISIBLE
+                }
+            }
+            return@setOnTouchListener false
+        }
     }
 
     private fun setFlipAnimation() {
