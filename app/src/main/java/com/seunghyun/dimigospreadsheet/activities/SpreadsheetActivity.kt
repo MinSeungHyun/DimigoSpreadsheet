@@ -272,6 +272,9 @@ class SpreadsheetActivity : AppCompatActivity() {
             val percent = y / height
 
             when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    handleImage.visibility = View.VISIBLE
+                }
                 MotionEvent.ACTION_MOVE -> {
                     guideParams.guidePercent = percent
                     guideLine.layoutParams = guideParams
@@ -279,6 +282,8 @@ class SpreadsheetActivity : AppCompatActivity() {
                 MotionEvent.ACTION_UP -> {
                     handleParams.verticalBias = percent
                     dragHandle.layoutParams = handleParams
+
+                    handleImage.visibility = View.INVISIBLE
                 }
             }
             return@setOnTouchListener false

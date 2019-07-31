@@ -110,6 +110,17 @@
         app:layout_constraintGuide_percent="0.75" />
 
     <View
+        android:id="@+id/handleImage"
+        android:layout_width="30dp"
+        android:layout_height="4dp"
+        android:background="@drawable/rounded_square"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/guideLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideLine" />
+
+    <View
         android:id="@+id/dragHandle"
         android:layout_width="match_parent"
         android:layout_height="24dp"
