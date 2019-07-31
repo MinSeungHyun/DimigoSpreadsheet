@@ -265,11 +265,16 @@ class SpreadsheetActivity : AppCompatActivity() {
         setFlipAnimation()
 
         dragHandle.setOnTouchListener { _, event ->
+            val height = spreadsheet.height.toFloat()
+            val minPercent = countsLayout.bottom / height
+            val maxPercent = 1f
+
             val guideParams = guideLine.layoutParams as ConstraintLayout.LayoutParams
             val handleParams = dragHandle.layoutParams as ConstraintLayout.LayoutParams
-            val height = spreadsheet.height
             val y = event.y + height * handleParams.verticalBias - dragHandle.height / 2
-            val percent = y / height
+            var percent = y / height
+            if (percent < minPercent) percent = minPercent
+            else if (percent > maxPercent) percent = maxPercent
 
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
