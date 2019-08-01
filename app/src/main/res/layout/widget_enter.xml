@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/ingang1"
+        style="@style/WidgetItemStyle"
+        android:text="@string/ingang1" />
+
+    <TextView
+        android:id="@+id/ingang2"
+        style="@style/WidgetItemStyle"
+        android:text="@string/ingang2" />
+
+    <TextView
+        android:id="@+id/club"
+        style="@style/WidgetItemStyle"
+        android:text="@string/club" />
+
+    <TextView
+        android:id="@+id/etc"
+        style="@style/WidgetItemStyle"
+        android:text="@string/etc" />
+
+    <TextView
+        android:id="@+id/bathroom"
+        style="@style/WidgetItemStyle"
+        android:text="@string/bathroom" />
+</LinearLayout>
