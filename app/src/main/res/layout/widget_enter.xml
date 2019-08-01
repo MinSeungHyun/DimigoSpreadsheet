@@ -7,61 +7,30 @@
     android:orientation="vertical"
     tools:ignore="ContentDescription">
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
     <TextView
         android:id="@+id/ingang1"
         style="@style/WidgetItemStyle"
-        android:background="@drawable/widget_background"
+        android:background="@drawable/top_rounded_background"
         android:text="@string/ingang1" />
-
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
 
     <TextView
         android:id="@+id/ingang2"
         style="@style/WidgetItemStyle"
         android:text="@string/ingang2" />
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
     <TextView
         android:id="@+id/club"
         style="@style/WidgetItemStyle"
         android:text="@string/club" />
-
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
 
     <TextView
         android:id="@+id/etc"
         style="@style/WidgetItemStyle"
         android:text="@string/etc" />
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-
     <TextView
         android:id="@+id/bathroom"
         style="@style/WidgetItemStyle"
+        android:background="@drawable/bottom_rounded_background"
         android:text="@string/bathroom" />
-
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
 </LinearLayout>
