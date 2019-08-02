@@ -2,4 +2,6 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialLayout="@layout/widget_enter"
     android:resizeMode="vertical|horizontal"
+    android:minWidth="110dp"
+    android:minHeight="110dp"
     android:updatePeriodMillis="0" />
