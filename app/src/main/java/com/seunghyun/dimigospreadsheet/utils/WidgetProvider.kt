@@ -31,6 +31,8 @@ class WidgetProvider : AppWidgetProvider() {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
         if (context == null || appWidgetManager == null) return
 
+        loadBackgroundStates(context)
+
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter).apply {
             setOnClickPendingIntent(R.id.ingang1, getButtonClickIntent(context, R.id.ingang1))
             setOnClickPendingIntent(R.id.ingang2, getButtonClickIntent(context, R.id.ingang2))
@@ -47,6 +49,29 @@ class WidgetProvider : AppWidgetProvider() {
             putExtra("viewId", id)
         }
         return PendingIntent.getBroadcast(context, id, intent, 0)
+    }
+
+    private fun loadBackgroundStates(context: Context) {
+        val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter)
+        val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
+
+        val idLists = listOf(listOf(R.string.ingang1, R.id.ingang1, R.id.ingang1Background)
+                , listOf(R.string.ingang2, R.id.ingang2, R.id.ingang2Background)
+                , listOf(R.string.club, R.id.club, R.id.clubBackground)
+                , listOf(R.string.etc, R.id.etc, R.id.etcBackground)
+                , listOf(R.string.bathroom, R.id.bathroom, R.id.bathroomBackground))
+
+        idLists.forEach {
+            if (preference.getBoolean(context.getString(it[0]), false)) {
+                remoteViews.setViewVisibility(it[2], View.VISIBLE)
+                remoteViews.setTextColor(it[1], Color.WHITE)
+
+            } else {
+                remoteViews.setViewVisibility(it[2], View.INVISIBLE)
+                remoteViews.setTextColor(it[1], Color.BLACK)
+            }
+        }
+        AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
     }
 
     private fun switchBackgroundState(context: Context, viewId: Int) {
