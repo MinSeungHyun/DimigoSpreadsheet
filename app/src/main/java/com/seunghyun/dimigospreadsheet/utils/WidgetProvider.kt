@@ -3,9 +3,11 @@ package com.seunghyun.dimigospreadsheet.utils
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.util.Log
+import android.graphics.Color
+import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.IdRes
 import com.seunghyun.dimigospreadsheet.R
@@ -18,12 +20,15 @@ class WidgetProvider : AppWidgetProvider() {
     override fun onReceive(context: Context?, intent: Intent?) {
         super.onReceive(context, intent)
         if (context == null || intent == null) return
-        Log.d("testing", "action: ${intent.action}, extra: ${intent.getIntExtra("viewId", 0)}")
+
+        if (intent.action == WIDGET_ACTION) {
+            val viewId = intent.getIntExtra("viewId", 0)
+            switchBackgroundState(context, viewId)
+        }
     }
 
     override fun onUpdate(context: Context?, appWidgetManager: AppWidgetManager?, appWidgetIds: IntArray?) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
-        Log.d("testing", "onUpdate")
         if (context == null || appWidgetManager == null) return
 
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter).apply {
@@ -42,5 +47,32 @@ class WidgetProvider : AppWidgetProvider() {
             putExtra("viewId", id)
         }
         return PendingIntent.getBroadcast(context, id, intent, 0)
+    }
+
+    private fun switchBackgroundState(context: Context, viewId: Int) {
+        val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter)
+        val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
+        val editor = preference.edit()
+
+        val (stringId, backgroundId) = when (viewId) {
+            R.id.ingang1 -> listOf(R.string.ingang1, R.id.ingang1Background)
+            R.id.ingang2 -> listOf(R.string.ingang2, R.id.ingang2Background)
+            R.id.club -> listOf(R.string.club, R.id.clubBackground)
+            R.id.etc -> listOf(R.string.etc, R.id.etcBackground)
+            R.id.bathroom -> listOf(R.string.bathroom, R.id.bathroomBackground)
+            else -> return
+        }
+
+        if (preference.getBoolean(context.getString(stringId), false)) {
+            remoteViews.setViewVisibility(backgroundId, View.INVISIBLE)
+            remoteViews.setTextColor(viewId, Color.BLACK)
+            editor.putBoolean(context.getString(stringId), false).apply()
+        } else {
+            remoteViews.setViewVisibility(backgroundId, View.VISIBLE)
+            remoteViews.setTextColor(viewId, Color.WHITE)
+            editor.putBoolean(context.getString(stringId), true).apply()
+        }
+
+        AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
     }
 }
