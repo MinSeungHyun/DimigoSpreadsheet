@@ -30,6 +30,13 @@ class SplashActivity : AppCompatActivity() {
                 val userType = JSONParser.parseFromArray(identity, 0, "user_type")
                 val name = JSONParser.parseFromArray(identity, 0, "name")
 
+                with(getSharedPreferences(getString(R.string.preference_app_setting), Context.MODE_PRIVATE).edit()) {
+                    putString("identity", identity)
+                    putString("userType", userType)
+                    putString("name", name)
+                    apply()
+                }
+
                 val intent: Intent
                 if (userType == "S") {
                     val studentId = JSONParser.parseFromArray(identity, 0, "serial")
