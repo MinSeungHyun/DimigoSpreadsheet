@@ -48,6 +48,8 @@
     <string name="etc">기타</string>
     <string name="bathroom">화장실</string>
 
+    <string name="teacher_cannot_use">선생님은 사용하실 수 없습니다.</string>
+
     <string-array name="types">
         <item>인강실 (1타임)</item>
         <item>인강실 (2, 3타임)</item>

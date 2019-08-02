@@ -68,4 +68,20 @@
             style="@style/WidgetItemStyle"
             android:text="@string/bathroom" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/preventTeacher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/widget_background"
+        android:backgroundTint="@color/transparentWhite"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/teacher_cannot_use"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
 </RelativeLayout>

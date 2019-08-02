@@ -86,7 +86,7 @@ class WidgetProvider : AppWidgetProvider() {
             } catch (e: LoginRequiredException) {
                 e.printStackTrace()
             } catch (e: TeacherCannotUseException) {
-                e.printStackTrace()
+                preventTeacher(context)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -140,6 +140,12 @@ class WidgetProvider : AppWidgetProvider() {
             editor.putBoolean(context.getString(stringId), true).apply()
         }
 
+        AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
+    }
+
+    private fun preventTeacher(context: Context) {
+        val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter)
+        remoteViews.setViewVisibility(R.id.preventTeacher, View.VISIBLE)
         AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
     }
 }
