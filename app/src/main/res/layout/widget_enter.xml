@@ -1,36 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:ignore="ContentDescription">
+    android:background="@drawable/widget_background">
 
-    <TextView
-        android:id="@+id/ingang1"
-        style="@style/WidgetItemStyle"
-        android:background="@drawable/top_rounded_background"
-        android:text="@string/ingang1" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:ignore="ContentDescription">
 
-    <TextView
-        android:id="@+id/ingang2"
-        style="@style/WidgetItemStyle"
-        android:text="@string/ingang2" />
+        <ImageView
+            android:id="@+id/ingang1Background"
+            style="@style/WidgetItemBackgroundStyle"
+            android:background="@drawable/top_rounded_background" />
 
-    <TextView
-        android:id="@+id/club"
-        style="@style/WidgetItemStyle"
-        android:text="@string/club" />
+        <ImageView
+            android:id="@+id/ingang2Background"
+            style="@style/WidgetItemBackgroundStyle"
+            android:background="@color/colorPrimary" />
 
-    <TextView
-        android:id="@+id/etc"
-        style="@style/WidgetItemStyle"
-        android:text="@string/etc" />
+        <ImageView
+            android:id="@+id/clubBackground"
+            style="@style/WidgetItemBackgroundStyle" />
 
-    <TextView
-        android:id="@+id/bathroom"
-        style="@style/WidgetItemStyle"
-        android:background="@drawable/bottom_rounded_background"
-        android:text="@string/bathroom" />
-</LinearLayout>
+        <ImageView
+            android:id="@+id/etcBackground"
+            style="@style/WidgetItemBackgroundStyle" />
+
+        <ImageView
+            android:id="@+id/bathroomBackground"
+            style="@style/WidgetItemBackgroundStyle"
+            android:background="@drawable/bottom_rounded_background" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:ignore="ContentDescription">
+
+        <TextView
+            android:id="@+id/ingang1"
+            style="@style/WidgetItemStyle"
+            android:text="@string/ingang1" />
+
+        <TextView
+            android:id="@+id/ingang2"
+            style="@style/WidgetItemStyle"
+            android:text="@string/ingang2" />
+
+        <TextView
+            android:id="@+id/club"
+            style="@style/WidgetItemStyle"
+            android:text="@string/club" />
+
+        <TextView
+            android:id="@+id/etc"
+            style="@style/WidgetItemStyle"
+            android:text="@string/etc" />
+
+        <TextView
+            android:id="@+id/bathroom"
+            style="@style/WidgetItemStyle"
+            android:text="@string/bathroom" />
+    </LinearLayout>
+</RelativeLayout>
