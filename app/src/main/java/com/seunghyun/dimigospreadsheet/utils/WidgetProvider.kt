@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.IdRes
 import com.seunghyun.dimigospreadsheet.R
+import com.seunghyun.dimigospreadsheet.models.SheetValue
 
 class WidgetProvider : AppWidgetProvider() {
     companion object {
@@ -31,7 +32,7 @@ class WidgetProvider : AppWidgetProvider() {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
         if (context == null || appWidgetManager == null) return
 
-        loadBackgroundStates(context)
+        loadStateFromServer(context)
 
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter).apply {
             setOnClickPendingIntent(R.id.ingang1, getButtonClickIntent(context, R.id.ingang1))
@@ -49,6 +50,47 @@ class WidgetProvider : AppWidgetProvider() {
             putExtra("viewId", id)
         }
         return PendingIntent.getBroadcast(context, id, intent, 0)
+    }
+
+    private fun loadStateFromServer(context: Context) {
+        Thread {
+            try {
+                val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
+                val editor = preference.edit()
+                val userType = preference.getString("userType", null)
+                val name = preference.getString("name", null)
+                val identity = preference.getString("identity", null)
+                if (userType == null || name == null || identity == null) throw LoginRequiredException()
+                if (userType != "S") throw TeacherCannotUseException()
+                val klass = JSONParser.parseFromArray(identity, 0, "serial").subSequence(1, 2).toString().toInt()
+
+                val sheetValue = SheetValue(SpreadsheetHelper.getValues(SpreadsheetHelper.getService(context), "${klass}반!1:30"))
+                editor.putBoolean(context.getString(R.string.ingang1), sheetValue.ingang1.contains(name))
+                editor.putBoolean(context.getString(R.string.ingang2), sheetValue.ingang2.contains(name))
+                editor.putBoolean(context.getString(R.string.club), sheetValue.club.contains(name))
+                editor.putBoolean(context.getString(R.string.bathroom), sheetValue.bathroom.contains(name))
+
+                var cnt = 0
+                sheetValue.etc.forEach {
+                    if (it.contains(name)) {
+                        cnt++
+                        editor.putBoolean(context.getString(R.string.etc), true)
+                    }
+                }
+                if (cnt == 0) editor.putBoolean(context.getString(R.string.etc), false)
+
+                editor.apply()
+
+                loadBackgroundStates(context)
+
+            } catch (e: LoginRequiredException) {
+                e.printStackTrace()
+            } catch (e: TeacherCannotUseException) {
+                e.printStackTrace()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }.start()
     }
 
     private fun loadBackgroundStates(context: Context) {
