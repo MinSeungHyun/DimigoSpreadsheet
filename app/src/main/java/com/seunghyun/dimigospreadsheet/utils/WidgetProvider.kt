@@ -12,6 +12,7 @@ import android.widget.RemoteViews
 import androidx.annotation.IdRes
 import com.google.api.services.sheets.v4.model.ValueRange
 import com.seunghyun.dimigospreadsheet.R
+import com.seunghyun.dimigospreadsheet.activities.SplashActivity
 import com.seunghyun.dimigospreadsheet.models.SheetValue
 
 class WidgetProvider : AppWidgetProvider() {
@@ -41,6 +42,7 @@ class WidgetProvider : AppWidgetProvider() {
             setOnClickPendingIntent(R.id.etc, getButtonClickIntent(context, R.id.etc))
             setOnClickPendingIntent(R.id.bathroom, getButtonClickIntent(context, R.id.bathroom))
             setOnClickPendingIntent(R.id.refreshButton, getButtonClickIntent(context, R.id.refreshButton))
+            setOnClickPendingIntent(R.id.openAppButton, PendingIntent.getActivity(context, 0, Intent(context, SplashActivity::class.java), 0))
         }
 
         loadStateFromServer(context)
