@@ -76,5 +76,23 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/widget_background"
+            android:backgroundTint="@color/transparentWhite"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/colorPrimary" />
+        </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>

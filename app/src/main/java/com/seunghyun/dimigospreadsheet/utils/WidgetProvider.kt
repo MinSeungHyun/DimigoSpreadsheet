@@ -7,6 +7,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.IdRes
@@ -56,6 +57,7 @@ class WidgetProvider : AppWidgetProvider() {
 
     private fun loadStateFromServer(context: Context) {
         Thread {
+            setProgressBarVisibility(context, View.VISIBLE)
             try {
                 val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
                 val editor = preference.edit()
@@ -90,6 +92,8 @@ class WidgetProvider : AppWidgetProvider() {
                 e.printStackTrace()
                 errorOccurred(context)
             }
+            Log.d("testing", "end")
+            setProgressBarVisibility(context, View.GONE)
         }.start()
     }
 
@@ -156,6 +160,12 @@ class WidgetProvider : AppWidgetProvider() {
             setTextViewText(R.id.errorTV, context.getString(R.string.error_occurred))
             setViewVisibility(R.id.errorTV, View.VISIBLE)
         }
+        AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
+    }
+
+    private fun setProgressBarVisibility(context: Context, visibility: Int) {
+        val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter)
+        remoteViews.setViewVisibility(R.id.progressBar, visibility)
         AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
     }
 }
