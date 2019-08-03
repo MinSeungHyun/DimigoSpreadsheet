@@ -60,7 +60,6 @@ class WidgetProvider : AppWidgetProvider() {
         Thread {
             if (!isErrorContains) {
                 setErrorVisibility(context, View.GONE)
-                setTeacherVisibility(context, View.GONE)
             }
             setProgressBarVisibility(context, View.VISIBLE)
             try {
@@ -91,6 +90,7 @@ class WidgetProvider : AppWidgetProvider() {
 
             } catch (e: LoginRequiredException) {
                 e.printStackTrace()
+                setLoginVisibility(context, View.VISIBLE)
             } catch (e: TeacherCannotUseException) {
                 setTeacherVisibility(context, View.VISIBLE)
             } catch (e: Exception) {
@@ -213,6 +213,14 @@ class WidgetProvider : AppWidgetProvider() {
             editor.putBoolean(context.getString(stringId), true).apply()
         }
 
+        AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
+    }
+
+    private fun setLoginVisibility(context: Context, visibility: Int) {
+        val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter).apply {
+            setTextViewText(R.id.errorTV, context.getString(R.string.loginRequired))
+            setViewVisibility(R.id.errorTV, visibility)
+        }
         AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
     }
 
