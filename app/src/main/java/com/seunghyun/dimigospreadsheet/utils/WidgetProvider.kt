@@ -24,7 +24,8 @@ class WidgetProvider : AppWidgetProvider() {
 
         if (intent.action == WIDGET_ACTION) {
             val viewId = intent.getIntExtra("viewId", 0)
-            switchBackgroundState(context, viewId)
+            if (viewId == R.id.refreshButton) loadStateFromServer(context)
+            else switchBackgroundState(context, viewId)
         }
     }
 
@@ -40,6 +41,7 @@ class WidgetProvider : AppWidgetProvider() {
             setOnClickPendingIntent(R.id.club, getButtonClickIntent(context, R.id.club))
             setOnClickPendingIntent(R.id.etc, getButtonClickIntent(context, R.id.etc))
             setOnClickPendingIntent(R.id.bathroom, getButtonClickIntent(context, R.id.bathroom))
+            setOnClickPendingIntent(R.id.refreshButton, getButtonClickIntent(context, R.id.refreshButton))
         }
         appWidgetManager.updateAppWidget(appWidgetIds, remoteViews)
     }

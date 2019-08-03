@@ -8,6 +8,7 @@
     tools:ignore="ContentDescription">
 
     <TextView
+        android:id="@+id/refreshButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/top_rounded_background"
