@@ -95,19 +95,19 @@ class WidgetProvider : AppWidgetProvider() {
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter)
         val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
 
-        val idLists = listOf(listOf(R.string.ingang1, R.id.ingang1, R.id.ingang1Background)
-                , listOf(R.string.ingang2, R.id.ingang2, R.id.ingang2Background)
-                , listOf(R.string.club, R.id.club, R.id.clubBackground)
-                , listOf(R.string.etc, R.id.etc, R.id.etcBackground)
-                , listOf(R.string.bathroom, R.id.bathroom, R.id.bathroomBackground))
+        val idLists = listOf(listOf(R.string.ingang1, R.id.ingang1, R.color.colorPrimary)
+                , listOf(R.string.ingang2, R.id.ingang2, R.color.colorPrimary)
+                , listOf(R.string.club, R.id.club, R.color.colorPrimary)
+                , listOf(R.string.etc, R.id.etc, R.color.colorPrimary)
+                , listOf(R.string.bathroom, R.id.bathroom, R.drawable.bottom_rounded_background))
 
         idLists.forEach {
             if (preference.getBoolean(context.getString(it[0]), false)) {
-                remoteViews.setViewVisibility(it[2], View.VISIBLE)
+                remoteViews.setInt(it[1], "setBackgroundResource", it[2])
                 remoteViews.setTextColor(it[1], Color.WHITE)
 
             } else {
-                remoteViews.setViewVisibility(it[2], View.INVISIBLE)
+                remoteViews.setInt(it[1], "setBackgroundResource", android.R.color.transparent)
                 remoteViews.setTextColor(it[1], Color.BLACK)
             }
         }
@@ -119,21 +119,21 @@ class WidgetProvider : AppWidgetProvider() {
         val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
         val editor = preference.edit()
 
-        val (stringId, backgroundId) = when (viewId) {
-            R.id.ingang1 -> listOf(R.string.ingang1, R.id.ingang1Background)
-            R.id.ingang2 -> listOf(R.string.ingang2, R.id.ingang2Background)
-            R.id.club -> listOf(R.string.club, R.id.clubBackground)
-            R.id.etc -> listOf(R.string.etc, R.id.etcBackground)
-            R.id.bathroom -> listOf(R.string.bathroom, R.id.bathroomBackground)
+        val (stringId, backgroundResource) = when (viewId) {
+            R.id.ingang1 -> listOf(R.string.ingang1, R.color.colorPrimary)
+            R.id.ingang2 -> listOf(R.string.ingang2, R.color.colorPrimary)
+            R.id.club -> listOf(R.string.club, R.color.colorPrimary)
+            R.id.etc -> listOf(R.string.etc, R.color.colorPrimary)
+            R.id.bathroom -> listOf(R.string.bathroom, R.drawable.bottom_rounded_background)
             else -> return
         }
 
         if (preference.getBoolean(context.getString(stringId), false)) {
-            remoteViews.setViewVisibility(backgroundId, View.INVISIBLE)
+            remoteViews.setInt(viewId, "setBackgroundResource", android.R.color.transparent)
             remoteViews.setTextColor(viewId, Color.BLACK)
             editor.putBoolean(context.getString(stringId), false).apply()
         } else {
-            remoteViews.setViewVisibility(backgroundId, View.VISIBLE)
+            remoteViews.setInt(viewId, "setBackgroundResource", backgroundResource)
             remoteViews.setTextColor(viewId, Color.WHITE)
             editor.putBoolean(context.getString(stringId), true).apply()
         }
