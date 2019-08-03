@@ -86,6 +86,7 @@ class WidgetProvider : AppWidgetProvider() {
                 preventTeacher(context)
             } catch (e: Exception) {
                 e.printStackTrace()
+                errorOccurred(context)
             }
         }.start()
     }
@@ -143,6 +144,14 @@ class WidgetProvider : AppWidgetProvider() {
     private fun preventTeacher(context: Context) {
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter).apply {
             setTextViewText(R.id.errorTV, context.getString(R.string.teacher_cannot_use))
+            setViewVisibility(R.id.errorTV, View.VISIBLE)
+        }
+        AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
+    }
+
+    private fun errorOccurred(context: Context) {
+        val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter).apply {
+            setTextViewText(R.id.errorTV, context.getString(R.string.error_occurred))
             setViewVisibility(R.id.errorTV, View.VISIBLE)
         }
         AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
