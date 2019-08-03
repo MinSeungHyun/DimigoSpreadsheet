@@ -10,6 +10,7 @@ import android.graphics.Color
 import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.IdRes
+import com.google.api.services.sheets.v4.model.ValueRange
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.SheetValue
 
@@ -25,7 +26,7 @@ class WidgetProvider : AppWidgetProvider() {
         if (intent.action == WIDGET_ACTION) {
             val viewId = intent.getIntExtra("viewId", 0)
             if (viewId == R.id.refreshButton) loadStateFromServer(context)
-            else switchBackgroundState(context, viewId)
+            else switchState(context, viewId)
         }
     }
 
@@ -55,10 +56,12 @@ class WidgetProvider : AppWidgetProvider() {
         return PendingIntent.getBroadcast(context, id, intent, 0)
     }
 
-    private fun loadStateFromServer(context: Context) {
+    private fun loadStateFromServer(context: Context, isErrorContains: Boolean = false) {
         Thread {
-            setErrorVisibility(context, View.GONE)
-            setTeacherVisibility(context, View.GONE)
+            if (!isErrorContains) {
+                setErrorVisibility(context, View.GONE)
+                setTeacherVisibility(context, View.GONE)
+            }
             setProgressBarVisibility(context, View.VISIBLE)
             try {
                 val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
@@ -121,6 +124,67 @@ class WidgetProvider : AppWidgetProvider() {
         AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
     }
 
+    private fun switchState(context: Context, viewId: Int) {
+        if (isEnabled(context, viewId)) {
+
+        } else {
+            val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
+            val identity = preference.getString("identity", null)
+            val klass = JSONParser.parseFromArray(identity, 0, "serial").subSequence(1, 2).toString().toInt()
+            enterName(context, klass, preference.getString("name", ""), viewId)
+        }
+    }
+
+    private fun isEnabled(context: Context, viewId: Int): Boolean {
+        val stringId = when (viewId) {
+            R.id.ingang1 -> R.string.ingang1
+            R.id.ingang2 -> R.string.ingang2
+            R.id.club -> R.string.club
+            R.id.etc -> R.string.etc
+            R.id.bathroom -> R.string.bathroom
+            else -> return false
+        }
+
+        val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
+        return preference.getBoolean(context.getString(stringId), false)
+    }
+
+    private fun enterName(context: Context, klass: Int, name: String?, id: Int, reason: String = "") {
+        Thread {
+            setErrorVisibility(context, View.GONE)
+            setTeacherVisibility(context, View.GONE)
+            setProgressBarVisibility(context, View.VISIBLE)
+            try {
+                if (name == null) throw Exception()
+                val service = SpreadsheetHelper.getService(context)
+                var range = when (id) {
+                    R.id.ingang1 -> "${klass}반!C2:C30"
+                    R.id.ingang2 -> "${klass}반!D2:D30"
+                    R.id.club -> "${klass}반!E2:E30"
+                    R.id.etc -> "${klass}반!F2:F30"
+                    R.id.bathroom -> "${klass}반!A10:A30"
+                    else -> throw Exception()
+                }
+                val currentList = SpreadsheetHelper.getValues(service, range)
+                val size = currentList?.size ?: 0
+                val margin = if (id == R.id.bathroom) 10 else 2
+                range = range.substring(0, 4) + (margin + size)
+
+                val values = if (reason.isBlank()) {
+                    ValueRange().setValues(listOf(listOf(name)))
+                } else {
+                    ValueRange().setValues(listOf(listOf("$reason - $name")))
+                }
+                SpreadsheetHelper.updateValues(service, range, values)
+                loadStateFromServer(context)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                setErrorVisibility(context, View.VISIBLE)
+                loadStateFromServer(context, true)
+            }
+        }.start()
+    }
+
     private fun switchBackgroundState(context: Context, viewId: Int) {
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter)
         val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
@@ -157,7 +221,6 @@ class WidgetProvider : AppWidgetProvider() {
     }
 
     private fun setErrorVisibility(context: Context, visibility: Int) {
-        android.util.Log.d("testing", "error")
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter).apply {
             setTextViewText(R.id.errorTV, context.getString(R.string.error_occurred))
             setViewVisibility(R.id.errorTV, visibility)
@@ -166,7 +229,6 @@ class WidgetProvider : AppWidgetProvider() {
     }
 
     private fun setProgressBarVisibility(context: Context, visibility: Int) {
-        android.util.Log.d("testing", "progress")
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter)
         remoteViews.setViewVisibility(R.id.progressBar, visibility)
         AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
