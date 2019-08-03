@@ -130,6 +130,10 @@ class WidgetProvider : AppWidgetProvider() {
         } else {
             val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
             val identity = preference.getString("identity", null)
+            if (identity == null) {
+                loadStateFromServer(context)
+                return
+            }
             val klass = JSONParser.parseFromArray(identity, 0, "serial").subSequence(1, 2).toString().toInt()
             enterName(context, klass, preference.getString("name", ""), viewId)
         }
