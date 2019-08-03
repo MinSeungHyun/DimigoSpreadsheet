@@ -141,8 +141,10 @@ class WidgetProvider : AppWidgetProvider() {
     }
 
     private fun preventTeacher(context: Context) {
-        val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter)
-        remoteViews.setViewVisibility(R.id.preventTeacher, View.VISIBLE)
+        val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter).apply {
+            setTextViewText(R.id.errorTV, context.getString(R.string.teacher_cannot_use))
+            setViewVisibility(R.id.errorTV, View.VISIBLE)
+        }
         AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
     }
 }
