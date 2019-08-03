@@ -72,12 +72,9 @@ class WidgetProvider : AppWidgetProvider() {
 
                 var cnt = 0
                 sheetValue.etc.forEach {
-                    if (it.contains(name)) {
-                        cnt++
-                        editor.putBoolean(context.getString(R.string.etc), true)
-                    }
+                    if (it.contains(name)) cnt++
                 }
-                if (cnt == 0) editor.putBoolean(context.getString(R.string.etc), false)
+                editor.putBoolean(context.getString(R.string.etc), cnt != 0)
 
                 editor.apply()
 
