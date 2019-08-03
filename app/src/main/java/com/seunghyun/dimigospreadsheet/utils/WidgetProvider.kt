@@ -7,7 +7,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.IdRes
@@ -34,8 +33,6 @@ class WidgetProvider : AppWidgetProvider() {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
         if (context == null || appWidgetManager == null) return
 
-        loadStateFromServer(context)
-
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter).apply {
             setOnClickPendingIntent(R.id.ingang1, getButtonClickIntent(context, R.id.ingang1))
             setOnClickPendingIntent(R.id.ingang2, getButtonClickIntent(context, R.id.ingang2))
@@ -44,6 +41,9 @@ class WidgetProvider : AppWidgetProvider() {
             setOnClickPendingIntent(R.id.bathroom, getButtonClickIntent(context, R.id.bathroom))
             setOnClickPendingIntent(R.id.refreshButton, getButtonClickIntent(context, R.id.refreshButton))
         }
+
+        loadStateFromServer(context)
+
         appWidgetManager.updateAppWidget(appWidgetIds, remoteViews)
     }
 
@@ -57,6 +57,8 @@ class WidgetProvider : AppWidgetProvider() {
 
     private fun loadStateFromServer(context: Context) {
         Thread {
+            setErrorVisibility(context, View.GONE)
+            setTeacherVisibility(context, View.GONE)
             setProgressBarVisibility(context, View.VISIBLE)
             try {
                 val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
@@ -87,12 +89,11 @@ class WidgetProvider : AppWidgetProvider() {
             } catch (e: LoginRequiredException) {
                 e.printStackTrace()
             } catch (e: TeacherCannotUseException) {
-                preventTeacher(context)
+                setTeacherVisibility(context, View.VISIBLE)
             } catch (e: Exception) {
                 e.printStackTrace()
-                errorOccurred(context)
+                setErrorVisibility(context, View.VISIBLE)
             }
-            Log.d("testing", "end")
             setProgressBarVisibility(context, View.GONE)
         }.start()
     }
@@ -147,23 +148,25 @@ class WidgetProvider : AppWidgetProvider() {
         AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
     }
 
-    private fun preventTeacher(context: Context) {
+    private fun setTeacherVisibility(context: Context, visibility: Int) {
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter).apply {
             setTextViewText(R.id.errorTV, context.getString(R.string.teacher_cannot_use))
-            setViewVisibility(R.id.errorTV, View.VISIBLE)
+            setViewVisibility(R.id.errorTV, visibility)
         }
         AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
     }
 
-    private fun errorOccurred(context: Context) {
+    private fun setErrorVisibility(context: Context, visibility: Int) {
+        android.util.Log.d("testing", "error")
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter).apply {
             setTextViewText(R.id.errorTV, context.getString(R.string.error_occurred))
-            setViewVisibility(R.id.errorTV, View.VISIBLE)
+            setViewVisibility(R.id.errorTV, visibility)
         }
         AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
     }
 
     private fun setProgressBarVisibility(context: Context, visibility: Int) {
+        android.util.Log.d("testing", "progress")
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter)
         remoteViews.setViewVisibility(R.id.progressBar, visibility)
         AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
