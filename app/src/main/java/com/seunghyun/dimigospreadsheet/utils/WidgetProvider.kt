@@ -191,33 +191,6 @@ class WidgetProvider : AppWidgetProvider() {
         }.start()
     }
 
-    private fun switchBackgroundState(context: Context, viewId: Int) {
-        val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter)
-        val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
-        val editor = preference.edit()
-
-        val (stringId, backgroundResource) = when (viewId) {
-            R.id.ingang1 -> listOf(R.string.ingang1, R.color.colorPrimary)
-            R.id.ingang2 -> listOf(R.string.ingang2, R.color.colorPrimary)
-            R.id.club -> listOf(R.string.club, R.color.colorPrimary)
-            R.id.etc -> listOf(R.string.etc, R.color.colorPrimary)
-            R.id.bathroom -> listOf(R.string.bathroom, R.drawable.bottom_rounded_background)
-            else -> return
-        }
-
-        if (preference.getBoolean(context.getString(stringId), false)) {
-            remoteViews.setInt(viewId, "setBackgroundResource", android.R.color.transparent)
-            remoteViews.setTextColor(viewId, Color.BLACK)
-            editor.putBoolean(context.getString(stringId), false).apply()
-        } else {
-            remoteViews.setInt(viewId, "setBackgroundResource", backgroundResource)
-            remoteViews.setTextColor(viewId, Color.WHITE)
-            editor.putBoolean(context.getString(stringId), true).apply()
-        }
-
-        AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
-    }
-
     private fun setLoginVisibility(context: Context, visibility: Int) {
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter).apply {
             setTextViewText(R.id.errorTV, context.getString(R.string.loginRequired))
