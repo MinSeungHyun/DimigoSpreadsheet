@@ -128,17 +128,18 @@ class WidgetProvider : AppWidgetProvider() {
     }
 
     private fun switchState(context: Context, viewId: Int) {
+        val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
+        val identity = preference.getString("identity", null)
+        if (identity == null) {
+            loadStateFromServer(context)
+            return
+        }
+        val klass = JSONParser.parseFromArray(identity, 0, "serial").subSequence(1, 2).toString().toInt()
+        val name = preference.getString("name", "")
+
         if (isEnabled(context, viewId)) {
-
+            deleteName(context, klass, name, viewId)
         } else {
-            val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
-            val identity = preference.getString("identity", null)
-            if (identity == null) {
-                loadStateFromServer(context)
-                return
-            }
-            val klass = JSONParser.parseFromArray(identity, 0, "serial").subSequence(1, 2).toString().toInt()
-
             if (viewId == R.id.etc) {
                 ReasonDialogActivity.callback = {
                     enterName(context, klass, preference.getString("name", ""), viewId, it)
@@ -148,7 +149,7 @@ class WidgetProvider : AppWidgetProvider() {
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             } else {
-                enterName(context, klass, preference.getString("name", ""), viewId)
+                enterName(context, klass, name, viewId)
             }
         }
     }
@@ -200,6 +201,22 @@ class WidgetProvider : AppWidgetProvider() {
                 setErrorVisibility(context, View.VISIBLE)
                 loadStateFromServer(context, true)
             }
+        }.start()
+    }
+
+    private fun deleteName(context: Context, klass: Int, name: String?, id: Int) {
+        Thread {
+            if (name == null) throw Exception()
+            val range = when (id) {
+                R.id.ingang1 -> "${klass}반!C2:C30"
+                R.id.ingang2 -> "${klass}반!D2:D30"
+                R.id.club -> "${klass}반!E2:E30"
+                R.id.etc -> "${klass}반!F2:F30"
+                R.id.bathroom -> "${klass}반!A10:A30"
+                else -> ""
+            }
+            SpreadsheetHelper.deleteValueInRange(SpreadsheetHelper.getService(context), range, name)
+            loadStateFromServer(context)
         }.start()
     }
 
