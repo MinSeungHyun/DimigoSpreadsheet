@@ -56,6 +56,11 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_provider" />
         </receiver>
+
+        <activity
+            android:name=".activities.ReasonDialogActivity"
+            android:label="@string/enter_reason"
+            android:theme="@style/ReasonDialogTheme" />
     </application>
 
 </manifest>

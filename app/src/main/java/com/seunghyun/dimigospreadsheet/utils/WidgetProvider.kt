@@ -12,6 +12,7 @@ import android.widget.RemoteViews
 import androidx.annotation.IdRes
 import com.google.api.services.sheets.v4.model.ValueRange
 import com.seunghyun.dimigospreadsheet.R
+import com.seunghyun.dimigospreadsheet.activities.ReasonDialogActivity
 import com.seunghyun.dimigospreadsheet.activities.SplashActivity
 import com.seunghyun.dimigospreadsheet.models.SheetValue
 
@@ -137,7 +138,14 @@ class WidgetProvider : AppWidgetProvider() {
                 return
             }
             val klass = JSONParser.parseFromArray(identity, 0, "serial").subSequence(1, 2).toString().toInt()
-            enterName(context, klass, preference.getString("name", ""), viewId)
+
+            if (viewId == R.id.etc) {
+                val intent = Intent(context, ReasonDialogActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                context.startActivity(intent)
+            } else {
+                enterName(context, klass, preference.getString("name", ""), viewId)
+            }
         }
     }
 
