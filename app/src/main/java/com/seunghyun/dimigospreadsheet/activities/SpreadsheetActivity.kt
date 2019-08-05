@@ -18,6 +18,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -100,7 +101,11 @@ class SpreadsheetActivity : AppCompatActivity() {
             runOnUiThread {
                 if (error == null) {
                     networkOk()
-                    enterButton.doneLoadingAnimation(Color.GREEN, getDrawable(R.drawable.ic_baseline_check_24px)!!.toBitmap())
+
+                    val checkIcon = getDrawable(R.drawable.ic_baseline_check_24px)!!
+                    DrawableCompat.setTint(checkIcon, Color.WHITE)
+                    enterButton.doneLoadingAnimation(Color.parseColor("#29B600"), checkIcon.toBitmap())
+
                     Handler().postDelayed({
                         enterButton.revertAnimation()
                     }, 1000)
