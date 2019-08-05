@@ -140,6 +140,10 @@ class WidgetProvider : AppWidgetProvider() {
             val klass = JSONParser.parseFromArray(identity, 0, "serial").subSequence(1, 2).toString().toInt()
 
             if (viewId == R.id.etc) {
+                ReasonDialogActivity.callback = {
+                    enterName(context, klass, preference.getString("name", ""), viewId, it)
+                }
+
                 val intent = Intent(context, ReasonDialogActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
