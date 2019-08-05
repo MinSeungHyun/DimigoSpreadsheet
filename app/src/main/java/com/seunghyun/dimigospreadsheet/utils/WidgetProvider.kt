@@ -206,17 +206,26 @@ class WidgetProvider : AppWidgetProvider() {
 
     private fun deleteName(context: Context, klass: Int, name: String?, id: Int) {
         Thread {
-            if (name == null) throw Exception()
-            val range = when (id) {
-                R.id.ingang1 -> "${klass}반!C2:C30"
-                R.id.ingang2 -> "${klass}반!D2:D30"
-                R.id.club -> "${klass}반!E2:E30"
-                R.id.etc -> "${klass}반!F2:F30"
-                R.id.bathroom -> "${klass}반!A10:A30"
-                else -> ""
+            setErrorVisibility(context, View.GONE)
+            setTeacherVisibility(context, View.GONE)
+            setProgressBarVisibility(context, View.VISIBLE)
+            try {
+                if (name == null) throw Exception()
+                val range = when (id) {
+                    R.id.ingang1 -> "${klass}반!C2:C30"
+                    R.id.ingang2 -> "${klass}반!D2:D30"
+                    R.id.club -> "${klass}반!E2:E30"
+                    R.id.etc -> "${klass}반!F2:F30"
+                    R.id.bathroom -> "${klass}반!A10:A30"
+                    else -> ""
+                }
+                SpreadsheetHelper.deleteValueInRange(SpreadsheetHelper.getService(context), range, name)
+                loadStateFromServer(context)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                setErrorVisibility(context, View.VISIBLE)
+                loadStateFromServer(context, true)
             }
-            SpreadsheetHelper.deleteValueInRange(SpreadsheetHelper.getService(context), range, name)
-            loadStateFromServer(context)
         }.start()
     }
 
