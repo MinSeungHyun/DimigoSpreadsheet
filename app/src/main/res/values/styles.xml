@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -22,7 +22,7 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="SpreadSheetActivity" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="SpreadSheetActivity" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">@android:color/darker_gray</item>
         <item name="colorPrimary">@android:color/white</item>
         <item name="colorAccent">@color/colorPrimary</item>
@@ -39,7 +39,7 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="ReasonDialogTheme" parent="@style/Theme.AppCompat.DayNight.Dialog">
+    <style name="ReasonDialogTheme" parent="@style/Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 </resources>
