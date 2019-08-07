@@ -48,12 +48,21 @@ class SpreadsheetHelper {
                     .execute().values
         }
 
-        fun deleteValueInRange(service: Sheets, rangeWithSheet: String, value: String) {
+        fun deleteValueInRange(service: Sheets, rangeWithSheet: String, value: String, containsValue: Boolean = false) {
             val nameList = ArrayList<String>()
             getValues(service, rangeWithSheet)?.forEach { if (it.isNotEmpty()) nameList.add(it[0].toString()) }
             if (!Ordering.natural<String>().isOrdered(nameList)) throw Exception()
-            val index = nameList.indexOf(value)
+
+            var index: Int = -1
+            if (!containsValue) {
+                index = nameList.indexOf(value)
+            } else {
+                nameList.forEach {
+                    if (it.contains(value)) index = nameList.indexOf(it)
+                }
+            }
             if (index == -1) throw Exception()
+
             val sheet = rangeWithSheet.split("!")[0]
             val range = rangeWithSheet.split("!")[1]
             val column = range.substring(0, 1)

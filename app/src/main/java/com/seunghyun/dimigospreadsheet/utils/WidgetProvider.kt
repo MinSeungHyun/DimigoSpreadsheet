@@ -219,7 +219,7 @@ class WidgetProvider : AppWidgetProvider() {
                     R.id.bathroom -> "${klass}반!A10:A30"
                     else -> ""
                 }
-                SpreadsheetHelper.deleteValueInRange(SpreadsheetHelper.getService(context), range, name)
+                SpreadsheetHelper.deleteValueInRange(SpreadsheetHelper.getService(context), range, name, true)
                 loadStateFromServer(context)
             } catch (e: Exception) {
                 e.printStackTrace()
