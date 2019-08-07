@@ -10,30 +10,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/top_rounded_background"
         android:gravity="center_vertical">
 
-        <TextView
+        <ImageView
             android:id="@+id/openAppButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/top_rounded_background"
-            android:drawableStart="@drawable/ic_baseline_open_in_new_24px"
-            android:gravity="start|center_vertical"
             android:padding="2dp"
-            android:text="@string/open_app"
-            android:textColor="@android:color/black" />
+            android:src="@drawable/ic_baseline_open_in_new_24px" />
 
-        <TextView
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:background="@android:color/darker_gray" />
+
+        <ImageView
             android:id="@+id/refreshButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/top_rounded_background"
-            android:drawableEnd="@drawable/ic_baseline_refresh_24px"
-            android:gravity="end|center_vertical"
             android:padding="2dp"
-            android:text="@string/refresh"
-            android:textColor="@android:color/black" />
+            android:src="@drawable/ic_baseline_refresh_24px" />
     </LinearLayout>
 
     <ImageView
