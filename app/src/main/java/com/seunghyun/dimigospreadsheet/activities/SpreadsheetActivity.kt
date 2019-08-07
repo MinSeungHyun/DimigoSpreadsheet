@@ -302,7 +302,11 @@ class SpreadsheetActivity : AppCompatActivity() {
 
     private fun initEnterNameButton(container: View, index: Int) {
         val enterNameButtonClickListener = View.OnClickListener {
-            showBottomSheet(it.tag.toString().toInt())
+            if (it.tag == 4) {
+                showBottomSheet(typeSpinner.adapter.count - 1)
+            } else {
+                showBottomSheet(it.tag.toString().toInt())
+            }
         }
         val enterNameButton = layoutInflater.inflate(R.layout.enter_name_button, namesLayout, false)
         enterNameButton.tag = index
