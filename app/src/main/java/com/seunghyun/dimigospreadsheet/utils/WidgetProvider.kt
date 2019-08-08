@@ -9,6 +9,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import android.widget.RemoteViews
+import android.widget.Toast
 import androidx.annotation.IdRes
 import com.google.api.services.sheets.v4.model.ValueRange
 import com.seunghyun.dimigospreadsheet.R
@@ -169,6 +170,10 @@ class WidgetProvider : AppWidgetProvider() {
     }
 
     private fun enterName(context: Context, klass: Int, name: String?, id: Int, reason: String = "") {
+        if (isNameExist(context, id)) {
+            Toast.makeText(context, R.string.name_exist, Toast.LENGTH_LONG).show()
+            return
+        }
         Thread {
             setErrorVisibility(context, View.GONE)
             setTeacherVisibility(context, View.GONE)
@@ -227,6 +232,22 @@ class WidgetProvider : AppWidgetProvider() {
                 loadStateFromServer(context, true)
             }
         }.start()
+    }
+
+    private fun isNameExist(context: Context, viewId: Int): Boolean {
+        val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
+        val ingang1Enabled = preference.getBoolean(context.getString(R.string.ingang1), false)
+        val ingang2Enabled = preference.getBoolean(context.getString(R.string.ingang2), false)
+        val clubEnabled = preference.getBoolean(context.getString(R.string.club), false)
+        val etcEnabled = preference.getBoolean(context.getString(R.string.etc), false)
+        val bathroomEnabled = preference.getBoolean(context.getString(R.string.bathroom), false)
+
+        if (viewId == R.id.bathroom && !bathroomEnabled) return false
+        else if (viewId == R.id.bathroom && bathroomEnabled) return true
+        if (viewId != R.id.ingang2 && ingang1Enabled) return true
+        if (viewId != R.id.ingang1 && ingang2Enabled) return true
+        if (clubEnabled || etcEnabled) return true
+        return false
     }
 
     private fun setLoginVisibility(context: Context, visibility: Int) {
