@@ -8,7 +8,6 @@ import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.sheets.v4.Sheets
 import com.google.api.services.sheets.v4.model.ClearValuesRequest
 import com.google.api.services.sheets.v4.model.ValueRange
-import com.google.common.collect.Ordering
 
 class SpreadsheetHelper {
     companion object {
@@ -51,7 +50,7 @@ class SpreadsheetHelper {
         fun deleteValueInRange(service: Sheets, rangeWithSheet: String, value: String, containsValue: Boolean = false) {
             val nameList = ArrayList<String>()
             getValues(service, rangeWithSheet)?.forEach { if (it.isNotEmpty()) nameList.add(it[0].toString()) }
-            if (!Ordering.natural<String>().isOrdered(nameList)) throw Exception()
+//            if (!Ordering.natural<String>().isOrdered(nameList)) throw Exception()
 
             var index: Int = -1
             if (!containsValue) {
