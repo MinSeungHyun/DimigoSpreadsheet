@@ -13,29 +13,36 @@
         android:background="@drawable/top_rounded_background"
         android:gravity="center_vertical">
 
-        <ImageView
+        <FrameLayout
             android:id="@+id/openAppButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="2dp"
-            android:src="@drawable/ic_baseline_open_in_new_24px" />
+            android:padding="@dimen/widgetIconPadding">
 
-        <ImageView
-            android:layout_width="1dp"
+            <ImageView
+                android:layout_width="@dimen/widgetIconSize"
+                android:layout_height="@dimen/widgetIconSize"
+                android:src="@drawable/ic_baseline_open_in_new_24px"
+                android:tint="@color/gray" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
-            android:background="@android:color/darker_gray" />
+            android:layout_weight="1" />
 
-        <ImageView
+        <FrameLayout
             android:id="@+id/refreshButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/top_rounded_background"
-            android:padding="2dp"
-            android:src="@drawable/ic_baseline_refresh_24px" />
+            android:padding="@dimen/widgetIconPadding">
+
+            <ImageView
+                android:layout_width="@dimen/widgetIconSize"
+                android:layout_height="@dimen/widgetIconSize"
+                android:src="@drawable/ic_baseline_refresh_24px"
+                android:tint="@color/gray" />
+        </FrameLayout>
     </LinearLayout>
 
     <ImageView
