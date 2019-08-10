@@ -37,19 +37,22 @@ class WidgetProvider : AppWidgetProvider() {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
         if (context == null || appWidgetManager == null) return
 
-        val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter).apply {
-            setOnClickPendingIntent(R.id.ingang1, getButtonClickIntent(context, R.id.ingang1))
-            setOnClickPendingIntent(R.id.ingang2, getButtonClickIntent(context, R.id.ingang2))
-            setOnClickPendingIntent(R.id.club, getButtonClickIntent(context, R.id.club))
-            setOnClickPendingIntent(R.id.etc, getButtonClickIntent(context, R.id.etc))
-            setOnClickPendingIntent(R.id.bathroom, getButtonClickIntent(context, R.id.bathroom))
-            setOnClickPendingIntent(R.id.refreshButton, getButtonClickIntent(context, R.id.refreshButton))
-            setOnClickPendingIntent(R.id.openAppButton, PendingIntent.getActivity(context, 0, Intent(context, SplashActivity::class.java), 0))
-        }
+        val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter)
+        setOnClickPendingIntent(context, remoteViews)
 
         loadStateFromServer(context)
 
         appWidgetManager.updateAppWidget(appWidgetIds, remoteViews)
+    }
+
+    private fun setOnClickPendingIntent(context: Context, remoteViews: RemoteViews) {
+        remoteViews.setOnClickPendingIntent(R.id.ingang1, getButtonClickIntent(context, R.id.ingang1))
+        remoteViews.setOnClickPendingIntent(R.id.ingang2, getButtonClickIntent(context, R.id.ingang2))
+        remoteViews.setOnClickPendingIntent(R.id.club, getButtonClickIntent(context, R.id.club))
+        remoteViews.setOnClickPendingIntent(R.id.etc, getButtonClickIntent(context, R.id.etc))
+        remoteViews.setOnClickPendingIntent(R.id.bathroom, getButtonClickIntent(context, R.id.bathroom))
+        remoteViews.setOnClickPendingIntent(R.id.refreshButton, getButtonClickIntent(context, R.id.refreshButton))
+        remoteViews.setOnClickPendingIntent(R.id.openAppButton, PendingIntent.getActivity(context, 0, Intent(context, SplashActivity::class.java), 0))
     }
 
     private fun getButtonClickIntent(context: Context, @IdRes id: Int): PendingIntent {
