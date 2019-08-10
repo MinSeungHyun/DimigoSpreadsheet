@@ -84,10 +84,12 @@ class WidgetProvider : AppWidgetProvider() {
                 val klass = JSONParser.parseFromArray(identity, 0, "serial").subSequence(1, 2).toString().toInt()
 
                 val sheetValue = SheetValue(SpreadsheetHelper.getValues(SpreadsheetHelper.getService(context), "${klass}반!1:30"))
-                editor.putBoolean(context.getString(R.string.ingang1), sheetValue.ingang1.contains(name))
-                editor.putBoolean(context.getString(R.string.ingang2), sheetValue.ingang2.contains(name))
-                editor.putBoolean(context.getString(R.string.club), sheetValue.club.contains(name))
-                editor.putBoolean(context.getString(R.string.bathroom), sheetValue.bathroom.contains(name))
+                with(editor) {
+                    putBoolean(context.getString(R.string.ingang1), sheetValue.ingang1.contains(name))
+                    putBoolean(context.getString(R.string.ingang2), sheetValue.ingang2.contains(name))
+                    putBoolean(context.getString(R.string.club), sheetValue.club.contains(name))
+                    putBoolean(context.getString(R.string.bathroom), sheetValue.bathroom.contains(name))
+                }
 
                 var cnt = 0
                 sheetValue.etc.forEach {
