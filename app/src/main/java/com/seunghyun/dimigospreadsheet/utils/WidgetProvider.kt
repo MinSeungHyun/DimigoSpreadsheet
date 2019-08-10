@@ -28,8 +28,12 @@ class WidgetProvider : AppWidgetProvider() {
 
         if (intent.action == WIDGET_ACTION) {
             val viewId = intent.getIntExtra("viewId", 0)
-            if (viewId == R.id.refreshButton) loadStateFromServer(context)
-            else switchState(context, viewId)
+            val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter)
+
+            if (viewId == R.id.refreshButton) loadStateFromServer(context, remoteViews)
+            else switchState(context, remoteViews, viewId)
+
+            AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
         }
     }
 
@@ -40,7 +44,7 @@ class WidgetProvider : AppWidgetProvider() {
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter)
         setOnClickPendingIntent(context, remoteViews)
 
-        loadStateFromServer(context)
+        loadStateFromServer(context, remoteViews)
 
         appWidgetManager.updateAppWidget(appWidgetIds, remoteViews)
     }
@@ -63,12 +67,12 @@ class WidgetProvider : AppWidgetProvider() {
         return PendingIntent.getBroadcast(context, id, intent, 0)
     }
 
-    private fun loadStateFromServer(context: Context, isErrorContains: Boolean = false) {
+    private fun loadStateFromServer(context: Context, remoteViews: RemoteViews, isErrorContains: Boolean = false) {
         Thread {
             if (!isErrorContains) {
-                setErrorVisibility(context, View.GONE)
+                setErrorVisibility(context, remoteViews, View.GONE)
             }
-            setProgressBarVisibility(context, View.VISIBLE)
+            setProgressBarVisibility(context, remoteViews, View.VISIBLE)
             try {
                 val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
                 val editor = preference.edit()
@@ -93,23 +97,22 @@ class WidgetProvider : AppWidgetProvider() {
 
                 editor.apply()
 
-                loadBackgroundStates(context)
+                loadBackgroundStates(context, remoteViews)
 
             } catch (e: LoginRequiredException) {
                 e.printStackTrace()
-                setLoginVisibility(context, View.VISIBLE)
+                setLoginVisibility(context, remoteViews, View.VISIBLE)
             } catch (e: TeacherCannotUseException) {
-                setTeacherVisibility(context, View.VISIBLE)
+                setTeacherVisibility(context, remoteViews, View.VISIBLE)
             } catch (e: Exception) {
                 e.printStackTrace()
-                setErrorVisibility(context, View.VISIBLE)
+                setErrorVisibility(context, remoteViews, View.VISIBLE)
             }
-            setProgressBarVisibility(context, View.GONE)
+            setProgressBarVisibility(context, remoteViews, View.GONE)
         }.start()
     }
 
-    private fun loadBackgroundStates(context: Context) {
-        val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter)
+    private fun loadBackgroundStates(context: Context, remoteViews: RemoteViews) {
         val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
 
         val idLists = listOf(listOf(R.string.ingang1, R.id.ingang1, R.color.colorPrimary)
@@ -131,29 +134,29 @@ class WidgetProvider : AppWidgetProvider() {
         AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
     }
 
-    private fun switchState(context: Context, viewId: Int) {
+    private fun switchState(context: Context, remoteViews: RemoteViews, viewId: Int) {
         val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
         val identity = preference.getString("identity", null)
         if (identity == null) {
-            loadStateFromServer(context)
+            loadStateFromServer(context, remoteViews)
             return
         }
         val klass = JSONParser.parseFromArray(identity, 0, "serial").subSequence(1, 2).toString().toInt()
         val name = preference.getString("name", "")
 
         if (isEnabled(context, viewId)) {
-            deleteName(context, klass, name, viewId)
+            deleteName(context, remoteViews, klass, name, viewId)
         } else {
             if (viewId == R.id.etc) {
                 ReasonDialogActivity.callback = {
-                    enterName(context, klass, preference.getString("name", ""), viewId, it)
+                    enterName(context, remoteViews, klass, preference.getString("name", ""), viewId, it)
                 }
 
                 val intent = Intent(context, ReasonDialogActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             } else {
-                enterName(context, klass, name, viewId)
+                enterName(context, remoteViews, klass, name, viewId)
             }
         }
     }
@@ -172,15 +175,15 @@ class WidgetProvider : AppWidgetProvider() {
         return preference.getBoolean(context.getString(stringId), false)
     }
 
-    private fun enterName(context: Context, klass: Int, name: String?, id: Int, reason: String = "") {
+    private fun enterName(context: Context, remoteViews: RemoteViews, klass: Int, name: String?, id: Int, reason: String = "") {
         if (isNameExist(context, id)) {
             Toast.makeText(context, R.string.name_exist, Toast.LENGTH_LONG).show()
             return
         }
         Thread {
-            setErrorVisibility(context, View.GONE)
-            setTeacherVisibility(context, View.GONE)
-            setProgressBarVisibility(context, View.VISIBLE)
+            setErrorVisibility(context, remoteViews, View.GONE)
+            setTeacherVisibility(context, remoteViews, View.GONE)
+            setProgressBarVisibility(context, remoteViews, View.VISIBLE)
             try {
                 if (name == null) throw Exception()
                 val service = SpreadsheetHelper.getService(context)
@@ -203,20 +206,20 @@ class WidgetProvider : AppWidgetProvider() {
                     ValueRange().setValues(listOf(listOf("$reason - $name")))
                 }
                 SpreadsheetHelper.updateValues(service, range, values)
-                loadStateFromServer(context)
+                loadStateFromServer(context, remoteViews)
             } catch (e: Exception) {
                 e.printStackTrace()
-                setErrorVisibility(context, View.VISIBLE)
-                loadStateFromServer(context, true)
+                setErrorVisibility(context, remoteViews, View.VISIBLE)
+                loadStateFromServer(context, remoteViews, true)
             }
         }.start()
     }
 
-    private fun deleteName(context: Context, klass: Int, name: String?, id: Int) {
+    private fun deleteName(context: Context, remoteViews: RemoteViews, klass: Int, name: String?, id: Int) {
         Thread {
-            setErrorVisibility(context, View.GONE)
-            setTeacherVisibility(context, View.GONE)
-            setProgressBarVisibility(context, View.VISIBLE)
+            setErrorVisibility(context, remoteViews, View.GONE)
+            setTeacherVisibility(context, remoteViews, View.GONE)
+            setProgressBarVisibility(context, remoteViews, View.VISIBLE)
             try {
                 if (name == null) throw Exception()
                 val range = when (id) {
@@ -228,11 +231,11 @@ class WidgetProvider : AppWidgetProvider() {
                     else -> ""
                 }
                 SpreadsheetHelper.deleteValueInRange(SpreadsheetHelper.getService(context), range, name, true)
-                loadStateFromServer(context)
+                loadStateFromServer(context, remoteViews)
             } catch (e: Exception) {
                 e.printStackTrace()
-                setErrorVisibility(context, View.VISIBLE)
-                loadStateFromServer(context, true)
+                setErrorVisibility(context, remoteViews, View.VISIBLE)
+                loadStateFromServer(context, remoteViews, true)
             }
         }.start()
     }
@@ -253,32 +256,31 @@ class WidgetProvider : AppWidgetProvider() {
         return false
     }
 
-    private fun setLoginVisibility(context: Context, visibility: Int) {
-        val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter).apply {
+    private fun setLoginVisibility(context: Context, remoteViews: RemoteViews, visibility: Int) {
+        remoteViews.apply {
             setTextViewText(R.id.errorTV, context.getString(R.string.loginRequired))
             setViewVisibility(R.id.errorTV, visibility)
         }
         AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
     }
 
-    private fun setTeacherVisibility(context: Context, visibility: Int) {
-        val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter).apply {
+    private fun setTeacherVisibility(context: Context, remoteViews: RemoteViews, visibility: Int) {
+        remoteViews.apply {
             setTextViewText(R.id.errorTV, context.getString(R.string.teacher_cannot_use))
             setViewVisibility(R.id.errorTV, visibility)
         }
         AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
     }
 
-    private fun setErrorVisibility(context: Context, visibility: Int) {
-        val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter).apply {
+    private fun setErrorVisibility(context: Context, remoteViews: RemoteViews, visibility: Int) {
+        remoteViews.apply {
             setTextViewText(R.id.errorTV, context.getString(R.string.error_occurred))
             setViewVisibility(R.id.errorTV, visibility)
         }
         AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
     }
 
-    private fun setProgressBarVisibility(context: Context, visibility: Int) {
-        val remoteViews = RemoteViews(context.packageName, R.layout.widget_enter)
+    private fun setProgressBarVisibility(context: Context, remoteViews: RemoteViews, visibility: Int) {
         remoteViews.setViewVisibility(R.id.progressBar, visibility)
         AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
     }
