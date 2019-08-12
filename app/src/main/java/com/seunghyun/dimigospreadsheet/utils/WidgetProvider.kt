@@ -1,5 +1,6 @@
 package com.seunghyun.dimigospreadsheet.utils
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -16,6 +17,8 @@ import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.activities.ReasonDialogActivity
 import com.seunghyun.dimigospreadsheet.activities.SplashActivity
 import com.seunghyun.dimigospreadsheet.models.SheetValue
+import java.text.SimpleDateFormat
+import java.util.*
 
 class WidgetProvider : AppWidgetProvider() {
     companion object {
@@ -74,6 +77,8 @@ class WidgetProvider : AppWidgetProvider() {
             }
             setProgressBarVisibility(context, remoteViews, View.VISIBLE)
             try {
+                remoteViews.setTextViewText(R.id.refreshTimeTV, getCurrentTime())
+
                 val preference = context.getSharedPreferences(context.getString(R.string.preference_app_setting), Context.MODE_PRIVATE)
                 val editor = preference.edit()
                 val userType = preference.getString("userType", null)
@@ -285,5 +290,14 @@ class WidgetProvider : AppWidgetProvider() {
     private fun setProgressBarVisibility(context: Context, remoteViews: RemoteViews, visibility: Int) {
         remoteViews.setViewVisibility(R.id.progressBar, visibility)
         AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun getCurrentTime(): String {
+        val timeZone = TimeZone.getTimeZone("Asia/Seoul")
+        val dateFormat = SimpleDateFormat("MM/dd a h:mm")
+        val date = Date()
+        dateFormat.timeZone = timeZone
+        return dateFormat.format(date)
     }
 }
