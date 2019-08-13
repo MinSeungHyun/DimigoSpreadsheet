@@ -43,7 +43,7 @@
     <string name="vacancy">결원 :" "</string>
     <string name="current">현원 :" "</string>
     <string name="ingang1">인강실 (1)</string>
-    <string name="ingang2">인강실 (2, 3)</string>
+    <string name="ingang2">인강실 (2)</string>
     <string name="club">동아리</string>
     <string name="etc">기타</string>
     <string name="bathroom">화장실</string>
@@ -54,10 +54,10 @@
     <string name="ok">확인</string>
 
     <string-array name="types">
-        <item>인강실 (1타임)</item>
-        <item>인강실 (2, 3타임)</item>
-        <item>동아리</item>
-        <item>기타</item>
+        <item>@string/ingang1</item>
+        <item>@string/ingang2</item>
+        <item>@string/club</item>
+        <item>@string/etc</item>
         <item>"  "└ 금요귀가</item>
         <item>"  "└ 안정실</item>
         <item>"  "└ 빨레</item>
@@ -65,7 +65,7 @@
         <item>"  "└ 멘토링</item>
         <item>"  "└ IT 프로젝트실</item>
         <item>"  "└ 대회 준비</item>
-        <item>화장실</item>
+        <item>@string/bathroom</item>
     </string-array>
 
     <string name="preference_app_setting">app_setting</string>
