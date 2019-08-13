@@ -47,6 +47,17 @@
                 android:src="@drawable/ic_baseline_refresh_24px"
                 android:tint="@color/gray" />
         </FrameLayout>
+
+        <ProgressBar
+            android:id="@+id/refreshProgressBar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="6dp"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/gray"
+            android:indeterminateTintMode="src_atop"
+            android:padding="2dp"
+            android:visibility="gone" />
     </LinearLayout>
 
     <ImageView

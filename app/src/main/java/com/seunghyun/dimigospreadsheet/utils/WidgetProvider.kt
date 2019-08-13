@@ -72,6 +72,7 @@ class WidgetProvider : AppWidgetProvider() {
 
     private fun loadStateFromServer(context: Context, remoteViews: RemoteViews, isErrorContains: Boolean = false) {
         Thread {
+            hideRefreshButton(context, remoteViews)
             if (!isErrorContains) {
                 setErrorVisibility(context, remoteViews, View.GONE)
             }
@@ -116,6 +117,7 @@ class WidgetProvider : AppWidgetProvider() {
                 setErrorVisibility(context, remoteViews, View.VISIBLE)
             }
             setProgressBarVisibility(context, remoteViews, View.GONE)
+            showRefreshButton(context, remoteViews)
         }.start()
     }
 
@@ -289,6 +291,18 @@ class WidgetProvider : AppWidgetProvider() {
 
     private fun setProgressBarVisibility(context: Context, remoteViews: RemoteViews, visibility: Int) {
         remoteViews.setViewVisibility(R.id.progressBar, visibility)
+        AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
+    }
+
+    private fun showRefreshButton(context: Context, remoteViews: RemoteViews) {
+        remoteViews.setViewVisibility(R.id.refreshProgressBar, View.GONE)
+        remoteViews.setViewVisibility(R.id.refreshButton, View.VISIBLE)
+        AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
+    }
+
+    private fun hideRefreshButton(context: Context, remoteViews: RemoteViews) {
+        remoteViews.setViewVisibility(R.id.refreshButton, View.GONE)
+        remoteViews.setViewVisibility(R.id.refreshProgressBar, View.VISIBLE)
         AppWidgetManager.getInstance(context).updateAppWidget(ComponentName(context, WidgetProvider::class.java), remoteViews)
     }
 
