@@ -3,6 +3,7 @@ package com.seunghyun.dimigospreadsheet.activities
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -420,14 +421,14 @@ class SpreadsheetActivity : AppCompatActivity() {
         }
 
         enterButton.setOnClickListener {
-            if (typeSpinner.selectedItem.toString() == "기타" && reasonInputET.text.toString().isBlank()) {
+            if (typeSpinner.selectedItem.toString() == getString(R.string.etc) && reasonInputET.text.toString().isBlank()) {
                 reasonInputLayout.error = getString(R.string.enter_reason)
             } else {
                 reasonInputLayout.error = ""
                 enterButton.startAnimation {
                     val name = nameSpinner.selectedItem.toString()
                     val type = typeSpinner.selectedItem.toString()
-                    if (!isNameExist(name, type)) EnterName(service, klass, type, name, reasonInputET.text.toString(), enterNameCallback).start()
+                    if (!isNameExist(name, type)) EnterName(applicationContext, service, klass, type, name, reasonInputET.text.toString(), enterNameCallback).start()
                     else enterNameCallback.onReceive(null, SAME_NAME_ERROR)
                 }
             }
@@ -435,10 +436,10 @@ class SpreadsheetActivity : AppCompatActivity() {
     }
 
     private fun isNameExist(name: String, typeToEnter: String): Boolean {
-        if (typeToEnter == "화장실" && currentBathroom?.contains(name) == false) return false
-        else if (typeToEnter == "화장실" && currentBathroom?.contains(name) == true) return true
-        if (typeToEnter != "인강실 (2, 3타임)" && currentIngang1?.contains(name) == true) return true
-        if (typeToEnter != "인강실 (1타임)" && currentIngang2?.contains(name) == true) return true
+        if (typeToEnter == getString(R.string.bathroom) && currentBathroom?.contains(name) == false) return false
+        else if (typeToEnter == getString(R.string.bathroom) && currentBathroom?.contains(name) == true) return true
+        if (typeToEnter != getString(R.string.ingang2) && currentIngang1?.contains(name) == true) return true
+        if (typeToEnter != getString(R.string.ingang1) && currentIngang2?.contains(name) == true) return true
         if (currentClub?.contains(name) == true) return true
         currentEtc?.forEach {
             if (it.contains(name)) return true
@@ -507,20 +508,20 @@ class SpreadsheetActivity : AppCompatActivity() {
         }.start()
     }
 
-    private class EnterName(val service: Sheets, val klass: Int, val type: String, val name_: String, val reason: String, val callback: UpdateSheetValueCallback) : Thread() {
+    private class EnterName(val context: Context, val service: Sheets, val klass: Int, val type: String, val name_: String, val reason: String, val callback: UpdateSheetValueCallback) : Thread() {
         override fun run() {
             try {
                 var range = when (type) {
-                    "인강실 (1타임)" -> "${klass}반!C2:C30"
-                    "인강실 (2, 3타임)" -> "${klass}반!D2:D30"
-                    "동아리" -> "${klass}반!E2:E30"
-                    "기타" -> "${klass}반!F2:F30"
-                    "화장실" -> "${klass}반!A10:A30"
+                    context.getString(R.string.ingang1) -> "${klass}반!C2:C30"
+                    context.getString(R.string.ingang2) -> "${klass}반!D2:D30"
+                    context.getString(R.string.club) -> "${klass}반!E2:E30"
+                    context.getString(R.string.etc) -> "${klass}반!F2:F30"
+                    context.getString(R.string.bathroom) -> "${klass}반!A10:A30"
                     else -> ""
                 }
                 val currentList = SpreadsheetHelper.getValues(service, range)
                 val size = currentList?.size ?: 0
-                val margin = if (type == "화장실") 10 else 2
+                val margin = if (type == context.getString(R.string.bathroom)) 10 else 2
                 range = range.substring(0, 4) + (margin + size)
 
                 val values = if (reason.isBlank()) {
