@@ -103,7 +103,7 @@ class TeacherSpreadsheetActivity : AppCompatActivity() {
         classList.add(getString(R.string.summary))
         repeat(6) { classList.add("1학년 ${it + 1}반") }
         val adapter = ArrayAdapter(this, R.layout.custom_spinner_item, classList)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item)
         titleSpinner.adapter = adapter
 
         viewPager.adapter = ViewPagerAdapter(supportFragmentManager, networkErrorCallback, viewModels)
