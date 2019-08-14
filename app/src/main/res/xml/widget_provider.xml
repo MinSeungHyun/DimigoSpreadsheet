@@ -4,4 +4,5 @@
     android:resizeMode="vertical|horizontal"
     android:minWidth="110dp"
     android:minHeight="110dp"
+    android:previewImage="@drawable/widget_image"
     android:updatePeriodMillis="1800000" />
