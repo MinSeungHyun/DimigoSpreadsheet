@@ -100,6 +100,7 @@ class TeacherSpreadsheetActivity : AppCompatActivity() {
 
     private fun init() {
         val classList = ArrayList<String>()
+        classList.add(getString(R.string.summary))
         repeat(6) { classList.add("1학년 ${it + 1}반") }
         val adapter = ArrayAdapter(this, R.layout.custom_spinner_item, classList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -121,7 +122,7 @@ class TeacherSpreadsheetActivity : AppCompatActivity() {
                         backButton.visibility = View.INVISIBLE
                         forwardButton.visibility = View.VISIBLE
                     }
-                    5 -> {
+                    6 -> {
                         forwardButton.visibility = View.INVISIBLE
                         backButton.visibility = View.VISIBLE
                     }

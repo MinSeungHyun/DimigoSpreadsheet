@@ -53,6 +53,8 @@
     <string name="error_occurred">오류가 발생했습니다. 다시 시도해주세요.</string>
     <string name="ok">확인</string>
 
+    <string name="summary">요약</string>
+
     <string-array name="types">
         <item>@string/ingang1</item>
         <item>@string/ingang2</item>
