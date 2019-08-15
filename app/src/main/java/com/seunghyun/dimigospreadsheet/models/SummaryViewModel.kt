@@ -36,7 +36,7 @@ class SummaryViewModel : ViewModel() {
                 while (mIsRunning) {
                     while (mIsShowing) {
                         try {
-                            val values = SpreadsheetHelper.getValues(SpreadsheetHelper.getService(context), "사용 안내!B1:E12")
+                            val values = SpreadsheetHelper.getValues(SpreadsheetHelper.getService(context), "사용 안내!B1:F12")
                             networkError.postValue(null)
                             val counts = ArrayList<ArrayList<String>>()
 

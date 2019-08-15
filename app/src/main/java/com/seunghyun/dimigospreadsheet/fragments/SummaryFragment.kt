@@ -15,6 +15,8 @@ import kotlinx.android.synthetic.main.counts_card_prototype.view.*
 import kotlinx.android.synthetic.main.fragment_summary.view.*
 
 class SummaryFragment(private val networkErrorCallback: NetworkErrorCallback, private val viewModel: SummaryViewModel, private val viewPager: ViewPager) : Fragment() {
+    lateinit var classes: List<View>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.isRunning.value = true
@@ -52,11 +54,11 @@ class SummaryFragment(private val networkErrorCallback: NetworkErrorCallback, pr
 
     @SuppressLint("SetTextI18n")
     private fun initViews(parent: View) {
-        val classes = listOf(parent.class1, parent.class2, parent.class3, parent.class4, parent.class5, parent.class6)
+        classes = listOf(parent.class1, parent.class2, parent.class3, parent.class4, parent.class5, parent.class6)
         repeat(6) { cnt: Int ->
             classes[cnt].classTV.text = "${cnt + 1}반"
             classes[cnt].setOnClickListener {
-                viewPager.setCurrentItem(cnt + 2, true)
+                viewPager.setCurrentItem(cnt + 1, true)
             }
         }
     }
@@ -67,6 +69,11 @@ class SummaryFragment(private val networkErrorCallback: NetworkErrorCallback, pr
         })
 
         viewModel.countsList.observe(this, Observer {
+            repeat(6) { i ->
+                classes[i].totalCountTV.text = it[i][0]
+                classes[i].vacancyCountTV.text = it[i][1]
+                classes[i].currentCountTV.text = it[i][2]
+            }
         })
     }
 }
