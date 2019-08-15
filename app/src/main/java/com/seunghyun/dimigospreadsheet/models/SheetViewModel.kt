@@ -37,7 +37,6 @@ class SheetViewModel(val service: Sheets, val klass: Int) : ViewModel() {
         isShowing.observeForever { isShowing ->
             mIsShowing = isShowing
         }
-        startUpdate()
     }
 
     private fun startUpdate() {
