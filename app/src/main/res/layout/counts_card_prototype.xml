@@ -30,8 +30,8 @@
 
         <TextView
             android:id="@+id/totalTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:gravity="center"
             android:text="@string/totalNoColon"
             android:textColor="@android:color/black"
@@ -44,8 +44,8 @@
 
         <TextView
             android:id="@+id/totalCountTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:gravity="center"
             android:textColor="@android:color/black"
             android:textSize="@dimen/countsCardPrototypeTextSize"
@@ -57,8 +57,8 @@
 
         <TextView
             android:id="@+id/vacancyTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:gravity="center"
             android:text="@string/vacancyNoColon"
             android:textColor="@android:color/black"
@@ -71,8 +71,8 @@
 
         <TextView
             android:id="@+id/vacancyCountTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:gravity="center"
             android:textColor="@android:color/black"
             android:textSize="@dimen/countsCardPrototypeTextSize"
@@ -84,8 +84,8 @@
 
         <TextView
             android:id="@+id/currentTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:gravity="center"
             android:text="@string/currentNoColon"
             android:textColor="@android:color/black"
@@ -98,8 +98,8 @@
 
         <TextView
             android:id="@+id/currentCountTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:gravity="center"
             android:textColor="@android:color/black"
             android:textSize="@dimen/countsCardPrototypeTextSize"
