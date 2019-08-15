@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.seunghyun.dimigospreadsheet.R
+import com.seunghyun.dimigospreadsheet.models.NetworkErrorCallback
+import com.seunghyun.dimigospreadsheet.models.SummaryViewModel
 import kotlinx.android.synthetic.main.counts_card_prototype.view.*
 import kotlinx.android.synthetic.main.fragment_summary.view.*
 
-class SummaryFragment(private val viewPager: ViewPager) : Fragment() {
+class SummaryFragment(private val networkErrorCallback: NetworkErrorCallback, private val viewModel: SummaryViewModel, private val viewPager: ViewPager) : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val parent = inflater.inflate(R.layout.fragment_summary, container, false)
 

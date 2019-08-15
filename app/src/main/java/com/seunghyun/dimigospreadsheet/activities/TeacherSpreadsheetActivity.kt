@@ -18,6 +18,7 @@ import com.seunghyun.dimigospreadsheet.BuildConfig
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.NetworkErrorCallback
 import com.seunghyun.dimigospreadsheet.models.SheetViewModel
+import com.seunghyun.dimigospreadsheet.models.SummaryViewModel
 import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
 import com.seunghyun.dimigospreadsheet.utils.ViewModelFactory
 import com.seunghyun.dimigospreadsheet.utils.ViewPagerAdapter
@@ -28,6 +29,7 @@ class TeacherSpreadsheetActivity : AppCompatActivity() {
     private val service by lazy { SpreadsheetHelper.getService(this) }
     private val viewModels by lazy {
         ArrayList(listOf(
+                ViewModelProviders.of(this)["summary", SummaryViewModel::class.java],
                 ViewModelProviders.of(this, ViewModelFactory(service, 1))["1", SheetViewModel::class.java],
                 ViewModelProviders.of(this, ViewModelFactory(service, 2))["2", SheetViewModel::class.java],
                 ViewModelProviders.of(this, ViewModelFactory(service, 3))["3", SheetViewModel::class.java],
