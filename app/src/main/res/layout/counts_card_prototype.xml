@@ -43,6 +43,13 @@
             app:layout_constraintTop_toBottomOf="@id/classTV" />
 
         <TextView
+            style="@style/colonTextStyle"
+            app:layout_constraintBottom_toBottomOf="@id/totalTV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/totalTV" />
+
+        <TextView
             android:id="@+id/totalCountTV"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -70,6 +77,13 @@
             app:layout_constraintTop_toBottomOf="@id/totalTV" />
 
         <TextView
+            style="@style/colonTextStyle"
+            app:layout_constraintBottom_toBottomOf="@id/vacancyTV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/vacancyTV" />
+
+        <TextView
             android:id="@+id/vacancyCountTV"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -95,6 +109,13 @@
             app:layout_constraintEnd_toStartOf="@id/currentCountTV"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/vacancyTV" />
+
+        <TextView
+            style="@style/colonTextStyle"
+            app:layout_constraintBottom_toBottomOf="@id/currentTV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/currentTV" />
 
         <TextView
             android:id="@+id/currentCountTV"
