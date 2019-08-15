@@ -42,6 +42,9 @@
     <string name="total">총원 :" "</string>
     <string name="vacancy">결원 :" "</string>
     <string name="current">현원 :" "</string>
+    <string name="totalNoColon">총원</string>
+    <string name="vacancyNoColon">결원</string>
+    <string name="currentNoColon">현원</string>
     <string name="ingang1">인강실 (1)</string>
     <string name="ingang2">인강실 (2)</string>
     <string name="club">동아리</string>

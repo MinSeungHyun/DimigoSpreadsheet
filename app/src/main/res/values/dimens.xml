@@ -3,4 +3,5 @@
     <dimen name="widgetCorner">10dp</dimen>
     <dimen name="widgetIconSize">24dp</dimen>
     <dimen name="widgetIconPadding">6dp</dimen>
+    <dimen name="countsCardPrototypeTextSize">16sp</dimen>
 </resources>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/classTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="8dp"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/countsCardPrototypeTextSize"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/totalTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/totalNoColon"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/countsCardPrototypeTextSize"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/vacancyTV"
+            app:layout_constraintEnd_toStartOf="@id/totalCountTV"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/classTV" />
+
+        <TextView
+            android:id="@+id/totalCountTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/countsCardPrototypeTextSize"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/vacancyCountTV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/totalTV"
+            app:layout_constraintTop_toBottomOf="@id/classTV" />
+
+        <TextView
+            android:id="@+id/vacancyTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/vacancyNoColon"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/countsCardPrototypeTextSize"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/currentTV"
+            app:layout_constraintEnd_toStartOf="@id/vacancyCountTV"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/totalTV" />
+
+        <TextView
+            android:id="@+id/vacancyCountTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/countsCardPrototypeTextSize"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/currentCountTV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/vacancyTV"
+            app:layout_constraintTop_toBottomOf="@id/totalCountTV" />
+
+        <TextView
+            android:id="@+id/currentTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/currentNoColon"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/countsCardPrototypeTextSize"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/currentCountTV"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vacancyTV" />
+
+        <TextView
+            android:id="@+id/currentCountTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/countsCardPrototypeTextSize"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/currentTV"
+            app:layout_constraintTop_toBottomOf="@id/vacancyCountTV" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
