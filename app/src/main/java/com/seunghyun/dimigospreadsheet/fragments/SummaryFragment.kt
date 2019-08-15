@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.NetworkErrorCallback
@@ -14,12 +15,39 @@ import kotlinx.android.synthetic.main.counts_card_prototype.view.*
 import kotlinx.android.synthetic.main.fragment_summary.view.*
 
 class SummaryFragment(private val networkErrorCallback: NetworkErrorCallback, private val viewModel: SummaryViewModel, private val viewPager: ViewPager) : Fragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.isRunning.value = true
+        viewModel.context = requireContext()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val parent = inflater.inflate(R.layout.fragment_summary, container, false)
 
         initViews(parent)
+        initModel()
 
         return parent
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.isRunning.value = false
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        viewModel.isShowing.postValue(isVisibleToUser)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (userVisibleHint) viewModel.isShowing.postValue(true)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.isShowing.postValue(false)
     }
 
     @SuppressLint("SetTextI18n")
@@ -31,5 +59,14 @@ class SummaryFragment(private val networkErrorCallback: NetworkErrorCallback, pr
                 viewPager.setCurrentItem(cnt + 2, true)
             }
         }
+    }
+
+    private fun initModel() {
+        viewModel.networkError.observe(this, Observer {
+            networkErrorCallback.onError(it)
+        })
+
+        viewModel.countsList.observe(this, Observer {
+        })
     }
 }
