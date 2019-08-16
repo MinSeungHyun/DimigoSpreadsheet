@@ -307,10 +307,11 @@ class SpreadsheetActivity : AppCompatActivity() {
                 showBottomSheet(it.tag.toString().toInt())
             }
         }
-//        val enterNameButton = layoutInflater.inflate(R.layout.enter_name_button, namesRecyclerView, false)
-//        enterNameButton.tag = index
-//        enterNameButton.setOnClickListener(enterNameButtonClickListener)
-//        container.namesRecyclerView.addView(enterNameButton, 0)
+        val enterNameButton = layoutInflater.inflate(R.layout.enter_name_button, container.namesLinearLayout, false).apply {
+            tag = index
+            setOnClickListener(enterNameButtonClickListener)
+        }
+        container.namesLinearLayout.addView(enterNameButton)
     }
 
     private fun showBottomSheet(selectedType: Int) {
