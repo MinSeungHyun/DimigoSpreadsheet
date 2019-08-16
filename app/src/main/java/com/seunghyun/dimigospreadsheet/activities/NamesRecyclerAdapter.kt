@@ -3,6 +3,7 @@ package com.seunghyun.dimigospreadsheet.activities
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.seunghyun.dimigospreadsheet.R
 import kotlinx.android.synthetic.main.name_item.view.*
@@ -22,6 +23,6 @@ class NamesRecyclerAdapter(private val nameList: ArrayList<String>) : RecyclerVi
     }
 
     class NamesViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val nameTV by lazy { view.nameTV }
+        val nameTV: TextView by lazy { view.nameTV }
     }
 }
