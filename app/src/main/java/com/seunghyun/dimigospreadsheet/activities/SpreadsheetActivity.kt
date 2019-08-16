@@ -289,11 +289,14 @@ class SpreadsheetActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        ingang1Layout.namesRecyclerView.layoutManager = LinearLayoutManager(this@SpreadsheetActivity)
-        ingang2Layout.namesRecyclerView.layoutManager = LinearLayoutManager(this@SpreadsheetActivity)
-        clubLayout.namesRecyclerView.layoutManager = LinearLayoutManager(this@SpreadsheetActivity)
-        etcLayout.namesRecyclerView.layoutManager = LinearLayoutManager(this@SpreadsheetActivity)
-        bathroomLayout.namesRecyclerView.layoutManager = LinearLayoutManager(this@SpreadsheetActivity)
+        class CustomLayoutManager : LinearLayoutManager(this@SpreadsheetActivity) {
+            override fun canScrollVertically() = false
+        }
+        ingang1Layout.namesRecyclerView.layoutManager = CustomLayoutManager()
+        ingang2Layout.namesRecyclerView.layoutManager = CustomLayoutManager()
+        clubLayout.namesRecyclerView.layoutManager = CustomLayoutManager()
+        etcLayout.namesRecyclerView.layoutManager = CustomLayoutManager()
+        bathroomLayout.namesRecyclerView.layoutManager = CustomLayoutManager()
     }
 
     private fun initEnterNameButton(container: View, index: Int) {
