@@ -23,6 +23,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -45,7 +46,6 @@ import kotlinx.android.synthetic.main.counts_card_back.*
 import kotlinx.android.synthetic.main.enter_name_bottomsheet.*
 import kotlinx.android.synthetic.main.network_error_screen.view.*
 import kotlinx.android.synthetic.main.number_card_back.view.*
-import kotlinx.android.synthetic.main.number_card_prototype.*
 import kotlinx.android.synthetic.main.number_card_prototype.view.*
 import kotlinx.android.synthetic.main.number_card_prototype.view.typeTV
 import kotlinx.android.synthetic.main.spreadsheet_prototype.*
@@ -194,38 +194,38 @@ class SpreadsheetActivity : AppCompatActivity() {
 
         spreadsheetModel.ingang1List.observe(this, Observer {
             if (!isSameValues(it, currentIngang1)) {
-//                enterListToParent(ingang1Layout.namesLayout, it)
+                currentIngang1 = it
+                updateRecyclerView(ingang1Layout, currentIngang1!!)
                 updateNumber(ingang1Back, it.size)
             }
-            currentIngang1 = it
         })
         spreadsheetModel.ingang2List.observe(this, Observer {
             if (!isSameValues(it, currentIngang2)) {
-//                enterListToParent(ingang2Layout.namesLayout, it)
+                currentIngang2 = it
+                updateRecyclerView(ingang2Layout, currentIngang2!!)
                 updateNumber(ingang2Back, it.size)
             }
-            currentIngang2 = it
         })
         spreadsheetModel.clubList.observe(this, Observer {
             if (!isSameValues(it, currentClub)) {
-//                enterListToParent(clubLayout.namesLayout, it)
+                currentClub = it
+                updateRecyclerView(clubLayout, currentClub!!)
                 updateNumber(clubBack, it.size)
             }
-            currentClub = it
         })
         spreadsheetModel.etcList.observe(this, Observer {
             if (!isSameValues(it, currentEtc)) {
-//                enterListToParent(etcLayout.namesLayout, it)
+                currentEtc = it
+                updateRecyclerView(etcLayout, currentEtc!!)
                 updateNumber(etcBack, it.size)
             }
-            currentEtc = it
         })
         spreadsheetModel.bathroomList.observe(this, Observer {
             if (!isSameValues(it, currentBathroom)) {
-//                enterListToParent(bathroomLayout.namesLayout, it)
+                currentBathroom = it
+                updateRecyclerView(bathroomLayout, currentBathroom!!)
                 updateNumber(bathroomBack, it.size)
             }
-            currentBathroom = it
         })
     }
 
@@ -246,6 +246,8 @@ class SpreadsheetActivity : AppCompatActivity() {
         clubLayout.namesRecyclerView.tag = getString(R.string.club)
         etcLayout.namesRecyclerView.tag = getString(R.string.etc)
         bathroomLayout.namesRecyclerView.tag = getString(R.string.bathroom)
+
+        initRecyclerView()
 
         initEnterNameButton(ingang1Layout, 0)
         initEnterNameButton(ingang2Layout, 1)
@@ -286,6 +288,14 @@ class SpreadsheetActivity : AppCompatActivity() {
         }
     }
 
+    private fun initRecyclerView() {
+        ingang1Layout.namesRecyclerView.layoutManager = LinearLayoutManager(this@SpreadsheetActivity)
+        ingang2Layout.namesRecyclerView.layoutManager = LinearLayoutManager(this@SpreadsheetActivity)
+        clubLayout.namesRecyclerView.layoutManager = LinearLayoutManager(this@SpreadsheetActivity)
+        etcLayout.namesRecyclerView.layoutManager = LinearLayoutManager(this@SpreadsheetActivity)
+        bathroomLayout.namesRecyclerView.layoutManager = LinearLayoutManager(this@SpreadsheetActivity)
+    }
+
     private fun initEnterNameButton(container: View, index: Int) {
         val enterNameButtonClickListener = View.OnClickListener {
             if (it.tag == 4) {
@@ -294,10 +304,10 @@ class SpreadsheetActivity : AppCompatActivity() {
                 showBottomSheet(it.tag.toString().toInt())
             }
         }
-        val enterNameButton = layoutInflater.inflate(R.layout.enter_name_button, namesRecyclerView, false)
-        enterNameButton.tag = index
-        enterNameButton.setOnClickListener(enterNameButtonClickListener)
-        container.namesRecyclerView.addView(enterNameButton, 0)
+//        val enterNameButton = layoutInflater.inflate(R.layout.enter_name_button, namesRecyclerView, false)
+//        enterNameButton.tag = index
+//        enterNameButton.setOnClickListener(enterNameButtonClickListener)
+//        container.namesRecyclerView.addView(enterNameButton, 0)
     }
 
     private fun showBottomSheet(selectedType: Int) {
@@ -432,14 +442,16 @@ class SpreadsheetActivity : AppCompatActivity() {
         return false
     }
 
-    private fun enterListToParent(parent: LinearLayout, names: ArrayList<String>) {
-        repeat(parent.childCount - 1) { parent.removeViewAt(0) }
-        names.forEach {
-            val nameTV = layoutInflater.inflate(R.layout.name_item, parent, false) as TextView
-            nameTV.text = it
-            nameTV.setOnClickListener(onNameClickListener)
-            parent.addView(nameTV, 0)
-        }
+    private fun updateRecyclerView(layout: View, list: ArrayList<String>) {
+        layout.namesRecyclerView.adapter = NamesRecyclerAdapter(list)
+
+//        repeat(parent.childCount - 1) { parent.removeViewAt(0) }
+//        names.forEach {
+//            val nameTV = layoutInflater.inflate(R.layout.name_item, parent, false) as TextView
+//            nameTV.text = it
+//            nameTV.setOnClickListener(onNameClickListener)
+//            parent.addView(nameTV, 0)
+//        }
     }
 
     private fun startDeleteProgress(view: View) {
