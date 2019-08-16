@@ -124,19 +124,7 @@ class SpreadsheetActivity : AppCompatActivity() {
     }
 
     private val onNameClickListener = View.OnClickListener {
-        val name = (it as TextView).text.toString()
-        val parent = it.parent as LinearLayout
-        AlertDialog.Builder(this)
-                .setNegativeButton(R.string.cancel) { _, _ -> }
-                .setPositiveButton(R.string.delete) { _, _ ->
-                    try {
-                        deleteTVName(name, parent)
-                    } catch (e: Exception) {
-                        Toast.makeText(this@SpreadsheetActivity, R.string.delete_failed, Toast.LENGTH_LONG).show()
-                    }
-                }
-                .setTitle(getString(R.string.delete_title, name))
-                .show()
+        startDeleteProgress(it)
     }
 
     @SuppressLint("SetTextI18n")
@@ -455,6 +443,22 @@ class SpreadsheetActivity : AppCompatActivity() {
             nameTV.setOnClickListener(onNameClickListener)
             parent.addView(nameTV, 0)
         }
+    }
+
+    private fun startDeleteProgress(view: View) {
+        val name = (view as TextView).text.toString()
+        val parent = view.parent as LinearLayout
+        AlertDialog.Builder(this)
+                .setNegativeButton(R.string.cancel) { _, _ -> }
+                .setPositiveButton(R.string.delete) { _, _ ->
+                    try {
+                        deleteTVName(name, parent)
+                    } catch (e: Exception) {
+                        Toast.makeText(this@SpreadsheetActivity, R.string.delete_failed, Toast.LENGTH_LONG).show()
+                    }
+                }
+                .setTitle(getString(R.string.delete_title, name))
+                .show()
     }
 
     @SuppressLint("SetTextI18n")
