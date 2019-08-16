@@ -192,9 +192,6 @@ class SpreadsheetActivity : AppCompatActivity() {
             currentTV.text = getString(R.string.current) + it
         })
 
-        spreadsheetModel.currentTime.observe(this, Observer {
-        })
-
         spreadsheetModel.ingang1List.observe(this, Observer {
             if (!isSameValues(it, currentIngang1)) {
 //                enterListToParent(ingang1Layout.namesLayout, it)
