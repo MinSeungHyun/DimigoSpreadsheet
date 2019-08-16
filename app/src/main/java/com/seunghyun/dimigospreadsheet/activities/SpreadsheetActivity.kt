@@ -13,7 +13,10 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.MotionEvent
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.AnimatorRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +27,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -121,10 +125,6 @@ class SpreadsheetActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private val onNameClickListener = View.OnClickListener {
-        startDeleteProgress(it)
     }
 
     @SuppressLint("SetTextI18n")
@@ -447,20 +447,15 @@ class SpreadsheetActivity : AppCompatActivity() {
     }
 
     private fun updateRecyclerView(layout: View, list: ArrayList<String>) {
-        layout.namesRecyclerView.adapter = NamesRecyclerAdapter(list)
-
-//        repeat(parent.childCount - 1) { parent.removeViewAt(0) }
-//        names.forEach {
-//            val nameTV = layoutInflater.inflate(R.layout.name_item, parent, false) as TextView
-//            nameTV.text = it
-//            nameTV.setOnClickListener(onNameClickListener)
-//            parent.addView(nameTV, 0)
-//        }
+        val deleteCallback = { view: View ->
+            startDeleteProgress(view)
+        }
+        layout.namesRecyclerView.adapter = NamesRecyclerAdapter(list, deleteCallback)
     }
 
     private fun startDeleteProgress(view: View) {
         val name = (view as TextView).text.toString()
-        val parent = view.parent as LinearLayout
+        val parent = view.parent as RecyclerView
         AlertDialog.Builder(this)
                 .setNegativeButton(R.string.cancel) { _, _ -> }
                 .setPositiveButton(R.string.delete) { _, _ ->
@@ -501,7 +496,7 @@ class SpreadsheetActivity : AppCompatActivity() {
         }
     }
 
-    private fun deleteTVName(name: String, parent: LinearLayout) {
+    private fun deleteTVName(name: String, parent: RecyclerView) {
         val range = when (parent.tag) {
             getString(R.string.ingang1) -> "${klass}반!C2:C30"
             getString(R.string.ingang2) -> "${klass}반!D2:D30"

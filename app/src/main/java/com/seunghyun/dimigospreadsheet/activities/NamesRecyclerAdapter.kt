@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.seunghyun.dimigospreadsheet.R
 import kotlinx.android.synthetic.main.name_item.view.*
 
-class NamesRecyclerAdapter(private val nameList: ArrayList<String>) : RecyclerView.Adapter<NamesRecyclerAdapter.NamesViewHolder>() {
+class NamesRecyclerAdapter(private val nameList: ArrayList<String>, private val deleteCallback: (View) -> Unit) : RecyclerView.Adapter<NamesRecyclerAdapter.NamesViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NamesViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.name_item, parent, false)
-        return NamesViewHolder(view)
+        return NamesViewHolder(view, deleteCallback)
     }
 
     override fun onBindViewHolder(holder: NamesViewHolder, position: Int) {
@@ -22,7 +22,13 @@ class NamesRecyclerAdapter(private val nameList: ArrayList<String>) : RecyclerVi
         return nameList.size
     }
 
-    class NamesViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    class NamesViewHolder(val view: View, private val deleteCallback: (View) -> Unit) : RecyclerView.ViewHolder(view) {
         val nameTV: TextView by lazy { view.nameTV }
+
+        init {
+            nameTV.setOnClickListener {
+                deleteCallback.invoke(it)
+            }
+        }
     }
 }
