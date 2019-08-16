@@ -24,8 +24,6 @@ import com.seunghyun.dimigospreadsheet.models.SheetViewModel
 import kotlinx.android.synthetic.main.counts_card.view.*
 import kotlinx.android.synthetic.main.counts_card_back.*
 import kotlinx.android.synthetic.main.number_card_back.view.*
-import kotlinx.android.synthetic.main.number_card_back.view.typeTV
-import kotlinx.android.synthetic.main.number_card_prototype.view.*
 import kotlinx.android.synthetic.main.spreadsheet_prototype.view.*
 
 class SpreadsheetFragment(private val networkErrorCallback: NetworkErrorCallback, private val viewModel: SheetViewModel) : Fragment() {
@@ -97,35 +95,35 @@ class SpreadsheetFragment(private val networkErrorCallback: NetworkErrorCallback
 
         viewModel.ingang1List.observe(this, Observer {
             if (!isSameValues(it, currentIngang1)) {
-                enterListToParent(parent.ingang1Layout.namesLayout, it)
-                updateNumber(parent.ingang1Back, it.size)
+//                enterListToParent(parent.ingang1Layout.namesLayout, it)
+//                updateNumber(parent.ingang1Back, it.size)
             }
             currentIngang1 = it
         })
         viewModel.ingang2List.observe(this, Observer {
             if (!isSameValues(it, currentIngang2)) {
-                enterListToParent(parent.ingang2Layout.namesLayout, it)
+//                enterListToParent(parent.ingang2Layout.namesLayout, it)
                 updateNumber(parent.ingang2Back, it.size)
             }
             currentIngang2 = it
         })
         viewModel.clubList.observe(this, Observer {
             if (!isSameValues(it, currentClub)) {
-                enterListToParent(parent.clubLayout.namesLayout, it)
+//                enterListToParent(parent.clubLayout.namesLayout, it)
                 updateNumber(parent.clubBack, it.size)
             }
             currentClub = it
         })
         viewModel.etcList.observe(this, Observer {
             if (!isSameValues(it, currentEtc)) {
-                enterListToParent(parent.etcLayout.namesLayout, it)
+//                enterListToParent(parent.etcLayout.namesLayout, it)
                 updateNumber(parent.etcBack, it.size)
             }
             currentEtc = it
         })
         viewModel.bathroomList.observe(this, Observer {
             if (!isSameValues(it, currentBathroom)) {
-                enterListToParent(parent.bathroomLayout.namesLayout, it)
+//                enterListToParent(parent.bathroomLayout.namesLayout, it)
                 updateNumber(parent.bathroomBack, it.size)
             }
             currentBathroom = it
