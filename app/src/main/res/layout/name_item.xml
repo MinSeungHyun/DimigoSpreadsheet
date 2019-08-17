@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/nameTV"
         android:layout_alignBottom="@id/nameTV"
-        android:background="@android:color/holo_red_light"
+        android:background="#ff4545"
         android:gravity="center"
         android:text="@string/deleting"
         android:textColor="@android:color/white" />
