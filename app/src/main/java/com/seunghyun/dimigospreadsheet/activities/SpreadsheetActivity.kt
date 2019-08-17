@@ -460,17 +460,17 @@ class SpreadsheetActivity : AppCompatActivity() {
     }
 
     private fun updateRecyclerView(layout: View, list: ArrayList<String>) {
-        val deleteCallback = { view: View ->
-            startDeleteProgress(view)
+        val deleteCallback = { view: View, failedCallback: () -> Unit ->
+            startDeleteProgress(view, failedCallback)
         }
         layout.namesRecyclerView.adapter = NamesRecyclerAdapter(list, deleteCallback)
     }
 
-    private fun startDeleteProgress(view: View) {
+    private fun startDeleteProgress(view: View, failedCallback: () -> Unit) {
         val name = (view as TextView).text.toString()
         val parent = view.parent.parent as RecyclerView
         try {
-            deleteTVName(name, parent)
+            deleteTVName(name, parent, failedCallback)
         } catch (e: Exception) {
             Toast.makeText(this@SpreadsheetActivity, R.string.delete_failed, Toast.LENGTH_LONG).show()
         }
@@ -503,7 +503,7 @@ class SpreadsheetActivity : AppCompatActivity() {
         }
     }
 
-    private fun deleteTVName(name: String, parent: RecyclerView) {
+    private fun deleteTVName(name: String, parent: RecyclerView, failedCallback: () -> Unit) {
         val range = when (parent.tag) {
             getString(R.string.ingang1) -> "${klass}반!C2:C30"
             getString(R.string.ingang2) -> "${klass}반!D2:D30"
@@ -518,6 +518,7 @@ class SpreadsheetActivity : AppCompatActivity() {
                 SpreadsheetHelper.deleteValueInRange(service, range, name).toString()
             } catch (e: Exception) {
                 runOnUiThread {
+                    failedCallback.invoke()
                     Toast.makeText(this@SpreadsheetActivity, R.string.delete_failed, Toast.LENGTH_LONG).show()
                 }
             }
