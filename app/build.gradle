@@ -45,7 +45,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:18.1.1'
     implementation "android.arch.lifecycle:extensions:1.1.1"
     implementation "android.arch.lifecycle:viewmodel:1.1.1"
-    implementation 'com.github.MinSeungHyun:SlideToDelete:v1.1'
+    implementation 'com.github.MinSeungHyun:SlideToDelete:v1.2'
 }
 repositories {
     mavenCentral()

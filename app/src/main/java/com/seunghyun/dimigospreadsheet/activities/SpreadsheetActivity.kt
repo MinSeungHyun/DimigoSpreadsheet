@@ -472,6 +472,7 @@ class SpreadsheetActivity : AppCompatActivity() {
         try {
             deleteTVName(name, parent, failedCallback)
         } catch (e: Exception) {
+            failedCallback.invoke()
             Toast.makeText(this@SpreadsheetActivity, R.string.delete_failed, Toast.LENGTH_LONG).show()
         }
     }
