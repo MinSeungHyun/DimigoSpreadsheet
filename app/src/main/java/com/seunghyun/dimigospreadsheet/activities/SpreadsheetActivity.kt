@@ -19,7 +19,6 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.AnimatorRes
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -469,18 +468,12 @@ class SpreadsheetActivity : AppCompatActivity() {
 
     private fun startDeleteProgress(view: View) {
         val name = (view as TextView).text.toString()
-        val parent = view.parent as RecyclerView
-        AlertDialog.Builder(this)
-                .setNegativeButton(R.string.cancel) { _, _ -> }
-                .setPositiveButton(R.string.delete) { _, _ ->
-                    try {
-                        deleteTVName(name, parent)
-                    } catch (e: Exception) {
-                        Toast.makeText(this@SpreadsheetActivity, R.string.delete_failed, Toast.LENGTH_LONG).show()
-                    }
-                }
-                .setTitle(getString(R.string.delete_title, name))
-                .show()
+        val parent = view.parent.parent as RecyclerView
+        try {
+            deleteTVName(name, parent)
+        } catch (e: Exception) {
+            Toast.makeText(this@SpreadsheetActivity, R.string.delete_failed, Toast.LENGTH_LONG).show()
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -523,9 +516,6 @@ class SpreadsheetActivity : AppCompatActivity() {
         Thread {
             try {
                 SpreadsheetHelper.deleteValueInRange(service, range, name).toString()
-                runOnUiThread {
-                    Toast.makeText(this@SpreadsheetActivity, R.string.delete_succeeded, Toast.LENGTH_LONG).show()
-                }
             } catch (e: Exception) {
                 runOnUiThread {
                     Toast.makeText(this@SpreadsheetActivity, R.string.delete_failed, Toast.LENGTH_LONG).show()

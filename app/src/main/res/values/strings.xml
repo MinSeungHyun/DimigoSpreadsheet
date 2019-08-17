@@ -27,10 +27,10 @@
     <string name="enter_reason">사유를 입력해주세요.</string>
     <string name="name_exist">동일한 이름이 이미 존재합니다.</string>
 
+    <string name="deleted">삭제됨</string>
+    <string name="deleting">삭제중</string>
     <string name="delete_title">%s 삭제하시겠습니까?</string>
     <string name="cancel">취소</string>
-    <string name="delete">삭제</string>
-    <string name="delete_succeeded">삭제되었습니다.</string>
     <string name="delete_failed">실패했습니다. 잡시 후 다시 시도해주세요.</string>
 
     <string name="app_closed">앱이 점검중입니다.</string>
