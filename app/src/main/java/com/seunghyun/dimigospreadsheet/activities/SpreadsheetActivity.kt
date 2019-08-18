@@ -42,6 +42,7 @@ import com.seunghyun.dimigospreadsheet.BuildConfig
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.SheetViewModel
 import com.seunghyun.dimigospreadsheet.models.UpdateSheetValueCallback
+import com.seunghyun.dimigospreadsheet.utils.NamesRecyclerAdapter
 import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
 import com.seunghyun.dimigospreadsheet.utils.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_spreadsheet.*

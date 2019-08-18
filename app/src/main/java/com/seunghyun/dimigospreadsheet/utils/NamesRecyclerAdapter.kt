@@ -1,4 +1,4 @@
-package com.seunghyun.dimigospreadsheet.activities
+package com.seunghyun.dimigospreadsheet.utils
 
 import android.graphics.Color
 import android.view.LayoutInflater
