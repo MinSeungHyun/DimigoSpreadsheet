@@ -2,7 +2,6 @@ package com.seunghyun.dimigospreadsheet.activities
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
-import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -282,19 +281,6 @@ class SpreadsheetActivity : AppCompatActivity() {
             }
             return@setOnTouchListener false
         }
-
-        enableLayoutTransition()
-    }
-
-    private fun enableLayoutTransition() {
-        val layoutTransition = LayoutTransition()
-        layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-
-        ingang1Layout.namesLinearLayout.layoutTransition = layoutTransition
-        ingang2Layout.namesLinearLayout.layoutTransition = layoutTransition
-        clubLayout.namesLinearLayout.layoutTransition = layoutTransition
-        etcLayout.namesLinearLayout.layoutTransition = layoutTransition
-        bathroomLayout.namesLinearLayout.layoutTransition = layoutTransition
     }
 
     private fun updateNames(parent: LinearLayout, namesList: ArrayList<String>) {
