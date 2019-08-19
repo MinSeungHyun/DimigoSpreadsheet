@@ -12,12 +12,10 @@ import android.os.Handler
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.AnimatorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -26,8 +24,6 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -42,13 +38,14 @@ import com.seunghyun.dimigospreadsheet.BuildConfig
 import com.seunghyun.dimigospreadsheet.R
 import com.seunghyun.dimigospreadsheet.models.SheetViewModel
 import com.seunghyun.dimigospreadsheet.models.UpdateSheetValueCallback
-import com.seunghyun.dimigospreadsheet.utils.NamesRecyclerAdapter
 import com.seunghyun.dimigospreadsheet.utils.SpreadsheetHelper
 import com.seunghyun.dimigospreadsheet.utils.ViewModelFactory
+import com.seunghyun.slidetodelete.enableSlideToDelete
 import kotlinx.android.synthetic.main.activity_spreadsheet.*
 import kotlinx.android.synthetic.main.counts_card.*
 import kotlinx.android.synthetic.main.counts_card_back.*
 import kotlinx.android.synthetic.main.enter_name_bottomsheet.*
+import kotlinx.android.synthetic.main.name_item.view.*
 import kotlinx.android.synthetic.main.network_error_screen.view.*
 import kotlinx.android.synthetic.main.number_card_back.view.*
 import kotlinx.android.synthetic.main.number_card_prototype.view.*
@@ -95,10 +92,10 @@ class SpreadsheetActivity : AppCompatActivity() {
 
         override fun onDataChange(snapshot: DataSnapshot) {
             if (snapshot.value.toString().toBoolean() && !isNeedUpdate) {
-                val intent = Intent(this@SpreadsheetActivity, ClosingActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(intent)
-                finish()
+//                val intent = Intent(this@SpreadsheetActivity, ClosingActivity::class.java)
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//                startActivity(intent)
+//                finish()
             }
         }
     }
@@ -196,35 +193,35 @@ class SpreadsheetActivity : AppCompatActivity() {
         spreadsheetModel.ingang1List.observe(this, Observer {
             if (!isSameValues(it, currentIngang1)) {
                 currentIngang1 = it
-                updateRecyclerView(ingang1Layout, currentIngang1!!)
+                updateNames(ingang1Layout.namesLinearLayout, currentIngang1!!)
                 updateNumber(ingang1Back, it.size)
             }
         })
         spreadsheetModel.ingang2List.observe(this, Observer {
             if (!isSameValues(it, currentIngang2)) {
                 currentIngang2 = it
-                updateRecyclerView(ingang2Layout, currentIngang2!!)
+                updateNames(ingang2Layout.namesLinearLayout, currentIngang2!!)
                 updateNumber(ingang2Back, it.size)
             }
         })
         spreadsheetModel.clubList.observe(this, Observer {
             if (!isSameValues(it, currentClub)) {
                 currentClub = it
-                updateRecyclerView(clubLayout, currentClub!!)
+                updateNames(clubLayout.namesLinearLayout, currentClub!!)
                 updateNumber(clubBack, it.size)
             }
         })
         spreadsheetModel.etcList.observe(this, Observer {
             if (!isSameValues(it, currentEtc)) {
                 currentEtc = it
-                updateRecyclerView(etcLayout, currentEtc!!)
+                updateNames(etcLayout.namesLinearLayout, currentEtc!!)
                 updateNumber(etcBack, it.size)
             }
         })
         spreadsheetModel.bathroomList.observe(this, Observer {
             if (!isSameValues(it, currentBathroom)) {
                 currentBathroom = it
-                updateRecyclerView(bathroomLayout, currentBathroom!!)
+                updateNames(bathroomLayout.namesLinearLayout, currentBathroom!!)
                 updateNumber(bathroomBack, it.size)
             }
         })
@@ -242,13 +239,11 @@ class SpreadsheetActivity : AppCompatActivity() {
         bathroomLayout.typeTV.setText(R.string.bathroom)
         bathroomBack.typeTV.setText(R.string.bathroom)
 
-        ingang1Layout.namesRecyclerView.tag = getString(R.string.ingang1)
-        ingang2Layout.namesRecyclerView.tag = getString(R.string.ingang2)
-        clubLayout.namesRecyclerView.tag = getString(R.string.club)
-        etcLayout.namesRecyclerView.tag = getString(R.string.etc)
-        bathroomLayout.namesRecyclerView.tag = getString(R.string.bathroom)
-
-        initRecyclerView()
+        ingang1Layout.namesLinearLayout.tag = getString(R.string.ingang1)
+        ingang2Layout.namesLinearLayout.tag = getString(R.string.ingang2)
+        clubLayout.namesLinearLayout.tag = getString(R.string.club)
+        etcLayout.namesLinearLayout.tag = getString(R.string.etc)
+        bathroomLayout.namesLinearLayout.tag = getString(R.string.bathroom)
 
         initEnterNameButton(ingang1Layout, 0)
         initEnterNameButton(ingang2Layout, 1)
@@ -302,16 +297,49 @@ class SpreadsheetActivity : AppCompatActivity() {
         bathroomLayout.namesLinearLayout.layoutTransition = layoutTransition
     }
 
-    private fun initRecyclerView() {
-        class CustomLayoutManager : LinearLayoutManager(this@SpreadsheetActivity) {
-            override fun canScrollVertically() = false
+    private fun updateNames(parent: LinearLayout, namesList: ArrayList<String>) {
+        repeat(parent.childCount - 1) {
+            parent.removeViewAt(0)
         }
-        ingang1Layout.namesRecyclerView.layoutManager = CustomLayoutManager()
-        ingang2Layout.namesRecyclerView.layoutManager = CustomLayoutManager()
-        clubLayout.namesRecyclerView.layoutManager = CustomLayoutManager()
-        etcLayout.namesRecyclerView.layoutManager = CustomLayoutManager()
-        bathroomLayout.namesRecyclerView.layoutManager = CustomLayoutManager()
+        namesList.forEach {
+            val nameView = LayoutInflater.from(this@SpreadsheetActivity).inflate(R.layout.name_item, parent, false).apply {
+                nameTV.text = it
+                initNameView(parent, deletedTV, nameTV)
+            }
+            parent.addView(nameView, 0)
+        }
     }
+
+    private fun setDeleted(deletedTV: TextView) {
+        deletedTV.apply {
+            setOnTouchListener(null)
+            setText(R.string.deleted)
+            setBackgroundColor(Color.parseColor("#29B600"))
+        }
+    }
+
+    private fun undoSetDeleted(parent: LinearLayout, nameTV: TextView, deletedTV: TextView) {
+        initNameView(parent, deletedTV, nameTV)
+
+        nameTV.apply {
+            x = 0f
+            alpha = 1f
+        }
+        deletedTV.apply {
+            setText(R.string.deleting)
+            setBackgroundColor(Color.parseColor("#ff4545"))
+        }
+    }
+
+    private fun initNameView(parent: LinearLayout, deletedTV: TextView, nameTV: TextView) {
+        deletedTV.enableSlideToDelete(parent, nameTV, 1000) {
+            setDeleted(deletedTV)
+            startDeleteProgress(nameTV) {
+                undoSetDeleted(parent, nameTV, deletedTV)
+            }
+        }
+    }
+
 
     private fun initEnterNameButton(container: View, index: Int) {
         val enterNameButtonClickListener = View.OnClickListener {
@@ -460,16 +488,9 @@ class SpreadsheetActivity : AppCompatActivity() {
         return false
     }
 
-    private fun updateRecyclerView(layout: View, list: ArrayList<String>) {
-        val deleteCallback = { view: View, failedCallback: () -> Unit ->
-            startDeleteProgress(view, failedCallback)
-        }
-        layout.namesRecyclerView.adapter = NamesRecyclerAdapter(list, deleteCallback)
-    }
-
     private fun startDeleteProgress(view: View, failedCallback: () -> Unit) {
         val name = (view as TextView).text.toString()
-        val parent = view.parent.parent as RecyclerView
+        val parent = view.parent.parent as LinearLayout
         try {
             deleteTVName(name, parent, failedCallback)
         } catch (e: Exception) {
@@ -505,7 +526,7 @@ class SpreadsheetActivity : AppCompatActivity() {
         }
     }
 
-    private fun deleteTVName(name: String, parent: RecyclerView, failedCallback: () -> Unit) {
+    private fun deleteTVName(name: String, parent: LinearLayout, failedCallback: () -> Unit) {
         val range = when (parent.tag) {
             getString(R.string.ingang1) -> "${klass}반!C2:C30"
             getString(R.string.ingang2) -> "${klass}반!D2:D30"
