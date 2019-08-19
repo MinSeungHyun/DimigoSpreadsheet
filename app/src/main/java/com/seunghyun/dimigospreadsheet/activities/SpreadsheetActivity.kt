@@ -92,10 +92,10 @@ class SpreadsheetActivity : AppCompatActivity() {
 
         override fun onDataChange(snapshot: DataSnapshot) {
             if (snapshot.value.toString().toBoolean() && !isNeedUpdate) {
-//                val intent = Intent(this@SpreadsheetActivity, ClosingActivity::class.java)
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//                startActivity(intent)
-//                finish()
+                val intent = Intent(this@SpreadsheetActivity, ClosingActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+                finish()
             }
         }
     }
