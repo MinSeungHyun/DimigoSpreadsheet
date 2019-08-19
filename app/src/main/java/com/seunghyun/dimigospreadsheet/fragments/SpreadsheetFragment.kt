@@ -12,7 +12,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.annotation.AnimatorRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -23,7 +22,10 @@ import com.seunghyun.dimigospreadsheet.models.NetworkErrorCallback
 import com.seunghyun.dimigospreadsheet.models.SheetViewModel
 import kotlinx.android.synthetic.main.counts_card.view.*
 import kotlinx.android.synthetic.main.counts_card_back.*
+import kotlinx.android.synthetic.main.name_item.view.*
 import kotlinx.android.synthetic.main.number_card_back.view.*
+import kotlinx.android.synthetic.main.number_card_back.view.typeTV
+import kotlinx.android.synthetic.main.number_card_prototype.view.*
 import kotlinx.android.synthetic.main.spreadsheet_prototype.view.*
 
 class SpreadsheetFragment(private val networkErrorCallback: NetworkErrorCallback, private val viewModel: SheetViewModel) : Fragment() {
@@ -95,35 +97,35 @@ class SpreadsheetFragment(private val networkErrorCallback: NetworkErrorCallback
 
         viewModel.ingang1List.observe(this, Observer {
             if (!isSameValues(it, currentIngang1)) {
-//                enterListToParent(parent.ingang1Layout.namesLayout, it)
-//                updateNumber(parent.ingang1Back, it.size)
+                enterListToParent(parent.ingang1Layout.namesLinearLayout, it)
+                updateNumber(parent.ingang1Back, it.size)
             }
             currentIngang1 = it
         })
         viewModel.ingang2List.observe(this, Observer {
             if (!isSameValues(it, currentIngang2)) {
-//                enterListToParent(parent.ingang2Layout.namesLayout, it)
+                enterListToParent(parent.ingang2Layout.namesLinearLayout, it)
                 updateNumber(parent.ingang2Back, it.size)
             }
             currentIngang2 = it
         })
         viewModel.clubList.observe(this, Observer {
             if (!isSameValues(it, currentClub)) {
-//                enterListToParent(parent.clubLayout.namesLayout, it)
+                enterListToParent(parent.clubLayout.namesLinearLayout, it)
                 updateNumber(parent.clubBack, it.size)
             }
             currentClub = it
         })
         viewModel.etcList.observe(this, Observer {
             if (!isSameValues(it, currentEtc)) {
-//                enterListToParent(parent.etcLayout.namesLayout, it)
+                enterListToParent(parent.etcLayout.namesLinearLayout, it)
                 updateNumber(parent.etcBack, it.size)
             }
             currentEtc = it
         })
         viewModel.bathroomList.observe(this, Observer {
             if (!isSameValues(it, currentBathroom)) {
-//                enterListToParent(parent.bathroomLayout.namesLayout, it)
+                enterListToParent(parent.bathroomLayout.namesLinearLayout, it)
                 updateNumber(parent.bathroomBack, it.size)
             }
             currentBathroom = it
@@ -251,11 +253,11 @@ class SpreadsheetFragment(private val networkErrorCallback: NetworkErrorCallback
     }
 
     private fun enterListToParent(parent: LinearLayout, names: ArrayList<String>) {
-        repeat(parent.childCount - 1) { parent.removeViewAt(0) }
+        parent.removeAllViews()
         names.forEach {
-            val nameTV = layoutInflater.inflate(R.layout.name_item, parent, false) as TextView
-            nameTV.text = it
-            parent.addView(nameTV, 0)
+            val nameView = layoutInflater.inflate(R.layout.name_item, parent, false)
+            nameView.nameTV.text = it
+            parent.addView(nameView, 0)
         }
     }
 
