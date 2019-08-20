@@ -33,7 +33,7 @@ class SheetValue(private val sheetValues: List<List<Any>>?) {
             if (sheetValues.indexOf(it) >= minColumn && it.size > column && it[column].toString().isNotBlank())
                 values.add(it[column].toString())
         }
-        values.sort()
+        values.sortDescending()
         return values
     }
 }
