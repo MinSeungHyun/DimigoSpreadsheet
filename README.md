@@ -1,4 +1,4 @@
-디미시트  <a href="https://play.google.com/store/apps/details?id=com.seunghyun.dimigospreadsheet"><img src="/images/download_in_store.svg" width="120"></a>
+디미체크  <a href="https://play.google.com/store/apps/details?id=com.seunghyun.dimigospreadsheet"><img src="/images/download_in_store.svg" width="120"></a>
 ===================================
 ![GitHub last commit](https://img.shields.io/github/last-commit/MinSeungHyun/DimigoSpreadsheet.svg?color=blue)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/MinSeungHyun/DimigoSpreadsheet.svg?label=commit)
