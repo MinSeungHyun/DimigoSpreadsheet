@@ -318,7 +318,7 @@ class SpreadsheetActivity : AppCompatActivity() {
     }
 
     private fun initNameView(parent: LinearLayout, deletedTV: TextView, nameTV: TextView) {
-        deletedTV.enableSlideToDelete(parent, nameTV, 1000) {
+        deletedTV.enableSlideToDelete(parent, nameTV, 2000) {
             setDeleted(deletedTV)
             startDeleteProgress(nameTV) {
                 undoSetDeleted(parent, nameTV, deletedTV)
